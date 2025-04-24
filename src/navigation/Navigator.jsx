@@ -1,15 +1,17 @@
-import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Home from '../screens/Home';
-
-const Stack = createNativeStackNavigator();
+import React, {useContext} from 'react';
+import MainNavigator from './MainNavigator';
+import AuthNavigator from './AuthNavigator';
+import {NavigationContainer} from '@react-navigation/native';
+import AuthContext from '../context/AuthContext';
 
 const Navigator = () => {
-  return (
-    <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-    </Stack.Navigator>
-  );
+    const {isLoggedIn,handleLogout} = useContext(AuthContext);
+    return (
+        <NavigationContainer>
+            {isLoggedIn ? <MainNavigator /> : <AuthNavigator />}
+        </NavigationContainer>
+    );
 };
+
 
 export default Navigator;
