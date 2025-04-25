@@ -1,10 +1,15 @@
-import React from 'react';
+import React, {useContext,useEffect} from 'react';
 import {SafeAreaView, Text, StyleSheet} from 'react-native';
+import AuthContext from '../context/AuthContext';
 
 const Home = () => {
+  const {loggedUser} = useContext(AuthContext);
+  useEffect(() => {
+    console.log(loggedUser);
+  },[])
   return (
     <SafeAreaView style={styles.container}>
-      <Text>This is Home Screen</Text>
+      <Text>Hello {loggedUser.name}</Text>
     </SafeAreaView>
   );
 };

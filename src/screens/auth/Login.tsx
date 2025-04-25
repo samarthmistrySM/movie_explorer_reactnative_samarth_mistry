@@ -8,16 +8,22 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
+  Dimensions,
+  ImageBackground,
 } from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {AuthStackPrams} from '../../navigation/Types.ts';
+
+const {height, width} = Dimensions.get('window');
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [role, setRole] = useState<'user' | 'admin'>('user');
   const {handelLogin} = useContext(AuthContext);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<AuthStackPrams>>();
 
   const roles = [
     {label: 'User', value: 'user'},
@@ -30,17 +36,16 @@ const Login = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.backgroundContainer}>
-        <Image
-          source={require('../../assets/bg.png')}
-          style={styles.backgroundImage}
-        />
+      <ImageBackground
+        source={require('../../assets/bg.png')}
+        resizeMode="cover"
+        style={styles.backgroundContainer}>
         <View style={styles.overlay}>
           <Text style={styles.logoText}>
             Movie <Text style={styles.highlight}>Explorer+</Text>
           </Text>
         </View>
-      </View>
+      </ImageBackground>
 
       <View style={styles.formContainer}>
         <Text style={styles.welcomeText}>Welcome Back</Text>
@@ -98,7 +103,10 @@ const Login = () => {
           />
         </View>
 
-        <TouchableOpacity style={styles.signInButton} activeOpacity={0.8} onPress={() => onLogin()}>
+        <TouchableOpacity
+          style={styles.signInButton}
+          activeOpacity={0.8}
+          onPress={() => onLogin()}>
           <Text style={styles.signInButtonText}>Sign In</Text>
         </TouchableOpacity>
 
@@ -121,15 +129,15 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+    justifyContent: 'space-around',
   },
   backgroundContainer: {
     position: 'relative',
-    height: 400,
-  },
-  backgroundImage: {
     width: '100%',
-    height: '100%',
-    objectFit: 'cover',
+    height: height * 0.3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20,
   },
   overlay: {
     position: 'absolute',
@@ -150,10 +158,9 @@ export const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   formContainer: {
-    flex: 1,
     paddingHorizontal: 24,
     paddingBottom: 40,
-    justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   welcomeText: {
     fontSize: 28,
@@ -170,7 +177,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   inputIcon: {
-    marginRight: 8,
+    marginRight: 10,
     height: 20,
     width: 20,
     objectFit: 'contain',
