@@ -16,7 +16,6 @@ const AuthProvider: FC<Props> = ({children}) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        await AsyncStorage.removeItem('users');
         const fetchedUsers = await AsyncStorage.getItem('users');
         if (fetchedUsers) {
           setUsers(JSON.parse(fetchedUsers) as User[]);

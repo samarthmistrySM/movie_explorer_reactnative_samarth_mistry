@@ -5,7 +5,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import AuthContext from '../context/AuthContext';
 
 const Navigator = () => {
-    const {isLoggedIn} = useContext(AuthContext);
+    const {isLoggedIn,handleLogout} = useContext(AuthContext);
+    // handleLogout();
     return (
         <NavigationContainer>
             {isLoggedIn ? <MainNavigator /> : <AuthNavigator />}
