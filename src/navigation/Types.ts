@@ -4,3 +4,8 @@ export interface AuthStackPrams extends ParamListBase {
   Login: undefined;
   Register: undefined;
 }
+
+export interface SearchStackParams extends ParamListBase {
+  Search: undefined;
+  Result: {filter: string};
+}

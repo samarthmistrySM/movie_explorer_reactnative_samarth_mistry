@@ -13,7 +13,7 @@ import UserDetails from '../components/UserDetails.tsx';
 import MovieCard from '../components/MovieCard';
 import moviesData from '../mock/movies.json';
 import {Movie} from '../Types.ts';
-import ContinueWatchingCard from "../components/ContinueWatchingCard.tsx";
+import ContinueWatchingCard from '../components/ContinueWatchingCard.tsx';
 const {height} = Dimensions.get('window');
 
 const Home = () => {
@@ -70,10 +70,7 @@ const Home = () => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.cardsContainer}>
           {movies.map(movie => (
-            <MovieCard
-              key={movie.id}
-              movie={movie}
-            />
+            <MovieCard key={movie.id} movie={movie} />
           ))}
         </ScrollView>
         <View>
@@ -85,10 +82,7 @@ const Home = () => {
             {moviesData.map(
               movie =>
                 parseInt(movie.id, 10) % 2 === 0 && (
-                  <ContinueWatchingCard
-                    key={movie.id}
-                    movie={movie}
-                  />
+                  <ContinueWatchingCard key={movie.id} movie={movie} />
                 ),
             )}
           </ScrollView>
@@ -170,7 +164,7 @@ const styles = StyleSheet.create({
   cardsContainer: {
     paddingHorizontal: 10,
     gap: 10,
-    marginBottom: 10,
+    marginVertical: 10,
   },
   sectionHeading: {
     fontSize: 16,

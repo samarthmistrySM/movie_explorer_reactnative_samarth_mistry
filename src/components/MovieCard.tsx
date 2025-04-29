@@ -1,6 +1,14 @@
 import React, {FC} from 'react';
-import {Text, StyleSheet, Image, View, Dimensions} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  Image,
+  View,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import {Movie} from '../Types.ts';
+import {useNavigation} from '@react-navigation/native';
 const {width} = Dimensions.get('window');
 
 interface Props {
@@ -9,33 +17,34 @@ interface Props {
 
 const MovieCard: FC<Props> = ({movie}) => {
   return (
-    <View style={styles.card}>
-      <Image source={{uri: movie.thumbnail}} style={styles.thumbnail} />
-      <View style={styles.infoContainer}>
-        <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
-          {movie.title}
-        </Text>
+    <TouchableOpacity>
+      <View style={styles.card}>
+        <Image source={{uri: movie.thumbnail}} style={styles.thumbnail} />
+        <View style={styles.infoContainer}>
+          <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+            {movie.title}
+          </Text>
 
-        <View style={styles.detailsRow}>
-          <View style={styles.ratingRow}>
-            <Image
-              style={styles.star}
-              source={require('../assets/star.fill.png')}
-            />
-            <Text style={styles.text}>{movie.rating}</Text>
+          <View style={styles.detailsRow}>
+            <View style={styles.ratingRow}>
+              <Image
+                style={styles.star}
+                source={require('../assets/star.fill.png')}
+              />
+              <Text style={styles.text}>{movie.rating}</Text>
+            </View>
+            <Text style={styles.genre}>{movie.genre}</Text>
           </View>
-          <Text style={styles.genre}>{movie.genre}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    width: width * 0.4,
+    width: width * 0.45,
     overflow: 'hidden',
-    marginVertical: 10,
     borderRadius: 15,
     backgroundColor: '#1C1C1E',
   },
@@ -81,6 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 12,
   },
+
 });
 
 export default MovieCard;

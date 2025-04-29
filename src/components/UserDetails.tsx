@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userProfile: {
-    height: height * 0.05,
-    width: height * 0.05,
+    height: width * 0.1,
+    width: width * 0.1,
     borderRadius: height * 0.08,
     marginRight: 8,
   },
@@ -52,9 +52,10 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
   icon: {
-    height: height * 0.02,
-    width: height * 0.02,
+    height: width * 0.05,
+    width: width * 0.05,
     tintColor: '#ddd',
+    resizeMode: 'contain',
   },
 });
 

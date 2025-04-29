@@ -9,10 +9,10 @@
   },
   {
     "id": "2",
-    "thumbnail": "https://static.wikia.nocookie.net/marvelcinematicuniverse/images/f/fc/Thor-_The_Dark_World_poster.jpg/revision/latest?cb=20131115001851",
+    "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTQyNzAwOTUxOF5BMl5BanBnXkFtZTcwMTE0OTc5OQ@@._V1_.jpg",
     "title": "Thor",
     "rating": 4.5,
-    "genre": "Action",
+    "genre": "Adventure",
     "category": "Trending"
   },
   {
@@ -20,7 +20,7 @@
     "thumbnail": "https://m.media-amazon.com/images/M/MV5BODkyNjVhZjgtNjA0Zi00ODBhLWFhZGUtMjlhZWNmZTQ3ZmZhXkEyXkFqcGc@._V1_.jpg",
     "title": "STR 50",
     "rating": 3.7,
-    "genre": "Action",
+    "genre": "Fantasy",
     "category": "Trending"
   },
   {
@@ -28,7 +28,7 @@
     "thumbnail": "https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_.jpg",
     "title": "Civil War",
     "rating": 4.5,
-    "genre": "Action",
+    "genre": "Thriller",
     "category": "Trending"
   },
   {
@@ -68,7 +68,7 @@
     "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_FMjpg_UX1000_.jpg",
     "title": "The Dark Knight",
     "rating": 5.0,
-    "genre": "Action",
+    "genre": "Mystery",
     "category": "My List"
   },
   {
@@ -76,7 +76,7 @@
     "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_FMjpg_UX1000_.jpg",
     "title": "Iron Man",
     "rating": 4.6,
-    "genre": "Action",
+    "genre": "Comedy",
     "category": "My List"
   },
   {
@@ -84,7 +84,7 @@
     "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_FMjpg_UX1000_.jpg",
     "title": "Black Panther",
     "rating": 4.4,
-    "genre": "Action",
+    "genre": "Horror",
     "category": "My List"
   },
   {
@@ -92,7 +92,7 @@
     "thumbnail": "https://m.media-amazon.com/images/M/MV5BMmFiZGZjMmEtMTA0Ni00MzA2LTljMTYtZGI2MGJmZWYzZTQ2XkEyXkFqcGc@._V1_.jpg",
     "title": "Spider-Man: No Way Home",
     "rating": 4.8,
-    "genre": "Action",
+    "genre": "Adventure",
     "category": "My List"
   }
 ]

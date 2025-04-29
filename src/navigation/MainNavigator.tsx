@@ -4,6 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Home from '../screens/Home';
 import Profile from '../screens/Profile.tsx';
+import SearchNavigator from './SearchStack.tsx';
 
 const house = require('../assets/house.fill.png');
 const person = require('../assets/person.fill.png');
@@ -24,7 +25,7 @@ const Navigator = () => {
 
           if (route.name === 'Home') {
             iconSource = house;
-          } else if (route.name === 'Search') {
+          } else if (route.name === 'SearchNav') {
             iconSource = magnifyingglass;
           } else if (route.name === 'Watchlist') {
             iconSource = bookmark;
@@ -46,7 +47,11 @@ const Navigator = () => {
         },
       })}>
       <MainTab.Screen name="Home" component={Home} />
-      <MainTab.Screen name="Search" component={Profile} />
+      <MainTab.Screen
+        name="SearchNav"
+        component={SearchNavigator}
+        options={{title: 'Search'}}
+      />
       <MainTab.Screen name="Watchlist" component={Profile} />
       <MainTab.Screen name="Profile" component={Profile} />
     </MainTab.Navigator>
