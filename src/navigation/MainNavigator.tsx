@@ -5,11 +5,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile.tsx';
 import SearchNavigator from './SearchStack.tsx';
+import Subscription from '../screens/Subscription.tsx';
 
 const house = require('../assets/house.fill.png');
 const person = require('../assets/person.fill.png');
 const magnifyingglass = require('../assets/magnifyingglass.png');
 const bookmark = require('../assets/bookmark.fill.png');
+const creditcard = require('../assets/creditcard.fill.png');
 
 const MainTab = createBottomTabNavigator();
 
@@ -27,6 +29,8 @@ const Navigator = () => {
             iconSource = house;
           } else if (route.name === 'SearchNav') {
             iconSource = magnifyingglass;
+          }  else if (route.name === 'Subscription') {
+              iconSource = creditcard;
           } else if (route.name === 'Watchlist') {
             iconSource = bookmark;
           } else if (route.name === 'Profile') {
@@ -52,6 +56,7 @@ const Navigator = () => {
         component={SearchNavigator}
         options={{title: 'Search'}}
       />
+      <MainTab.Screen name="Subscription" component={Subscription} />
       <MainTab.Screen name="Watchlist" component={Profile} />
       <MainTab.Screen name="Profile" component={Profile} />
     </MainTab.Navigator>

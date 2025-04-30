@@ -1,5 +1,7 @@
 PODS:
   - boost (1.84.0)
+  - BVLinearGradient (2.8.3):
+    - React-Core
   - DoubleConversion (1.1.6)
   - fast_float (6.1.4)
   - FBLazyVector (0.79.1)
@@ -1953,10 +1955,47 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - SocketRocket (0.7.1)
+  - Stripe (24.11.1):
+    - StripeApplePay (= 24.11.1)
+    - StripeCore (= 24.11.1)
+    - StripePayments (= 24.11.1)
+    - StripePaymentsUI (= 24.11.1)
+    - StripeUICore (= 24.11.1)
+  - stripe-react-native (0.44.0):
+    - React-Core
+    - Stripe (~> 24.11.0)
+    - StripeApplePay (~> 24.11.0)
+    - StripeFinancialConnections (~> 24.11.0)
+    - StripePayments (~> 24.11.0)
+    - StripePaymentSheet (~> 24.11.0)
+    - StripePaymentsUI (~> 24.11.0)
+  - StripeApplePay (24.11.1):
+    - StripeCore (= 24.11.1)
+  - StripeCore (24.11.1)
+  - StripeFinancialConnections (24.11.1):
+    - StripeCore (= 24.11.1)
+    - StripeUICore (= 24.11.1)
+  - StripePayments (24.11.1):
+    - StripeCore (= 24.11.1)
+    - StripePayments/Stripe3DS2 (= 24.11.1)
+  - StripePayments/Stripe3DS2 (24.11.1):
+    - StripeCore (= 24.11.1)
+  - StripePaymentSheet (24.11.1):
+    - StripeApplePay (= 24.11.1)
+    - StripeCore (= 24.11.1)
+    - StripePayments (= 24.11.1)
+    - StripePaymentsUI (= 24.11.1)
+  - StripePaymentsUI (24.11.1):
+    - StripeCore (= 24.11.1)
+    - StripePayments (= 24.11.1)
+    - StripeUICore (= 24.11.1)
+  - StripeUICore (24.11.1):
+    - StripeCore (= 24.11.1)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - fast_float (from `../node_modules/react-native/third-party-podspecs/fast_float.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -2032,15 +2071,26 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "stripe-react-native (from `../node_modules/@stripe/stripe-react-native`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
     - SocketRocket
+    - Stripe
+    - StripeApplePay
+    - StripeCore
+    - StripeFinancialConnections
+    - StripePayments
+    - StripePaymentSheet
+    - StripePaymentsUI
+    - StripeUICore
 
 EXTERNAL SOURCES:
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   fast_float:
@@ -2188,11 +2238,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  stripe-react-native:
+    :path: "../node_modules/@stripe/stripe-react-native"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
+  BVLinearGradient: cb006ba232a1f3e4f341bb62c42d1098c284da70
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: abbac80c6f89e71a8c55c7e92ec015c8a9496753
@@ -2267,6 +2320,15 @@ SPEC CHECKSUMS:
   RNReanimated: 2313402fe27fecb7237619e9c6fcee3177f08a65
   RNScreens: 5621e3ad5a329fbd16de683344ac5af4192b40d3
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
+  Stripe: 27045ee70dced5f9bd6d68dc6a3ec6a1224a2a2b
+  stripe-react-native: 491166f627b4ba1da8d436333e5a5dbabec1503a
+  StripeApplePay: ba4d3945eca1fc77e1e1e0a5f9a8e5f559a95149
+  StripeCore: c52f344bd536463458b2fd9a9596fe59198654da
+  StripeFinancialConnections: 5656524a8d3456004f5980485422f11ad11b423b
+  StripePayments: 531338872a070975e272c519c732955b9655c58b
+  StripePaymentSheet: 8bb985c442d613c30c7e60d8a484400ea762f114
+  StripePaymentsUI: 47b030d75d5676ec5e3c19d974e7b09584778a86
+  StripeUICore: 814828b4235e5be53f2a0443c71639e1a6a52f74
   Yoga: d15f5aa644c466e917569ac43b19cbf17975239a
 
 PODFILE CHECKSUM: f4372d64fcd6768e8b60d4d620b23151692de34a

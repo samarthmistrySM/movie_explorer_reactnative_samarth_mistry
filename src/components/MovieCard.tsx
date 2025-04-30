@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Movie} from '../Types.ts';
-import {useNavigation} from '@react-navigation/native';
 const {width} = Dimensions.get('window');
 
 interface Props {
@@ -43,7 +42,7 @@ const MovieCard: FC<Props> = ({movie}) => {
 
 const styles = StyleSheet.create({
   card: {
-    width: width * 0.45,
+    width: width * 0.448,
     overflow: 'hidden',
     borderRadius: 15,
     backgroundColor: '#1C1C1E',
