@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Movie} from '../Types.ts';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeStackParams, SearchStackParams} from '../navigation/Types.ts';
 const {width} = Dimensions.get('window');
 
 interface Props {
@@ -15,8 +18,13 @@ interface Props {
 }
 
 const MovieCard: FC<Props> = ({movie}) => {
+  const navigation =
+    useNavigation<
+      NativeStackNavigationProp<SearchStackParams | HomeStackParams>
+    >();
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('MovieDetails', {movie: movie})}>
       <View style={styles.card}>
         <Image source={{uri: movie.thumbnail}} style={styles.thumbnail} />
         <View style={styles.infoContainer}>
@@ -89,7 +97,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 12,
   },
-
 });
 
 export default MovieCard;

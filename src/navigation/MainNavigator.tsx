@@ -2,10 +2,10 @@ import React from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import Home from '../screens/Home';
 import Profile from '../screens/Profile.tsx';
 import SearchNavigator from './SearchStack.tsx';
 import Subscription from '../screens/Subscription.tsx';
+import HomeNavigator from './HomeStack.tsx';
 
 const house = require('../assets/house.fill.png');
 const person = require('../assets/person.fill.png');
@@ -25,12 +25,12 @@ const Navigator = () => {
         tabBarIcon: ({color, size}) => {
           let iconSource;
 
-          if (route.name === 'Home') {
+          if (route.name === 'HomeNav') {
             iconSource = house;
           } else if (route.name === 'SearchNav') {
             iconSource = magnifyingglass;
-          }  else if (route.name === 'Subscription') {
-              iconSource = creditcard;
+          } else if (route.name === 'Subscription') {
+            iconSource = creditcard;
           } else if (route.name === 'Watchlist') {
             iconSource = bookmark;
           } else if (route.name === 'Profile') {
@@ -50,7 +50,7 @@ const Navigator = () => {
           );
         },
       })}>
-      <MainTab.Screen name="Home" component={Home} />
+      <MainTab.Screen name="HomeNav" component={HomeNavigator} />
       <MainTab.Screen
         name="SearchNav"
         component={SearchNavigator}

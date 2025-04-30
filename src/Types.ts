@@ -10,4 +10,6 @@ export interface Movie {
   rating: number;
   genre: string;
   category: string;
+  duration: string;
+  releaseDate: number;
 }
