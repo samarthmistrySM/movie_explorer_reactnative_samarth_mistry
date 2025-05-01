@@ -1,0 +1,122 @@
+[
+  {
+    "id": "1",
+    "thumbnail": "https://rukminim2.flixcart.com/image/850/1000/poster/8/y/q/athah-poster-captain-america-the-winter-soldier-athdavp0527-original-imadzzz2hvnrajxv.jpeg?q=20&crop=false",
+    "title": "Captain America",
+    "rating": 4.8,
+    "genre": "Action",
+    "category": "Trending",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  },
+  {
+    "id": "2",
+    "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTQyNzAwOTUxOF5BMl5BanBnXkFtZTcwMTE0OTc5OQ@@._V1_.jpg",
+    "title": "Thor",
+    "rating": 4.5,
+    "genre": "Adventure",
+    "category": "Trending",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  },
+  {
+    "id": "3",
+    "thumbnail": "https://m.media-amazon.com/images/M/MV5BODkyNjVhZjgtNjA0Zi00ODBhLWFhZGUtMjlhZWNmZTQ3ZmZhXkEyXkFqcGc@._V1_.jpg",
+    "title": "STR 50",
+    "rating": 3.7,
+    "genre": "Fantasy",
+    "category": "Trending",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  },
+  {
+    "id": "4",
+    "thumbnail": "https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_.jpg",
+    "title": "Civil War",
+    "rating": 4.5,
+    "genre": "Thriller",
+    "category": "Trending",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  },
+  {
+    "id": "5",
+    "thumbnail": "https://m.media-amazon.com/images/M/MV5BMDAyY2FhYjctNDc5OS00MDNlLThiMGUtY2UxYWVkNGY2ZjljXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+    "title": "The Shawshank Redemption",
+    "rating": 4.9,
+    "genre": "Drama",
+    "category": "New Releases",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  },
+  {
+    "id": "6",
+    "thumbnail": "https://play-lh.googleusercontent.com/buKf27Hxendp3tLNpNtP3E-amP0o4yYV-SGKyS2u-Y3GdGRTyfNCIT5WAVs2OudOz6so5K1jtYdAUKI9nw8",
+    "title": "Inception",
+    "rating": 4.8,
+    "genre": "Sci-Fi",
+    "category": "New Releases",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  },
+  {
+    "id": "7",
+    "thumbnail": "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+    "title": "Interstellar",
+    "rating": 4.7,
+    "genre": "Sci-Fi",
+    "category": "New Releases",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  },
+  {
+    "id": "8",
+    "thumbnail": "https://cdn.marvel.com/content/1x/avengersendgame_lob_crd_05.jpg",
+    "title": "Avengers: Endgame",
+    "rating": 4.9,
+    "genre": "Action",
+    "category": "New Releases",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  },
+  {
+    "id": "9",
+    "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_FMjpg_UX1000_.jpg",
+    "title": "The Dark Knight",
+    "rating": 5.0,
+    "genre": "Mystery",
+    "category": "My List",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  },
+  {
+    "id": "10",
+    "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_FMjpg_UX1000_.jpg",
+    "title": "Iron Man",
+    "rating": 4.6,
+    "genre": "Comedy",
+    "category": "My List",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  },
+  {
+    "id": "11",
+    "thumbnail": "https://m.media-amazon.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_FMjpg_UX1000_.jpg",
+    "title": "Black Panther",
+    "rating": 4.4,
+    "genre": "Horror",
+    "category": "My List",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  },
+  {
+    "id": "12",
+    "thumbnail": "https://m.media-amazon.com/images/M/MV5BMmFiZGZjMmEtMTA0Ni00MzA2LTljMTYtZGI2MGJmZWYzZTQ2XkEyXkFqcGc@._V1_.jpg",
+    "title": "Spider-Man: No Way Home",
+    "rating": 4.8,
+    "genre": "Adventure",
+    "category": "My List",
+    "duration": "2h 36min",
+    "releaseDate": 2000
+  }
+]
