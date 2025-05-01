@@ -10,16 +10,18 @@ const UserDetails = () => {
       <View style={styles.userDetailsLeft}>
         <Image
           style={styles.userProfile}
+          testID="user-profile-image"
+          accessibilityRole="image"
           source={{
             uri: 'https://lh3.googleusercontent.com/a/ACg8ocKQblDIwzPa7ztlKWSLGTNu-rxU2bV5gv_nnDAxN8rcuvnN_g=s576-c-no',
           }}
         />
         <View>
           <Text style={styles.username}>Hello, {loggedUser.name}</Text>
-          <Text style={styles.membershipType}>Premium Member</Text>
+          <Text testID={'membershipType'} style={styles.membershipType}>Premium Member</Text>
         </View>
       </View>
-      <Image source={require('../assets/bell.fill.png')} style={styles.icon} />
+      <Image testID="bell-icon" accessibilityRole="image" source={require('../assets/bell.fill.png')} style={styles.icon} />
     </View>
   );
 };

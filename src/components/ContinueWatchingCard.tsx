@@ -15,7 +15,7 @@ interface Props {
   movie: Movie;
 }
 
-const MovieCard: FC<Props> = ({movie}) => {
+const ContinueWatchingMovieCard: FC<Props> = ({movie}) => {
   return (
     <View style={styles.card}>
       <ImageBackground source={{uri: movie.thumbnail}} style={styles.thumbnail}>
@@ -80,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MovieCard;
+export default ContinueWatchingMovieCard;
