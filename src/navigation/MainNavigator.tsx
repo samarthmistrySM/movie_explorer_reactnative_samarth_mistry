@@ -50,7 +50,11 @@ const Navigator = () => {
           );
         },
       })}>
-      <MainTab.Screen name="HomeNav" component={HomeNavigator} />
+      <MainTab.Screen
+        name="HomeNav"
+        component={HomeNavigator}
+        options={{title: 'Home'}}
+      />
       <MainTab.Screen
         name="SearchNav"
         component={SearchNavigator}
