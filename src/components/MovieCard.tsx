@@ -10,7 +10,7 @@ import {
 import {Movie} from '../Types.ts';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {HomeStackParams, SearchStackParams} from '../navigation/Types.ts';
+import {MainStackParams} from '../navigation/Types.ts';
 const {width} = Dimensions.get('window');
 
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
 const MovieCard: FC<Props> = ({movie}) => {
   const navigation =
     useNavigation<
-      NativeStackNavigationProp<SearchStackParams | HomeStackParams>
+      NativeStackNavigationProp<MainStackParams>
     >();
   return (
     <TouchableOpacity

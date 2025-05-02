@@ -3,9 +3,10 @@ import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Profile from '../screens/Profile.tsx';
-import SearchNavigator from './SearchStack.tsx';
 import Subscription from '../screens/Subscription.tsx';
-import HomeNavigator from './HomeStack.tsx';
+import WatchList from '../screens/WatchList.tsx';
+import Home from '../screens/Home.tsx';
+import Search from '../screens/Search.tsx';
 
 const house = require('../assets/house.fill.png');
 const person = require('../assets/person.fill.png');
@@ -25,9 +26,9 @@ const Navigator = () => {
         tabBarIcon: ({color, size}) => {
           let iconSource;
 
-          if (route.name === 'HomeNav') {
+          if (route.name === 'Home') {
             iconSource = house;
-          } else if (route.name === 'SearchNav') {
+          } else if (route.name === 'Search') {
             iconSource = magnifyingglass;
           } else if (route.name === 'Subscription') {
             iconSource = creditcard;
@@ -51,17 +52,17 @@ const Navigator = () => {
         },
       })}>
       <MainTab.Screen
-        name="HomeNav"
-        component={HomeNavigator}
+        name="Home"
+        component={Home}
         options={{title: 'Home'}}
       />
       <MainTab.Screen
-        name="SearchNav"
-        component={SearchNavigator}
+        name="Search"
+        component={Search}
         options={{title: 'Search'}}
       />
       <MainTab.Screen name="Subscription" component={Subscription} />
-      <MainTab.Screen name="Watchlist" component={Profile} />
+      <MainTab.Screen name="Watchlist" component={WatchList} />
       <MainTab.Screen name="Profile" component={Profile} />
     </MainTab.Navigator>
   );

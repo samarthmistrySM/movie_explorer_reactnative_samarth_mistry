@@ -6,13 +6,8 @@ export interface AuthStackPrams extends ParamListBase {
   Register: undefined;
 }
 
-export interface SearchStackParams extends ParamListBase {
-  Search: undefined;
+export interface MainStackParams extends ParamListBase {
+  Main: undefined;
   Result: {filter: string};
-  MovieDetails: {movie: Movie};
-}
-
-export interface HomeStackParams extends ParamListBase {
-  Home: undefined;
   MovieDetails: {movie: Movie};
 }

@@ -18,7 +18,7 @@ const UserDetails = () => {
         />
         <View>
           <Text style={styles.username}>Hello, {loggedUser.name}</Text>
-          <Text testID={'membershipType'} style={styles.membershipType}>Premium Member</Text>
+          <Text testID={'membershipType'} style={styles.membershipType}>Platinum Member</Text>
         </View>
       </View>
       <Image testID="bell-icon" accessibilityRole="image" source={require('../assets/bell.fill.png')} style={styles.icon} />
@@ -28,6 +28,7 @@ const UserDetails = () => {
 
 const styles = StyleSheet.create({
   userDetailsContainer: {
+    marginTop:20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

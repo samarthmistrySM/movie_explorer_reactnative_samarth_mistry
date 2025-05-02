@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "401893231162",
+    "project_id": "movieplus-a9f88",
+    "storage_bucket": "movieplus-a9f88.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401893231162:android:7d72728e32e3ac1ba44303",
+        "android_client_info": {
+          "package_name": "com.movieplus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABcoUL8hlWIvOHnC0yXe4CIGkshJq2LhQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

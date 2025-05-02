@@ -4,7 +4,7 @@ import SignUp from '../../src/screens/auth/SignUp';
 import AuthContext from '../../src/context/AuthContext';
 import {NavigationContainer} from '@react-navigation/native';
 
-const mockGOBack = jest.fn();
+const mockGoBack = jest.fn();
 const mockNavigate = jest.fn();
 
 jest.mock('@react-navigation/native', () => {
@@ -12,7 +12,7 @@ jest.mock('@react-navigation/native', () => {
   return {
     ...navigation,
     useNavigation: () => ({
-      goBack: mockGOBack,
+      goBack: mockGoBack,
       navigate: mockNavigate,
     }),
   };
@@ -110,6 +110,6 @@ describe('SignUp', () => {
 
     fireEvent.press(goBackBtn);
 
-    expect(mockGOBack).toHaveBeenCalledWith();
+    expect(mockGoBack).toHaveBeenCalledWith();
   });
 });

@@ -5,32 +5,20 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  Image,
-  TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
 import movieData from '../mock/movies.json';
 import MovieCard from '../components/MovieCard';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {MainStackParams} from '../navigation/Types.ts';
 import {Movie} from '../Types';
 
 const {width} = Dimensions.get('window');
 
-const Result = () => {
-  const {params} = useRoute();
-  const {filter}: any = params;
-  const navigation =
-    useNavigation<NativeStackNavigationProp<MainStackParams>>();
+const WatchList = () => {
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     const filteredMovieData = movieData.filter(
-      movie =>
-        movie.genre.toLowerCase() === filter.toLowerCase() ||
-        movie.title.toLowerCase().includes(filter.toLowerCase()) ||
-        movie.genre.toLowerCase().includes(filter.toLowerCase()),
+      movie => movie.category === "My List"
     );
     setFilteredMovies(filteredMovieData);
   }, [movieData]);
@@ -39,13 +27,7 @@ const Result = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.header}>
-          <TouchableOpacity testID='goBackBtn' onPress={() => navigation.goBack()}>
-            <Image
-              style={styles.icon}
-              source={require('../assets/chevron.left.png')}
-            />
-          </TouchableOpacity>
-          <Text style={styles.heading}>Search results for {filter}</Text>
+          <Text style={styles.heading}>My Watchlist</Text>
         </View>
         <View style={styles.moviesContainer}>
           {filteredMovies.map((movie, index) => (
@@ -91,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Result;
+export default WatchList;
