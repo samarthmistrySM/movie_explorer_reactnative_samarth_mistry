@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {SearchStackParams} from '../navigation/Types.ts';
+import {MainStackParams} from '../navigation/Types.ts';
 import MovieCard from '../components/MovieCard.tsx';
 import {Movie} from '../Types.ts';
 import moviesData from '../mock/movies.json';
@@ -24,7 +24,7 @@ const MovieDetails = () => {
   const router = useRoute();
   const {movie}: any = router.params;
   const navigation =
-    useNavigation<NativeStackNavigationProp<SearchStackParams>>();
+    useNavigation<NativeStackNavigationProp<MainStackParams>>();
 
   const [allMovies, setAllMovies] = useState<Movie[]>([]);
 
@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
     height: height * 0.4,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+    paddingTop: 10,
   },
   goBack: {
     padding: 10,

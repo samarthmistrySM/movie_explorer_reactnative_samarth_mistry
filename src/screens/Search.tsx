@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {SearchStackParams} from '../navigation/Types.ts';
+import {MainStackParams} from '../navigation/Types.ts';
 
 const {width, height} = Dimensions.get('window');
 
@@ -68,11 +68,13 @@ const Search = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [searchHistory, setSearchHistory] = useState<string[]>(recentSearches);
   const navigation =
-    useNavigation<NativeStackNavigationProp<SearchStackParams>>();
+    useNavigation<NativeStackNavigationProp<MainStackParams>>();
 
   const handelSearch = () => {
     if(searchText.length > 0) {
-      setSearchHistory([...searchHistory, searchText]);
+      if (!searchHistory.includes(searchText)) {
+        setSearchHistory([...searchHistory, searchText]);
+      }
       navigation.navigate('Result',{filter: searchText});
     }
   };
@@ -169,7 +171,7 @@ const Search = () => {
                 />
                 <Text style={styles.searchText}>{search}</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleDeleteSearchHistory(index)}>
+              <TouchableOpacity testID={`del-btn-${search}`} onPress={() => handleDeleteSearchHistory(index)}>
                 <Image
                     style={[
                       styles.icon,
@@ -190,6 +192,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+    paddingTop: 20,
   },
   header: {
     flexDirection: 'row',

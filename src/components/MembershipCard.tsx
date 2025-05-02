@@ -24,61 +24,61 @@ interface Props {
 }
 
 const MembershipCard: FC<Props> = ({membership, index}) => {
-  const {initPaymentSheet, presentPaymentSheet} = useStripe();
-  const [clientSecret, setClientSecret] = useState(null);
+  // const {initPaymentSheet, presentPaymentSheet} = useStripe();
+  // const [clientSecret, setClientSecret] = useState(null);
 
-  const fetchPaymentIntent = async () => {
-    try {
-      const response = await axios.post(
-        'http://localhost:3000/create-payment-intent',
-        {
-          amount: 1099 * 100,
-          currency: 'inr',
-        },
-      );
+  // const fetchPaymentIntent = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       'http://localhost:3000/create-payment-intent',
+  //       {
+  //         amount: 1099 * 100,
+  //         currency: 'inr',
+  //       },
+  //     );
 
-      const {clientSecret : cs} = response.data;
-      setClientSecret(cs);
-    } catch (error: any) {
-      console.log('Error fetching payment intent:', error.message);
-    }
-  };
+  //     const {clientSecret : cs} = response.data;
+  //     setClientSecret(cs);
+  //   } catch (error: any) {
+  //     console.log('Error fetching payment intent:', error.message);
+  //   }
+  // };
 
-  const initializePaymentSheet = async () => {
-    if (!clientSecret) return;
+  // const initializePaymentSheet = async () => {
+  //   if (!clientSecret) return;
 
-    const {error} = await initPaymentSheet({
-      merchantDisplayName: 'Movie Explorer+',
-      paymentIntentClientSecret: clientSecret,
-      returnURL: 'https://google.com/',
-    });
+  //   const {error} = await initPaymentSheet({
+  //     merchantDisplayName: 'Movie Explorer+',
+  //     paymentIntentClientSecret: clientSecret,
+  //     returnURL: 'https://google.com/',
+  //   });
 
-    if (error) {
-      console.log('Error initializing payment sheet:', error.message);
-    }
-  };
+  //   if (error) {
+  //     console.log('Error initializing payment sheet:', error.message);
+  //   }
+  // };
 
-  useEffect(() => {
-    (async () => {
-      await fetchPaymentIntent();
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     await fetchPaymentIntent();
+  //   })();
+  // }, []);
 
-  useEffect(() => {
-    if (clientSecret) {
-      initializePaymentSheet();
-    }
-  }, [clientSecret]);
+  // useEffect(() => {
+  //   if (clientSecret) {
+  //     initializePaymentSheet();
+  //   }
+  // }, [clientSecret]);
 
-  const checkout = async () => {
-    const {error} = await presentPaymentSheet();
+  // const checkout = async () => {
+  //   const {error} = await presentPaymentSheet();
 
-    if (error) {
-      Alert.alert('Payment failed', error.message);
-    } else {
-      Alert.alert('Success', 'Your payment is confirmed!');
-    }
-  };
+  //   if (error) {
+  //     Alert.alert('Payment failed', error.message);
+  //   } else {
+  //     Alert.alert('Success', 'Your payment is confirmed!');
+  //   }
+  // };
 
   return index % 2 === 0 ? (
     <View style={[styles.membershipContainer, styles.darkThemeCard]}>
@@ -90,7 +90,7 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
         </View>
         <View style={styles.membershipDetails}>
           {membership.content.map((detail: string, i: number) => (
-            <View key={i} style={styles.detailContainer}>
+            <View key={i} style={styles.detailContainer} testID="detail-container">
               <Image
                 source={require('../assets/checkmark.png')}
                 style={[styles.icon, styles.darkThemeIcon]}
@@ -101,7 +101,7 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
         </View>
         <TouchableOpacity
           style={[styles.purchaseButton, styles.darkThemeButton]}
-          onPress={checkout}>
+          >
           <Text style={[styles.purchaseButtonText, styles.darkThemeButtonText]}>
             Choose Plan
           </Text>
@@ -122,7 +122,7 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
         </View>
         <View style={styles.membershipDetails}>
           {membership.content.map((detail: string, i: number) => (
-            <View key={i} style={styles.detailContainer}>
+            <View key={i} style={styles.detailContainer} testID="detail-container">
               <Image
                 source={require('../assets/checkmark.png')}
                 style={[styles.icon, styles.redWhiteIcon]}
@@ -132,8 +132,7 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
           ))}
         </View>
         <TouchableOpacity
-          style={[styles.purchaseButton, styles.redWhiteButton]}
-          onPress={checkout}>
+          style={[styles.purchaseButton, styles.redWhiteButton]}>
           <Text style={[styles.purchaseButtonText, styles.redWhiteButtonText]}>
             Choose Plan
           </Text>

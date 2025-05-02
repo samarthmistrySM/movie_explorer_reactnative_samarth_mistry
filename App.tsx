@@ -1,9 +1,9 @@
-import React from 'react';
-import AuthProvider from './context/AuthProvider';
-import Navigator from './navigation/Navigator';
+import React, { useEffect } from 'react';
+import AuthProvider from './src/context/AuthProvider';
+import Navigator from './src/navigation/Navigator';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {StripeProvider} from '@stripe/stripe-react-native';
-import Secret from './secrets/Secret';
+import Secret from './src/secrets/Secret';
 
 const App = () => {
   return (

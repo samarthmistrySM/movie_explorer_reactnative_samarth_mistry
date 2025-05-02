@@ -54,6 +54,7 @@ const Home = () => {
           {labels.map((label, index) => (
             <TouchableOpacity
               key={index}
+              testID={`label-${index}`}
               style={[
                 styles.labelBtn,
                 selectedLabel === label && styles.activeLabel,

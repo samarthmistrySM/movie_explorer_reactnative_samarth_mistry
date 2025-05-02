@@ -93,6 +93,7 @@ const Login = () => {
             onChange={item => setRole(item.value)}
             renderItem={item => (
               <View
+              testID='dropdownItem'
                 style={[
                   styles.dropdownItem,
                   item.value === role && styles.dropdownSelectedItem,
@@ -116,7 +117,7 @@ const Login = () => {
 
         <View style={styles.signUpContainer}>
           <Text style={styles.signUpText}>Don't have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <TouchableOpacity testID='signUpBtn' onPress={() => navigation.navigate('SignUp')}>
             <Text style={styles.signUpLink}>Sign Up</Text>
           </TouchableOpacity>
         </View>
