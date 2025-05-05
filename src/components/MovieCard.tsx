@@ -27,7 +27,7 @@ const MovieCard: FC<Props> = ({movie}) => {
       testID={'movie-card-btn'}
       onPress={() => navigation.navigate('MovieDetails', {movie: movie})}>
       <View style={styles.card}>
-        <Image source={{uri: movie.thumbnail}} style={styles.thumbnail} />
+        <Image source={{uri: movie.poster_url}} style={styles.thumbnail} />
         <View style={styles.infoContainer}>
           <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
             {movie.title}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {
   SafeAreaView,
   Text,
@@ -7,21 +7,13 @@ import {
   View,
   Dimensions,
 } from 'react-native';
-import movieData from '../mock/movies.json';
 import MovieCard from '../components/MovieCard';
-import {Movie} from '../Types';
+import MoviesContext from '../context/MoviesContext';
 
 const {width} = Dimensions.get('window');
 
 const WatchList = () => {
-  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
-
-  useEffect(() => {
-    const filteredMovieData = movieData.filter(
-      movie => movie.category === "My List"
-    );
-    setFilteredMovies(filteredMovieData);
-  }, [movieData]);
+  const {movies} = useContext(MoviesContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,7 +22,7 @@ const WatchList = () => {
           <Text style={styles.heading}>My Watchlist</Text>
         </View>
         <View style={styles.moviesContainer}>
-          {filteredMovies.map((movie, index) => (
+          {movies.map((movie, index) => (
             <MovieCard key={index} movie={movie} />
           ))}
         </View>

@@ -8,9 +8,10 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import movieData from '../mock/movies.json';
+import {filterMovies, searchMovies} from '../api/movieApi.js';
 import MovieCard from '../components/MovieCard';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainStackParams} from '../navigation/Types.ts';
@@ -18,40 +19,76 @@ import {Movie} from '../Types';
 
 const {width} = Dimensions.get('window');
 
+type Filter = {
+  type: 'title' | 'genre';
+  query: string;
+};
+
 const Result = () => {
   const {params} = useRoute();
-  const {filter}: any = params;
+  const {filter}: {filter: Filter} | any = params;
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
-  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const filteredMovieData = movieData.filter(
-      movie =>
-        movie.genre.toLowerCase() === filter.toLowerCase() ||
-        movie.title.toLowerCase().includes(filter.toLowerCase()) ||
-        movie.genre.toLowerCase().includes(filter.toLowerCase()),
-    );
-    setFilteredMovies(filteredMovieData);
-  }, [movieData]);
+    const fetchMovies = async () => {
+      try {
+        let res;
+        setLoading(true);
+        if (filter.type === 'title') {
+          res = await searchMovies(filter.query);
+        } else if (filter.type === 'genre') {
+          res = await filterMovies(filter.query);
+        }
+        if (res) {
+          setMovies(res.movies);
+        }
+      } catch (error: any) {
+        console.log('Error fetching movies:', error.response);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMovies();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.scroller}>
         <View style={styles.header}>
-          <TouchableOpacity testID='goBackBtn' onPress={() => navigation.goBack()}>
+          <TouchableOpacity
+            testID="goBackBtn"
+            onPress={() => navigation.goBack()}>
             <Image
               style={styles.icon}
               source={require('../assets/chevron.left.png')}
             />
           </TouchableOpacity>
-          <Text style={styles.heading}>Search results for {filter}</Text>
+          <Text style={styles.heading}>
+            Search results for {`"${filter.query}"`}
+          </Text>
         </View>
-        <View style={styles.moviesContainer}>
-          {filteredMovies.map((movie, index) => (
-            <MovieCard key={index} movie={movie} />
-          ))}
-        </View>
+        {loading ? (
+          <View style={styles.alertContainer}>
+            <ActivityIndicator size="large" color="#FF3B30" />
+          </View>
+        ) : movies?.length === 0 ? (
+          <View style={styles.alertContainer}>
+            <Image
+              source={require('../assets/magnifyingglass.png')}
+              style={styles.alertIcon}
+            />
+            <Text style={styles.heading}>No result found</Text>
+          </View>
+        ) : (
+          <View style={styles.moviesContainer}>
+            {movies?.map((movie, index) => (
+              <MovieCard key={index} movie={movie} />
+            ))}
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -62,6 +99,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     paddingTop: 20,
+  },
+  scroller: {
+    flexGrow: 1,
   },
   moviesContainer: {
     flexDirection: 'row',
@@ -88,6 +128,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#FFF',
+  },
+  alertContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  alertIcon: {
+    height: width * 0.2,
+    width: width * 0.2,
+    tintColor: 'rgba(176, 176, 176, 1)',
+    resizeMode: 'contain',
+    marginBottom: 10,
   },
 });
 

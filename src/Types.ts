@@ -4,12 +4,17 @@ export interface User {
   phone: string;
 }
 export interface Movie {
-  id: string;
-  thumbnail: any;
+  id: number;
   title: string;
-  rating: number;
   genre: string;
-  category: string;
-  duration: string;
-  releaseDate: number;
+  release_year: number;
+  rating: number;
+  director: string;
+  duration: number;
+  description: string;
+  premium: boolean;
+  main_lead: string;
+  streaming_platform: string;
+  poster_url: string;
+  banner_url: string;
 }

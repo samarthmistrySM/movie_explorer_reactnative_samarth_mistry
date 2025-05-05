@@ -23,7 +23,7 @@ const SignUp = () => {
   const {handelRegister} = useContext(AuthContext);
 
   const onSignUp = async () => {
-    const isSignedUp = handelRegister(name, email, phoneNumber, password);
+    const isSignedUp = await handelRegister(name, email, phoneNumber, password);
 
     if (isSignedUp) {
       navigation.navigate('Login');
@@ -120,7 +120,9 @@ const SignUp = () => {
 
         <View style={styles.signUpContainer}>
           <Text style={styles.signUpText}>Already have an account? </Text>
-          <TouchableOpacity testID='goBackBtn' onPress={() => navigation.goBack()}>
+          <TouchableOpacity
+            testID="goBackBtn"
+            onPress={() => navigation.goBack()}>
             <Text style={styles.signUpLink}>Sign In</Text>
           </TouchableOpacity>
         </View>

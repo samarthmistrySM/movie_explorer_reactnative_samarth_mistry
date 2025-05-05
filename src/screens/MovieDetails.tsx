@@ -22,7 +22,7 @@ const {width, height} = Dimensions.get('window');
 
 const MovieDetails = () => {
   const router = useRoute();
-  const {movie}: any = router.params;
+  const {movie}: {movie: Movie} | any = router.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
 
@@ -38,7 +38,7 @@ const MovieDetails = () => {
       <ScrollView>
         <ImageBackground
           style={styles.bg}
-          source={{uri: movie.thumbnail}}
+          source={{uri: movie.poster_url}}
           resizeMode={'cover'}>
           <LinearGradient
             colors={['rgba(0,0,0,0.24)', '#000000B2', '#000']}
@@ -55,7 +55,7 @@ const MovieDetails = () => {
           <View>
             <View style={styles.badgesContainer}>
               <Text style={styles.badge}>{movie.genre}</Text>
-              <Text style={styles.text}>{movie.category}</Text>
+              <Text style={styles.text}>{movie.streaming_platform}</Text>
             </View>
             <Text style={styles.title}>{movie.title}</Text>
             <View style={styles.ratingContainer}>
@@ -71,8 +71,7 @@ const MovieDetails = () => {
           <View style={styles.section}>
             <Text style={styles.bodyHeading}>Synopsis</Text>
             <Text style={styles.text}>
-              wo imprisoned men bond over a number of years, finding solace and
-              eventual redemption through acts of common decency.
+              {movie.description}
             </Text>
           </View>
           <View style={styles.moreDetailsContainer}>
@@ -84,7 +83,7 @@ const MovieDetails = () => {
                 />
                 <Text style={styles.label}>Release Date</Text>
               </View>
-              <Text style={styles.boldText}>{movie.releaseDate}</Text>
+              <Text style={styles.boldText}>{movie.release_year}</Text>
             </View>
             <View style={styles.moreDetail}>
               <View style={styles.moreDetailHeader}>

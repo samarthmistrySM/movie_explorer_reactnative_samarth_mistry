@@ -28,8 +28,8 @@ const Search = () => {
       bg: 'https://img.freepik.com/free-vector/adventure-background_23-2149036143.jpg',
     },
     {
-      name: 'Fantasy',
-      bg: 'https://media.istockphoto.com/id/688410346/vector/chinese-style-fantasy-scenes.jpg?s=612x612&w=0&k=20&c=r3skS5InspYQ7EqUCCzUzU3QHcwRwD6mNRbDpP8sIG4=',
+      name: 'Romance',
+      bg: 'https://img.freepik.com/premium-photo/blurred-valentine39s-day-background-romantic-blur-stock-photography-blurred-valentine39s-day-background-romantic-blur-stock-photography_936686-16171.jpg?semt=ais_hybrid&w=740',
     },
     {
       name: 'Thriller',
@@ -45,7 +45,7 @@ const Search = () => {
     },
     {
       name: 'Mystery',
-      bg: 'https://png.pngtree.com/thumb_back/fh260/background/20230328/pngtree-castle-game-scene-mysterious-fantasy-background-image_2117946.jpg',
+      bg: 'https://t4.ftcdn.net/jpg/00/55/78/75/360_F_55787565_5cngbxfLXqjyLIzWIbDmRMehPhAiqowm.jpg',
     },
     {
       name: 'Comedy',
@@ -71,11 +71,13 @@ const Search = () => {
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
 
   const handelSearch = () => {
-    if(searchText.length > 0) {
+    if (searchText.length > 0) {
       if (!searchHistory.includes(searchText)) {
         setSearchHistory([...searchHistory, searchText]);
       }
-      navigation.navigate('Result',{filter: searchText});
+      navigation.navigate('Result', {
+        filter: {query: searchText, type: 'title'},
+      });
     }
   };
 
@@ -124,7 +126,9 @@ const Search = () => {
                 key={index}
                 style={styles.genreBtn}
                 onPress={() => {
-                  navigation.navigate('Result', {filter: genre.name});
+                  navigation.navigate('Result', {
+                    filter: {query: genre.name, type: 'genre'},
+                  });
                 }}>
                 <ImageBackground
                   source={{uri: genre.bg}}
@@ -164,20 +168,26 @@ const Search = () => {
             <View key={index} style={styles.recentSearchBtn}>
               <TouchableOpacity
                 style={styles.recentSearchesLeft}
-                onPress={() => navigation.navigate('Result', {filter: search})}>
+                onPress={() =>
+                  navigation.navigate('Result', {
+                    filter: {query: search, type: 'title'},
+                  })
+                }>
                 <Image
                   style={styles.icon}
                   source={require('../assets/clock.arrow.trianglehead.counterclockwise.rotate.90.png')}
                 />
                 <Text style={styles.searchText}>{search}</Text>
               </TouchableOpacity>
-              <TouchableOpacity testID={`del-btn-${search}`} onPress={() => handleDeleteSearchHistory(index)}>
+              <TouchableOpacity
+                testID={`del-btn-${search}`}
+                onPress={() => handleDeleteSearchHistory(index)}>
                 <Image
-                    style={[
-                      styles.icon,
-                      {width: width * 0.035, height: width * 0.035},
-                    ]}
-                    source={require('../assets/multiply.png')}
+                  style={[
+                    styles.icon,
+                    {width: width * 0.035, height: width * 0.035},
+                  ]}
+                  source={require('../assets/multiply.png')}
                 />
               </TouchableOpacity>
             </View>

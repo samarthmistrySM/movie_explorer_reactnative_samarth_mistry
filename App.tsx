@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import AuthProvider from './src/context/AuthProvider';
+import MoviesProvider from './src/context/MoviesProvider';
 import Navigator from './src/navigation/Navigator';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {StripeProvider} from '@stripe/stripe-react-native';
@@ -36,7 +37,7 @@ const App = () => {
   const getToken = async () => {
     const token = await messaging().getToken();
     console.log('FCM Token:', token);
-  }
+  };
 
   return (
     <StripeProvider
@@ -45,7 +46,9 @@ const App = () => {
       urlScheme="your-url-scheme">
       <GestureHandlerRootView>
         <AuthProvider>
-          <Navigator />
+          <MoviesProvider>
+            <Navigator />
+          </MoviesProvider>
         </AuthProvider>
       </GestureHandlerRootView>
     </StripeProvider>
