@@ -31,7 +31,7 @@ const Login = () => {
   ];
 
   const onLogin = () => {
-    handelLogin(email, password);
+    handelLogin(email, password, role);
   };
 
   return (

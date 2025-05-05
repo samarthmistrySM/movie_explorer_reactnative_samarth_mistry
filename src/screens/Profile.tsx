@@ -52,6 +52,7 @@ const Profile = () => {
           source={require('../assets/chevron.right.png')}
         />
       </View>
+      <View style={styles.divider}/>
       <View style={styles.detailsContainer}>
         <View>
           <Text style={styles.detailsTitle}>EMAIL</Text>
@@ -62,6 +63,7 @@ const Profile = () => {
           source={require('../assets/chevron.right.png')}
         />
       </View>
+      <View style={styles.divider}/>
       <View style={styles.detailsContainer}>
         <View>
           <Text style={styles.detailsTitle}>Phone Number</Text>
@@ -74,6 +76,7 @@ const Profile = () => {
           source={require('../assets/chevron.right.png')}
         />
       </View>
+      <View style={styles.divider}/>
       <View style={styles.detailsContainer}>
         <View>
           <Text style={styles.detailsTitle}>Membership</Text>
@@ -99,7 +102,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 15,
     marginBottom: 15,
   },
   heading: {
@@ -170,8 +172,12 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 5,
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#dcdcdc',
+    // backgroundColor: '#1C1C1E',
+  },
+  divider:{
+    width: '100%',
+    height: 1,
+    backgroundColor: '#ddd',
   },
   detailsTitle: {
     fontSize: 18,

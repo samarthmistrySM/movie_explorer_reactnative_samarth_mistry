@@ -14,6 +14,7 @@ const AuthProvider: FC<Props> = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
   const [reload, setReload] = useState<boolean>(false);
+  const [userRole, setUserRole] = useState<'user'|'admin'>('user');
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -33,11 +34,12 @@ const AuthProvider: FC<Props> = ({children}) => {
     return true;
   };
 
-  const handelLogin = async (email: string, password: string) => {
+  const handelLogin = async (email: string, password: string, role: 'user' | 'admin') => {
     try {
       const logInRes = await loginUser(email, password);
       AsyncStorage.setItem('token', logInRes.token);
       Alert.alert('Login Successful', 'Welcome back!');
+      setUserRole(role);
       setReload(!reload);
     } catch (e: any) {
       Alert.alert('Login Error', e.response.data.error);
@@ -82,6 +84,7 @@ const AuthProvider: FC<Props> = ({children}) => {
       value={{
         loggedUser,
         isLoggedIn,
+        userRole,
         handleLogout,
         handelLogin,
         handelRegister,

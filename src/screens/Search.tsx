@@ -40,7 +40,7 @@ const Search = () => {
       bg: 'https://static.vecteezy.com/system/resources/thumbnails/014/000/181/small/red-stage-curtain-illuminated-by-spotlights-illustration-vector.jpg',
     },
     {
-      name: 'Sci-Fi',
+      name: 'Si-Fi',
       bg: 'https://static.vecteezy.com/system/resources/thumbnails/001/966/689/small/abstract-futuristic-background-technology-sci-fi-concept-vector.jpg',
     },
     {

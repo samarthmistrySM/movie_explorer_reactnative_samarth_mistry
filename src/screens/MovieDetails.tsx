@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   SafeAreaView,
   Image,
@@ -15,21 +15,22 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainStackParams} from '../navigation/Types.ts';
 import MovieCard from '../components/MovieCard.tsx';
 import {Movie} from '../Types.ts';
-import moviesData from '../mock/movies.json';
 import LinearGradient from 'react-native-linear-gradient';
+import MoviesContext from '../context/MoviesContext.tsx';
 
 const {width, height} = Dimensions.get('window');
 
 const MovieDetails = () => {
   const router = useRoute();
   const {movie}: {movie: Movie} | any = router.params;
+  const {movies} = useContext(MoviesContext);
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
 
   const [allMovies, setAllMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
-    const filteredMovies = moviesData.filter(m => m.genre === movie.genre);
+    const filteredMovies = movies.filter(m => m.genre === movie.genre);
     setAllMovies(filteredMovies);
   }, []);
 
@@ -38,8 +39,8 @@ const MovieDetails = () => {
       <ScrollView>
         <ImageBackground
           style={styles.bg}
-          source={{uri: movie.poster_url}}
-          resizeMode={'cover'}>
+          source={{uri: movie.banner_url}}
+          resizeMode={'contain'}>
           <LinearGradient
             colors={['rgba(0,0,0,0.24)', '#000000B2', '#000']}
             style={styles.linearGradient}
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
   bg: {
     position: 'relative',
     width: '100%',
-    height: height * 0.4,
+    height: height * 0.28,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingTop: 10,
