@@ -1,14 +1,21 @@
 import React, {useEffect} from 'react';
 import AuthProvider from './src/context/AuthProvider';
+import MoviesProvider from './src/context/MoviesProvider';
 import Navigator from './src/navigation/Navigator';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {StripeProvider} from '@stripe/stripe-react-native';
 import Secret from './src/secrets/Secret';
 import {PermissionsAndroid} from 'react-native';
-import messaging from '@react-native-firebase/messaging';
+import {
+  getMessaging,
+  getToken,
+  onMessage,
+} from '@react-native-firebase/messaging';
 import {Alert} from 'react-native';
 
 const App = () => {
+  const messagingInstance = getMessaging();
+
   useEffect(() => {
     requestNotificationPermissionAndroid();
   }, []);
@@ -19,24 +26,28 @@ const App = () => {
     );
 
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      getToken();
+      getFCMToken();
     } else {
       console.log('Notification permission denied');
     }
   };
 
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
+    const unsubscribe = onMessage(messagingInstance, async remoteMessage => {
       Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
 
     return unsubscribe;
   }, []);
 
-  const getToken = async () => {
-    const token = await messaging().getToken();
-    console.log('FCM Token:', token);
-  }
+  const getFCMToken = async () => {
+    try {
+      const token = await getToken(messagingInstance);
+      console.log('FCM Token:', token);
+    } catch (error) {
+      console.error('Error retrieving FCM token:', error);
+    }
+  };
 
   return (
     <StripeProvider
@@ -45,7 +56,9 @@ const App = () => {
       urlScheme="your-url-scheme">
       <GestureHandlerRootView>
         <AuthProvider>
-          <Navigator />
+          <MoviesProvider>
+            <Navigator />
+          </MoviesProvider>
         </AuthProvider>
       </GestureHandlerRootView>
     </StripeProvider>

@@ -12,23 +12,30 @@ const UserDetails = () => {
           style={styles.userProfile}
           testID="user-profile-image"
           accessibilityRole="image"
-          source={{
-            uri: 'https://lh3.googleusercontent.com/a/ACg8ocKQblDIwzPa7ztlKWSLGTNu-rxU2bV5gv_nnDAxN8rcuvnN_g=s576-c-no',
-          }}
+          source={{uri: 'https://static.vecteezy.com/system/resources/previews/036/594/092/non_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'}}
         />
         <View>
-          <Text style={styles.username}>Hello, {loggedUser.name}</Text>
-          <Text testID={'membershipType'} style={styles.membershipType}>Platinum Member</Text>
+          <Text style={styles.username}>
+            Hello, {loggedUser.name || 'Samarth'}
+          </Text>
+          <Text testID={'membershipType'} style={styles.membershipType}>
+            Platinum Member
+          </Text>
         </View>
       </View>
-      <Image testID="bell-icon" accessibilityRole="image" source={require('../assets/bell.fill.png')} style={styles.icon} />
+      <Image
+        testID="bell-icon"
+        accessibilityRole="image"
+        source={require('../assets/bell.fill.png')}
+        style={styles.icon}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   userDetailsContainer: {
-    marginTop:20,
+    marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -42,7 +49,7 @@ const styles = StyleSheet.create({
   userProfile: {
     height: width * 0.1,
     width: width * 0.1,
-    borderRadius: height * 0.08,
+    borderRadius: width * 0.05,
     marginRight: 8,
   },
   username: {

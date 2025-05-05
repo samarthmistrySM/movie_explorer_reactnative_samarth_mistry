@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   SafeAreaView,
   Image,
@@ -15,21 +15,22 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainStackParams} from '../navigation/Types.ts';
 import MovieCard from '../components/MovieCard.tsx';
 import {Movie} from '../Types.ts';
-import moviesData from '../mock/movies.json';
 import LinearGradient from 'react-native-linear-gradient';
+import MoviesContext from '../context/MoviesContext.tsx';
 
 const {width, height} = Dimensions.get('window');
 
 const MovieDetails = () => {
   const router = useRoute();
-  const {movie}: any = router.params;
+  const {movie}: {movie: Movie} | any = router.params;
+  const {movies} = useContext(MoviesContext);
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
 
   const [allMovies, setAllMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
-    const filteredMovies = moviesData.filter(m => m.genre === movie.genre);
+    const filteredMovies = movies.filter(m => m.genre === movie.genre);
     setAllMovies(filteredMovies);
   }, []);
 
@@ -38,8 +39,8 @@ const MovieDetails = () => {
       <ScrollView>
         <ImageBackground
           style={styles.bg}
-          source={{uri: movie.thumbnail}}
-          resizeMode={'cover'}>
+          source={{uri: movie.banner_url}}
+          resizeMode={'contain'}>
           <LinearGradient
             colors={['rgba(0,0,0,0.24)', '#000000B2', '#000']}
             style={styles.linearGradient}
@@ -55,7 +56,7 @@ const MovieDetails = () => {
           <View>
             <View style={styles.badgesContainer}>
               <Text style={styles.badge}>{movie.genre}</Text>
-              <Text style={styles.text}>{movie.category}</Text>
+              <Text style={styles.text}>{movie.streaming_platform}</Text>
             </View>
             <Text style={styles.title}>{movie.title}</Text>
             <View style={styles.ratingContainer}>
@@ -71,8 +72,7 @@ const MovieDetails = () => {
           <View style={styles.section}>
             <Text style={styles.bodyHeading}>Synopsis</Text>
             <Text style={styles.text}>
-              wo imprisoned men bond over a number of years, finding solace and
-              eventual redemption through acts of common decency.
+              {movie.description}
             </Text>
           </View>
           <View style={styles.moreDetailsContainer}>
@@ -84,7 +84,7 @@ const MovieDetails = () => {
                 />
                 <Text style={styles.label}>Release Date</Text>
               </View>
-              <Text style={styles.boldText}>{movie.releaseDate}</Text>
+              <Text style={styles.boldText}>{movie.release_year}</Text>
             </View>
             <View style={styles.moreDetail}>
               <View style={styles.moreDetailHeader}>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   bg: {
     position: 'relative',
     width: '100%',
-    height: height * 0.4,
+    height: height * 0.28,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingTop: 10,

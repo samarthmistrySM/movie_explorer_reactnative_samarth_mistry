@@ -1,67 +1,48 @@
 import React, {useState, useEffect, FC} from 'react';
 import AuthContext from './AuthContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Alert} from 'react-native';
 import {User} from '../Types';
+import {getUser} from '../api/usersApi';
+import {loginUser, registerUser, logoutUser} from '../api/authApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props {
   children: React.ReactNode;
 }
 
 const AuthProvider: FC<Props> = ({children}) => {
-  const [users, setUsers] = useState<User[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
+  const [reload, setReload] = useState<boolean>(false);
+  const [userRole, setUserRole] = useState<'user'|'admin'>('user');
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const fetchedUsers = await AsyncStorage.getItem('users');
-        if (fetchedUsers) {
-          setUsers(JSON.parse(fetchedUsers) as User[]);
-        } else {
-          setUsers([]);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchUsers();
     const checkAuth = async () => {
       const isLogged = await isAuthenticated();
       setIsLoggedIn(isLogged);
     };
     checkAuth();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, reload]);
 
   const isAuthenticated = async () => {
-    const user = await AsyncStorage.getItem('loggedUser');
+    const user = await getUser();
     if (!user) {
       return false;
     }
     setIsLoggedIn(true);
-    setLoggedUser(JSON.parse(user));
+    setLoggedUser(user);
     return true;
   };
 
-  const handelLogin = async (email: string, password: string) => {
+  const handelLogin = async (email: string, password: string, role: 'user' | 'admin') => {
     try {
-      const user = users.find(u => u.email === email) as User;
-
-      if (!user) {
-        Alert.alert('Error', 'user does not exist!');
-        return;
-      }
-      if (user.password === password) {
-        setIsLoggedIn(true);
-        setLoggedUser(user);
-        await AsyncStorage.setItem('loggedUser', JSON.stringify(user));
-      } else {
-        Alert.alert('Error', 'Invalid password Try again!');
-      }
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Error', 'Something went wrong!');
+      const logInRes = await loginUser(email, password);
+      AsyncStorage.setItem('token', logInRes.token);
+      Alert.alert('Login Successful', 'Welcome back!');
+      setUserRole(role);
+      setReload(!reload);
+    } catch (e: any) {
+      Alert.alert('Login Error', e.response.data.error);
     }
   };
 
@@ -72,28 +53,30 @@ const AuthProvider: FC<Props> = ({children}) => {
     password: string,
   ) => {
     try {
-      const userExist = users.find(u => u.email === email);
-      if (userExist) {
-        Alert.alert('Error', 'user already exist! Try Login instead!');
+      const registerRes = await registerUser(
+        name,
+        email,
+        phoneNumber,
+        password,
+      );
+      if (registerRes.token) {
+        Alert.alert('Success', 'User registered successfully!');
+        return true;
+      } else {
         return false;
       }
-      const newUser = {name, email, phoneNumber, password};
-      const updatedUser = [...users, newUser];
-      await AsyncStorage.setItem('users', JSON.stringify(updatedUser));
-      setUsers(updatedUser as User[]);
-      Alert.alert('Success', 'user created! Try Login..');
-      return true;
     } catch (e) {
-      console.log(e);
       Alert.alert('Error', 'Something went wrong!');
       return false;
     }
   };
 
   const handleLogout = async () => {
-    setLoggedUser(null);
+    await logoutUser();
     setIsLoggedIn(false);
-    await AsyncStorage.removeItem('loggedUser');
+    setLoggedUser(null);
+    await AsyncStorage.removeItem('token');
+    Alert.alert('Logout Successful', 'You have been logged out!');
   };
 
   return (
@@ -101,6 +84,7 @@ const AuthProvider: FC<Props> = ({children}) => {
       value={{
         loggedUser,
         isLoggedIn,
+        userRole,
         handleLogout,
         handelLogin,
         handelRegister,

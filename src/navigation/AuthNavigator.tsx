@@ -6,7 +6,7 @@ import SignUp from '../screens/auth/SignUp';
 
 const AuthStack = createNativeStackNavigator();
 
-const Navigator = () => {
+const AuthNavigator = () => {
     return (
         <AuthStack.Navigator screenOptions={{headerShown: false}}>
             <AuthStack.Screen name="Login" component={Login} />
@@ -15,4 +15,4 @@ const Navigator = () => {
     );
 };
 
-export default Navigator;
+export default AuthNavigator;

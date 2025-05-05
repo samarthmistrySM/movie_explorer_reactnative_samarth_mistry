@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -11,22 +11,23 @@ import {
 } from 'react-native';
 import UserDetails from '../components/UserDetails.tsx';
 import MovieCard from '../components/MovieCard';
-import moviesData from '../mock/movies.json';
 import {Movie} from '../Types.ts';
 import ContinueWatchingCard from '../components/ContinueWatchingCard.tsx';
+import MoviesContext from '../context/MoviesContext.tsx';
 const {height} = Dimensions.get('window');
 
 const Home = () => {
-  const labels = ['Trending', 'New Releases', 'My List'];
-  const [selectedLabel, setSelectedLabel] = useState<string>('Trending');
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const {movies} = useContext(MoviesContext);
+  const labels = ['Netflix', 'Amazon', 'HBO'];
+  const [selectedLabel, setSelectedLabel] = useState<string>('Netflix')
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
-    const filteredMovies = moviesData.filter(
-      movie => movie.category === selectedLabel,
+    const filteredMovies = movies.filter(
+      movie => movie.streaming_platform === selectedLabel,
     );
-    setMovies(filteredMovies);
-  }, [selectedLabel]);
+    setFilteredMovies(filteredMovies);
+  }, [selectedLabel, movies]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -70,7 +71,7 @@ const Home = () => {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.cardsContainer}>
-          {movies.map(movie => (
+          {filteredMovies.map(movie => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </ScrollView>
@@ -80,9 +81,9 @@ const Home = () => {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.cardsContainer}>
-            {moviesData.map(
+            {movies.map(
               movie =>
-                parseInt(movie.id, 10) % 2 === 0 && (
+                movie.id % 2 === 0 && (
                   <ContinueWatchingCard key={movie.id} movie={movie} />
                 ),
             )}

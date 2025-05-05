@@ -3,6 +3,7 @@ import {createContext} from 'react';
 export interface AuthContextType {
     isLoggedIn : boolean;
     loggedUser: any,
+    userRole: 'user'| 'admin',
     handelLogin: any,
     handelRegister: any,
     handleLogout: any,
@@ -11,6 +12,7 @@ export interface AuthContextType {
 
 const defaultValue: AuthContextType = {
     isLoggedIn: false,
+    userRole: 'user',
     loggedUser: {},
     handelLogin: () => {},
     handelRegister: () => {},

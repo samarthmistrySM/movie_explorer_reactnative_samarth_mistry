@@ -18,7 +18,7 @@ interface Props {
 const ContinueWatchingMovieCard: FC<Props> = ({movie}) => {
   return (
     <View style={styles.card}>
-      <ImageBackground source={{uri: movie.thumbnail}} style={styles.thumbnail}>
+      <ImageBackground source={{uri: movie.poster_url}} style={styles.thumbnail}>
         <View style={styles.overlay}>
           <TouchableOpacity style={styles.playBtn}>
             <Image

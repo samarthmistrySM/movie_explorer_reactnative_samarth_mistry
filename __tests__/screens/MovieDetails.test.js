@@ -10,14 +10,22 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 const mockMovie = {
-  id: '1',
-  title: 'Movie 1',
+  id: 1,
+  title: 'Captain America',
   genre: 'Action',
-  category: 'Trending',
-  thumbnail: 'https://example.com/movie1.jpg',
-  rating: '4.5',
-  releaseDate: '2024-05-01',
-  duration: '2h 30m',
+  release_year: "2000",
+  rating: "4.8",
+  director: 'N/A',
+  duration: "156",
+  description:
+    'Captain America is a superhero who fights against evil forces to save the world.',
+  premium: true,
+  main_lead: 'Chris Evans',
+  streaming_platform: 'Disney+',
+  poster_url:
+    'https://rukminim2.flixcart.com/image/850/1000/poster/8/y/q/athah-poster-captain-america-the-winter-soldier-athdavp0527-original-imadzzz2hvnrajxv.jpeg?q=20&crop=false',
+  banner_url:
+    'https://rukminim2.flixcart.com/image/850/1000/poster/8/y/q/athah-poster-captain-america-the-winter-soldier-athdavp0527-original-imadzzz2hvnrajxv.jpeg?q=20&crop=false',
 };
 
 describe('MovieDetails', () => {
@@ -31,18 +39,17 @@ describe('MovieDetails', () => {
     useRoute.mockReturnValue({
       params: {movie: mockMovie},
     });
-    const {getByText} = render(
+    const {getByText,getAllByText} = render(
       <NavigationContainer>
         <MovieDetails />
       </NavigationContainer>,
     );
 
-    expect(getByText(mockMovie.title)).toBeTruthy();
-    expect(getByText(mockMovie.category)).toBeTruthy();
+    expect(getAllByText(mockMovie.title)).toBeTruthy();
 
-    expect(getByText(mockMovie.rating)).toBeTruthy();
+    expect(getAllByText(mockMovie.rating)).toBeTruthy();
 
-    expect(getByText(mockMovie.releaseDate)).toBeTruthy();
+    expect(getByText(mockMovie.release_year)).toBeTruthy();
     expect(getByText(mockMovie.duration)).toBeTruthy();
   });
 });

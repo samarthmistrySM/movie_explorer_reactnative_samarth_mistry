@@ -8,6 +8,11 @@ export interface AuthStackPrams extends ParamListBase {
 
 export interface MainStackParams extends ParamListBase {
   Main: undefined;
-  Result: {filter: string};
+  Result: {
+    filter: {
+      query: string;
+      type: 'genre' | 'title';
+    };
+  };
   MovieDetails: {movie: Movie};
 }

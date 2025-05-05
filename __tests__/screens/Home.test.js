@@ -11,9 +11,9 @@ describe('Home', () => {
       </NavigationContainer>,
     );
 
-    expect(getByText('Trending')).toBeTruthy();
-    expect(getByText('New Releases')).toBeTruthy();
-    expect(getByText('My List')).toBeTruthy();
+    expect(getByText('Netflix')).toBeTruthy();
+    expect(getByText('Amazon ')).toBeTruthy();
+    expect(getByText('HBO')).toBeTruthy();
     expect(getByText('Continue Watching')).toBeTruthy();
   });
 
@@ -27,7 +27,7 @@ describe('Home', () => {
     const label1 = getByTestId('label-0');
     const label2 = getByTestId('label-1');
 
-    const newReleasesLabel = getByText('New Releases');
+    const newReleasesLabel = getByText('Amazon');
 
 
     expect(label1.props.style).toEqual({"backgroundColor": "#FF3B30", "borderRadius": 20, "opacity": 1, "padding": 8});

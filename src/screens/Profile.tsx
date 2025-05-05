@@ -5,19 +5,23 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import AuthContext from '../context/AuthContext';
 
 const Profile = () => {
-  const {loggedUser} = useContext(AuthContext);
+  const {loggedUser, handleLogout} = useContext(AuthContext);
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.heading}>Profile</Text>
+      </View>
       <View style={styles.dpContainer}>
         <View style={styles.dpBorder}>
           <Image
             style={styles.profileImage}
             source={{
-              uri: 'https://lh3.googleusercontent.com/a/ACg8ocKQblDIwzPa7ztlKWSLGTNu-rxU2bV5gv_nnDAxN8rcuvnN_g=s576-c-no',
+              uri: 'https://static.vecteezy.com/system/resources/previews/036/594/092/non_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg',
             }}
           />
           <View style={styles.editIcon}>
@@ -30,19 +34,25 @@ const Profile = () => {
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.welcomeText}>
-          Hello {loggedUser.name}
+          Hello {loggedUser.name || 'Samarth'}
         </Text>
+        <TouchableOpacity
+          style={styles.logOutBtn}
+          onPress={() => handleLogout()}>
+          <Text style={styles.logOutBtnText}>Logout</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.detailsContainer}>
         <View>
           <Text style={styles.detailsTitle}>NAME</Text>
-          <Text style={styles.detailsText}>{loggedUser.name}</Text>
+          <Text style={styles.detailsText}>{loggedUser.name || 'Samarth'}</Text>
         </View>
         <Image
           style={styles.icon}
           source={require('../assets/chevron.right.png')}
         />
       </View>
+      <View style={styles.divider}/>
       <View style={styles.detailsContainer}>
         <View>
           <Text style={styles.detailsTitle}>EMAIL</Text>
@@ -53,16 +63,20 @@ const Profile = () => {
           source={require('../assets/chevron.right.png')}
         />
       </View>
+      <View style={styles.divider}/>
       <View style={styles.detailsContainer}>
         <View>
           <Text style={styles.detailsTitle}>Phone Number</Text>
-          <Text style={styles.detailsText}>{loggedUser.phoneNumber}</Text>
+          <Text style={styles.detailsText}>
+            {loggedUser.phoneNumber || '9408618999'}
+          </Text>
         </View>
         <Image
           style={styles.icon}
           source={require('../assets/chevron.right.png')}
         />
       </View>
+      <View style={styles.divider}/>
       <View style={styles.detailsContainer}>
         <View>
           <Text style={styles.detailsTitle}>Membership</Text>
@@ -83,9 +97,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     paddingHorizontal: 16,
     justifyContent: 'space-between',
+    paddingTop: 20,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFF',
   },
   textContainer: {
     marginVertical: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   welcomeText: {
     textAlign: 'center',
@@ -94,10 +121,23 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFF',
   },
+  logOutBtn: {
+    backgroundColor: 'rgba(255, 0, 0, 0.4)',
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    marginTop: 10,
+  },
+  logOutBtnText: {
+    fontFamily: 'Poppins',
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFF',
+  },
   dpContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 100,
+    paddingVertical: 50,
   },
   profileImage: {
     width: 100,
@@ -105,15 +145,15 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   dpBorder: {
-    borderColor: '#4b7bff',
-    borderRadius: 50,
-    borderWidth: 1,
+    borderColor: '#FF3B30',
+    borderRadius: 100,
+    borderWidth: 2,
     padding: 4,
     position: 'relative',
   },
   editIcon: {
     position: 'absolute',
-    backgroundColor: '#4b7bff',
+    backgroundColor: '#FF3B30',
     padding: 5,
     borderRadius: 30,
     bottom: 0,
@@ -123,7 +163,7 @@ const styles = StyleSheet.create({
     tintColor: '#ffffff',
     width: 20,
     height: 20,
-    objectFit: 'scale-down',
+    resizeMode: 'contain',
     borderRadius: 30,
   },
   detailsContainer: {
@@ -132,8 +172,12 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 5,
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#dcdcdc',
+    // backgroundColor: '#1C1C1E',
+  },
+  divider:{
+    width: '100%',
+    height: 1,
+    backgroundColor: '#ddd',
   },
   detailsTitle: {
     fontSize: 18,
