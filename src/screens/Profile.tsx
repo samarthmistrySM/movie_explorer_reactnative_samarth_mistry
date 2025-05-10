@@ -24,17 +24,17 @@ const Profile = () => {
               uri: 'https://static.vecteezy.com/system/resources/previews/036/594/092/non_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg',
             }}
           />
-          <View style={styles.editIcon}>
-            <Image
+          {/* <View style={styles.editIcon}> */}
+            {/* <Image
               style={styles.editIconImage}
               source={require('../assets/pencil.png')}
-            />
-          </View>
+            /> */}
+          {/* </View> */}
         </View>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.welcomeText}>
-          Hello {loggedUser.name || 'Samarth'}
+          Hello {loggedUser.name}
         </Text>
         <TouchableOpacity
           style={styles.logOutBtn}
@@ -45,12 +45,12 @@ const Profile = () => {
       <View style={styles.detailsContainer}>
         <View>
           <Text style={styles.detailsTitle}>NAME</Text>
-          <Text style={styles.detailsText}>{loggedUser.name || 'Samarth'}</Text>
+          <Text style={styles.detailsText}>{loggedUser.name}</Text>
         </View>
-        <Image
+        {/* <Image
           style={styles.icon}
           source={require('../assets/chevron.right.png')}
-        />
+        /> */}
       </View>
       <View style={styles.divider}/>
       <View style={styles.detailsContainer}>
@@ -58,23 +58,23 @@ const Profile = () => {
           <Text style={styles.detailsTitle}>EMAIL</Text>
           <Text style={styles.detailsText}>{loggedUser.email}</Text>
         </View>
-        <Image
+        {/* <Image
           style={styles.icon}
           source={require('../assets/chevron.right.png')}
-        />
+        /> */}
       </View>
       <View style={styles.divider}/>
       <View style={styles.detailsContainer}>
         <View>
           <Text style={styles.detailsTitle}>Phone Number</Text>
           <Text style={styles.detailsText}>
-            {loggedUser.phoneNumber || '9408618999'}
+            {loggedUser.mobile_number}
           </Text>
         </View>
-        <Image
+        {/* <Image
           style={styles.icon}
           source={require('../assets/chevron.right.png')}
-        />
+        /> */}
       </View>
       <View style={styles.divider}/>
       <View style={styles.detailsContainer}>
@@ -82,10 +82,10 @@ const Profile = () => {
           <Text style={styles.detailsTitle}>Membership</Text>
           <Text style={styles.detailsText}>Platinum</Text>
         </View>
-        <Image
+        {/* <Image
           style={styles.icon}
           source={require('../assets/chevron.right.png')}
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );

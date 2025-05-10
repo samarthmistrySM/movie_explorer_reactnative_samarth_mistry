@@ -7,7 +7,7 @@ describe('Profile', () => {
   const mockUser = {
     name: 'Samarth',
     email: 'samarthmistry311@gmail.com',
-    phoneNumber: '1234567890',
+    mobile_number: '1234567890',
   };
 
   it('renders user name and membership type correctly', () => {
@@ -19,7 +19,7 @@ describe('Profile', () => {
 
     expect(getByText(`Hello ${mockUser.name}`)).toBeTruthy();
     expect(getByText(mockUser.email)).toBeTruthy();
-    expect(getByText(mockUser.phoneNumber)).toBeTruthy();
+    expect(getByText(mockUser.mobile_number)).toBeTruthy();
   });
 
 });

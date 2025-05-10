@@ -24,8 +24,8 @@ const Search = () => {
       bg: 'https://wallpapers.com/images/hd/action-background-fh6fxnnqkgq3pn7l.jpg',
     },
     {
-      name: 'Adventure',
-      bg: 'https://img.freepik.com/free-vector/adventure-background_23-2149036143.jpg',
+      name: 'Crime',
+      bg: 'https://media.istockphoto.com/id/1347647998/vector/blood-splattered-background-for-halloween.jpg?s=612x612&w=0&k=20&c=f6OzLWNdihf13_CJtjgRuI1ZBuYYSpxASAHJzpEy2Vo=',
     },
     {
       name: 'Romance',
@@ -40,7 +40,7 @@ const Search = () => {
       bg: 'https://static.vecteezy.com/system/resources/thumbnails/014/000/181/small/red-stage-curtain-illuminated-by-spotlights-illustration-vector.jpg',
     },
     {
-      name: 'Si-Fi',
+      name: 'Sci-Fi',
       bg: 'https://static.vecteezy.com/system/resources/thumbnails/001/966/689/small/abstract-futuristic-background-technology-sci-fi-concept-vector.jpg',
     },
     {
@@ -97,7 +97,7 @@ const Search = () => {
           <Image
             style={styles.userProfile}
             source={{
-              uri: 'https://lh3.googleusercontent.com/a/ACg8ocKQblDIwzPa7ztlKWSLGTNu-rxU2bV5gv_nnDAxN8rcuvnN_g=s576-c-no',
+              uri: 'https://static.vecteezy.com/system/resources/previews/036/594/092/non_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg',
             }}
           />
         </View>

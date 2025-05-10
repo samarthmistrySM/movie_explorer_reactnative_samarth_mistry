@@ -1,5 +1,5 @@
 const Secret = {
     stripePublishableKey:
-        'pk_test_51OsVE7SF43emVXtS5cPqMn6Q152wOO07zPKiCMlrqP6hc9Mys4bX91NoyANUYlgEewuzIDoiqp2CupYvwA4C6lCI00JM6QuWOp',
+        'pk_test_51RKC2TP1geU3F9JqUjronHMtRjpm1FCVWLTbhe8yzBq61fRuiOxWgRZ05Ef1cfVfcTMxZ1vK0lPILPV7yFvKNfiT008MAg1XgJ',
 };
 export default Secret;

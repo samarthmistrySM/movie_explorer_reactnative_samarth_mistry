@@ -1,16 +1,16 @@
 import React from 'react';
 import {fireEvent, render} from '@testing-library/react-native';
-import WatchList from '../../src/screens/WatchList';
+import Admin from '../../src/screens/admin/Admin';
 import {NavigationContainer} from '@react-navigation/native';
 
-describe('WatchList', () => {
-  it('renders the WatchList screen correctly', () => {
+describe('Admin', () => {
+  it('renders the Admin screen correctly', () => {
     const {getByText} = render(
       <NavigationContainer>
-        <WatchList />
+        <Admin />
       </NavigationContainer>,
     );
 
-    expect(getByText('Explore')).toBeTruthy();
+    expect(getByText('Supervisor Control')).toBeTruthy();
   });
 });

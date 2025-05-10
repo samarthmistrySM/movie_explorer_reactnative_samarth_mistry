@@ -21,13 +21,13 @@ const {height, width} = Dimensions.get('window');
 const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [role, setRole] = useState<'user' | 'admin'>('user');
+  const [role, setRole] = useState<'user' | 'supervisor'>('user');
   const {handelLogin} = useContext(AuthContext);
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackPrams>>();
 
   const roles = [
     {label: 'User', value: 'user'},
-    {label: 'Admin', value: 'admin'},
+    {label: 'Supervisor', value: 'supervisor'},
   ];
 
   const onLogin = () => {

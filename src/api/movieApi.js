@@ -1,8 +1,8 @@
 import api from './apiConfig.js';
 
-export const getMovies = async () => {
+export const getMovies = async (page=1, per_page = 10) => {
   try {
-    const response = await api.get(`/api/v1/movies?page=1&per_page=10`);
+    const response = await api.get(`/api/v1/movies?page=${page}&per_page=${per_page}`);
     return response.data;
   } catch (error) {
     console.log('Error fetching user:', error.response);

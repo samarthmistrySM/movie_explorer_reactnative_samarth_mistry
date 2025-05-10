@@ -5,6 +5,7 @@ import {User} from '../Types';
 import {getUser} from '../api/usersApi';
 import {loginUser, registerUser, logoutUser} from '../api/authApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-simple-toast';
 
 interface Props {
   children: React.ReactNode;
@@ -14,12 +15,14 @@ const AuthProvider: FC<Props> = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
   const [reload, setReload] = useState<boolean>(false);
-  const [userRole, setUserRole] = useState<'user'|'admin'>('user');
+  const [userRole, setUserRole] = useState<'user'|'supervisor'>('user');
 
   useEffect(() => {
     const checkAuth = async () => {
       const isLogged = await isAuthenticated();
+      const role = await AsyncStorage.getItem('role');
       setIsLoggedIn(isLogged);
+      setUserRole(role as 'user'|'supervisor');
     };
     checkAuth();
   }, [isLoggedIn, reload]);
@@ -34,15 +37,19 @@ const AuthProvider: FC<Props> = ({children}) => {
     return true;
   };
 
-  const handelLogin = async (email: string, password: string, role: 'user' | 'admin') => {
+  const handelLogin = async (email: string, password: string, role: 'user' | 'supervisor') => {
     try {
       const logInRes = await loginUser(email, password);
       AsyncStorage.setItem('token', logInRes.token);
-      Alert.alert('Login Successful', 'Welcome back!');
-      setUserRole(role);
+      AsyncStorage.setItem('role', role);
+      if (userRole === 'supervisor' && logInRes.role === 'user') {
+        Toast.show('You are not authorized to login as a supervisor, navigating to user', Toast.LONG);
+      } else{
+        Toast.show('Login Successful, Welcome Back!', Toast.LONG);
+      }
       setReload(!reload);
     } catch (e: any) {
-      Alert.alert('Login Error', e.response.data.error);
+      Toast.show('Login Failed, Please try again!', Toast.LONG);
     }
   };
 
@@ -60,13 +67,13 @@ const AuthProvider: FC<Props> = ({children}) => {
         password,
       );
       if (registerRes.token) {
-        Alert.alert('Success', 'User registered successfully!');
+        Toast.show('Registration Successful, Welcome!', Toast.LONG);
         return true;
       } else {
         return false;
       }
     } catch (e) {
-      Alert.alert('Error', 'Something went wrong!');
+      Toast.show('Register Failed, Please try again!', Toast.LONG);
       return false;
     }
   };
@@ -76,8 +83,12 @@ const AuthProvider: FC<Props> = ({children}) => {
     setIsLoggedIn(false);
     setLoggedUser(null);
     await AsyncStorage.removeItem('token');
-    Alert.alert('Logout Successful', 'You have been logged out!');
-  };
+    Toast.show('Logout Successful!', Toast.TOP);
+  }
+
+  const update = () => {
+    setReload(!reload);
+  }
 
   return (
     <AuthContext.Provider
@@ -85,6 +96,7 @@ const AuthProvider: FC<Props> = ({children}) => {
         loggedUser,
         isLoggedIn,
         userRole,
+        update,
         handleLogout,
         handelLogin,
         handelRegister,

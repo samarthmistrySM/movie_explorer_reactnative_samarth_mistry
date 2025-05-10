@@ -66,8 +66,8 @@ describe('Search Screen', () => {
         <Search />
       </NavigationContainer>,
     );
-    fireEvent.press(getByText('Best Action Movie'));
+    fireEvent.press(getByText('Captain'));
 
-    expect(mockNavigate).toHaveBeenCalledWith('Result', {filter: 'Best Action Movie'});
+    expect(mockNavigate).toHaveBeenCalledWith('Result', {filter: {query: 'Captain', type: 'title'}});
   });
 });
