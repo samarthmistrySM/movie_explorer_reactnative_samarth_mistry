@@ -11,7 +11,7 @@ import Search from '../screens/Search.tsx';
 const house = require('../assets/house.fill.png');
 const person = require('../assets/person.fill.png');
 const magnifyingglass = require('../assets/magnifyingglass.png');
-const bookmark = require('../assets/bookmark.fill.png');
+const explore = require('../assets/safari.fill.png');
 const creditcard = require('../assets/creditcard.fill.png');
 
 const MainTab = createBottomTabNavigator();
@@ -32,8 +32,8 @@ const Navigator = () => {
             iconSource = magnifyingglass;
           } else if (route.name === 'Subscription') {
             iconSource = creditcard;
-          } else if (route.name === 'Watchlist') {
-            iconSource = bookmark;
+          } else if (route.name === 'Explore') {
+            iconSource = explore;
           } else if (route.name === 'Profile') {
             iconSource = person;
           }
@@ -62,7 +62,7 @@ const Navigator = () => {
         options={{title: 'Search'}}
       />
       <MainTab.Screen name="Subscription" component={Subscription} />
-      <MainTab.Screen name="Watchlist" component={WatchList} />
+      <MainTab.Screen name="Explore" component={WatchList} />
       <MainTab.Screen name="Profile" component={Profile} />
     </MainTab.Navigator>
   );

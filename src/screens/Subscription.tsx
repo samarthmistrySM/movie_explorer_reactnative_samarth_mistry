@@ -17,12 +17,14 @@ const Subscription = () => {
       price: 200,
       durationInDays: 30,
       content: ['2 devices', 'HD streaming', 'Limited Contents'],
+      priceId: 'price_1RMOEOP1geU3F9JqTri17iy0'
     },
     {
       name: 'Gold',
       price: 400,
       durationInDays: 30,
       content: ['4 devices', '4K streaming', 'All Contents', 'No Ads'],
+      priceId: 'price_1RMOExP1geU3F9Jqv5grNP7H'
     },
     {
       name: 'Platinum',
@@ -35,6 +37,7 @@ const Subscription = () => {
         'Offline downloads',
         'Priority support',
       ],
+      priceId: 'price_1RMOFSP1geU3F9Jqvs4fHcIV',
     },
   ];
 

@@ -16,22 +16,29 @@ import {MainStackParams} from '../navigation/Types.ts';
 import MovieCard from '../components/MovieCard.tsx';
 import {Movie} from '../Types.ts';
 import LinearGradient from 'react-native-linear-gradient';
-import MoviesContext from '../context/MoviesContext.tsx';
+import Toast from 'react-native-simple-toast';
+import {filterMovies, getMovies} from '../api/movieApi.js';
 
 const {width, height} = Dimensions.get('window');
 
 const MovieDetails = () => {
   const router = useRoute();
   const {movie}: {movie: Movie} | any = router.params;
-  const {movies} = useContext(MoviesContext);
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
-
-  const [allMovies, setAllMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
-    const filteredMovies = movies.filter(m => m.genre === movie.genre);
-    setAllMovies(filteredMovies);
+    const fetchMovies = async () => {
+      try {
+        const res = await filterMovies(movie.genre);
+        setMovies(res.movies as Movie[]);
+      } catch (error) {
+        Toast.show('Error fetching movie', Toast.LONG);
+      } finally {
+      }
+    };
+    fetchMovies();
   }, []);
 
   return (
@@ -40,7 +47,7 @@ const MovieDetails = () => {
         <ImageBackground
           style={styles.bg}
           source={{uri: movie.banner_url}}
-          resizeMode={'contain'}>
+          resizeMode={'cover'}>
           <LinearGradient
             colors={['rgba(0,0,0,0.24)', '#000000B2', '#000']}
             style={styles.linearGradient}
@@ -71,9 +78,7 @@ const MovieDetails = () => {
         <View style={styles.body}>
           <View style={styles.section}>
             <Text style={styles.bodyHeading}>Synopsis</Text>
-            <Text style={styles.text}>
-              {movie.description}
-            </Text>
+            <Text style={styles.text}>{movie.description}</Text>
           </View>
           <View style={styles.moreDetailsContainer}>
             <View style={styles.moreDetail}>
@@ -104,7 +109,7 @@ const MovieDetails = () => {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.cardsContainer}>
-            {allMovies.map(m => (
+            {movies.map(m => (
               <MovieCard key={m.id} movie={m} />
             ))}
           </ScrollView>
@@ -135,7 +140,7 @@ const styles = StyleSheet.create({
   bg: {
     position: 'relative',
     width: '100%',
-    height: height * 0.28,
+    height: height * 0.45,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingTop: 10,

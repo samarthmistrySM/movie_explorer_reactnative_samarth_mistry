@@ -1,0 +1,60 @@
+import api from './apiConfig.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export const addMovie = async movie => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const response = await api.post(
+      `/api/v1/movies`,
+      {
+        movie: movie,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error adding movie:', error.response);
+    throw error;
+  }
+};
+
+export const updateMovie = async movie => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    console.log('movie to update:', movie);
+    const response = await api.patch(
+      `/api/v1/movies/${movie.id}`,
+      {
+        movie: movie,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error updating movie:', error.response);
+    throw error;
+  }
+};
+
+export const deleteMovie = async id => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const response = await api.delete(`/api/v1/movies/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log('Error deleting movie:', error.response);
+    throw error;
+  }
+};

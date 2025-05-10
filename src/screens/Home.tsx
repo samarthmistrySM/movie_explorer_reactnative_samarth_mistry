@@ -13,20 +13,40 @@ import UserDetails from '../components/UserDetails.tsx';
 import MovieCard from '../components/MovieCard';
 import {Movie} from '../Types.ts';
 import ContinueWatchingCard from '../components/ContinueWatchingCard.tsx';
-import MoviesContext from '../context/MoviesContext.tsx';
+import { getMovies } from '../api/movieApi.js';
 const {height} = Dimensions.get('window');
+import Toast from 'react-native-simple-toast';
 
 const Home = () => {
-  const {movies} = useContext(MoviesContext);
-  const labels = ['Netflix', 'Amazon', 'HBO'];
-  const [selectedLabel, setSelectedLabel] = useState<string>('Netflix')
+  const labels = ['Top Rated', 'Latest by year'];
+  const [selectedLabel, setSelectedLabel] = useState<string>('Top Rated');
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([])
+
+  useEffect(()=>{
+    const fetchMovies = async () => {
+      try {
+        const res = await getMovies(1, 10);
+        setMovies(res.movies as Movie[]);
+      } catch (error) {
+        Toast.show('Error fetching movie', Toast.LONG);
+      } finally {
+      }
+    };
+    fetchMovies();
+  },[])
 
   useEffect(() => {
-    const filteredMovies = movies.filter(
-      movie => movie.streaming_platform === selectedLabel,
-    );
-    setFilteredMovies(filteredMovies);
+    const moviesCopy = [...movies];
+    const filterMovies = () => {
+      if (selectedLabel === 'Top Rated') {
+        return moviesCopy.sort((a, b) => b.rating - a.rating);
+      } else if (selectedLabel === 'Latest by year') {
+        return moviesCopy.sort((a, b) => b.release_year - a.release_year);
+      }
+      return moviesCopy;
+    };
+    setFilteredMovies(filterMovies());
   }, [selectedLabel, movies]);
 
   return (

@@ -67,6 +67,7 @@ describe('Login', () => {
     expect(mockLogin).toHaveBeenCalledWith(
       'samarthmistry311@gmail.com',
       'password123',
+      'user'
     );
   });
 

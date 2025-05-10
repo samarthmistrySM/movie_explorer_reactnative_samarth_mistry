@@ -20,7 +20,7 @@ jest.mock('@react-navigation/native', () => {
 describe('Result', () => {
   beforeEach(() => {
     useRoute.mockReturnValue({
-      params: {filter: 'Action'},
+      params: {filter: {query: 'Action', type: 'title'}},
     });
   });
 
@@ -31,7 +31,7 @@ describe('Result', () => {
       </NavigationContainer>,
     );
 
-    expect(getByText('Search results for Action')).toBeTruthy();
+    expect(getByText('Search results for "Action"')).toBeTruthy();
   });
 
   it('navigates to search screen when go back button is clicked', () => {

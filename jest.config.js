@@ -5,7 +5,7 @@ module.exports = {
     '<rootDir>/jest.setup.js',
   ],
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@react-native|@react-navigation|react-native-linear-gradient|react-native-element-dropdown)/)',
+    'node_modules/(?!(react-native|@react-native|@react-navigation|react-native-linear-gradient|react-native-element-dropdown)|react-native-simple-toast/)',
   ],
   testMatch: ['**/__tests__/**/*.test.js'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
@@ -16,7 +16,8 @@ module.exports = {
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/**/*.d.ts',
     '!src/context/**',
-    '!src/api/**'
+    '!src/api/**',
+    "!src/navigation/**"
   ],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__tests__/__mocks__/fileMock.js',

@@ -11,10 +11,8 @@ describe('Home', () => {
       </NavigationContainer>,
     );
 
-    expect(getByText('Netflix')).toBeTruthy();
-    expect(getByText('Amazon ')).toBeTruthy();
-    expect(getByText('HBO')).toBeTruthy();
-    expect(getByText('Continue Watching')).toBeTruthy();
+    expect(getByText('Top Rated')).toBeTruthy();
+    expect(getByText('Latest by year')).toBeTruthy();
   });
 
   it('filters movies based on the selected label', () => {
@@ -27,7 +25,7 @@ describe('Home', () => {
     const label1 = getByTestId('label-0');
     const label2 = getByTestId('label-1');
 
-    const newReleasesLabel = getByText('Amazon');
+    const newReleasesLabel = getByText('Latest by year');
 
 
     expect(label1.props.style).toEqual({"backgroundColor": "#FF3B30", "borderRadius": 20, "opacity": 1, "padding": 8});

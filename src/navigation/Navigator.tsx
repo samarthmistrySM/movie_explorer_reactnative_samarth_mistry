@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import MainNavigator from './MainStack';
 import AuthNavigator from './AuthNavigator';
+import AdminNavigator from './AdminNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import AuthContext from '../context/AuthContext';
 import Splash from '../screens/Splash';
 
 const Navigator = () => {
-  const {isLoggedIn} = useContext(AuthContext);
+  const {isLoggedIn, userRole, loggedUser} = useContext(AuthContext);
   const [isSplash, setIsSplash] = useState(true);
 
   useEffect(() => {
@@ -22,7 +23,15 @@ const Navigator = () => {
 
   return (
     <NavigationContainer>
-      {isLoggedIn ? <MainNavigator /> : <AuthNavigator />}
+      {isLoggedIn ? (
+        userRole === 'supervisor' && loggedUser.role === 'supervisor' ? (
+          <AdminNavigator />
+        ) : (
+          <MainNavigator />
+        )
+      ) : (
+        <AuthNavigator />
+      )}
     </NavigationContainer>
   );
 };

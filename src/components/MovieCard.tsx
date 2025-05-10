@@ -51,7 +51,7 @@ const MovieCard: FC<Props> = ({movie}) => {
 
 const styles = StyleSheet.create({
   card: {
-    width: width * 0.448,
+    width: width * 0.44,
     overflow: 'hidden',
     borderRadius: 15,
     backgroundColor: '#1C1C1E',

@@ -23,3 +23,6 @@ jest.mock('@stripe/stripe-react-native', () => ({
   }),
 }));
 
+jest.mock('react-native-simple-toast', () => ({
+  show: jest.fn(), // You can mock specific methods if needed
+}));

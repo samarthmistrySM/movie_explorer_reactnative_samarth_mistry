@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import AuthProvider from './src/context/AuthProvider';
-import MoviesProvider from './src/context/MoviesProvider';
 import Navigator from './src/navigation/Navigator';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {StripeProvider} from '@stripe/stripe-react-native';
@@ -14,6 +13,7 @@ import {
 import {Alert} from 'react-native';
 
 const App = () => {
+  const [fcmToken,setFcmToken] = useState<string>('');
   const messagingInstance = getMessaging();
 
   useEffect(() => {
@@ -44,6 +44,7 @@ const App = () => {
     try {
       const token = await getToken(messagingInstance);
       console.log('FCM Token:', token);
+      setFcmToken(token);
     } catch (error) {
       console.error('Error retrieving FCM token:', error);
     }
@@ -56,9 +57,7 @@ const App = () => {
       urlScheme="your-url-scheme">
       <GestureHandlerRootView>
         <AuthProvider>
-          <MoviesProvider>
             <Navigator />
-          </MoviesProvider>
         </AuthProvider>
       </GestureHandlerRootView>
     </StripeProvider>

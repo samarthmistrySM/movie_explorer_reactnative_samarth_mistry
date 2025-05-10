@@ -27,7 +27,7 @@ const Splash = () => {
   }));
 
   return (
-    <View style={styles.splashContainer}>
+    <View style={styles.splashContainer} testID='Splash'>
       <Animated.Text style={[styles.logoText, animatedStyle]}>
         Movie <Text style={styles.highlight}>Explorer+</Text>
       </Animated.Text>

@@ -7,10 +7,11 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {getClientSecret} from '../api/paymentApi';
 import {useStripe} from '@stripe/stripe-react-native';
-import axios from 'axios';
 
 const {width} = Dimensions.get('window');
 interface Props {
@@ -19,67 +20,48 @@ interface Props {
     price: number;
     durationInDays: number;
     content: string[];
+    priceId: string;
   };
   index: number;
 }
 
 const MembershipCard: FC<Props> = ({membership, index}) => {
-  // const {initPaymentSheet, presentPaymentSheet} = useStripe();
-  // const [clientSecret, setClientSecret] = useState(null);
+  const {initPaymentSheet, presentPaymentSheet} = useStripe();
 
-  // const fetchPaymentIntent = async () => {
-  //   try {
-  //     const response = await axios.post(
-  //       'http://localhost:3000/create-payment-intent',
-  //       {
-  //         amount: 1099 * 100,
-  //         currency: 'inr',
-  //       },
-  //     );
+  const [isLoading, setIsLoading] = useState(false);
 
-  //     const {clientSecret : cs} = response.data;
-  //     setClientSecret(cs);
-  //   } catch (error: any) {
-  //     console.log('Error fetching payment intent:', error.message);
-  //   }
-  // };
+  const openPaymentSheet = async () => {
+    const {error} = await presentPaymentSheet();
 
-  // const initializePaymentSheet = async () => {
-  //   if (!clientSecret) return;
+    if (error) {
+      Alert.alert(`Error code: ${error.code}`, error.message);
+    } else {
+      Alert.alert('Success', 'Your subscription is confirmed!');
+    }
+  };
 
-  //   const {error} = await initPaymentSheet({
-  //     merchantDisplayName: 'Movie Explorer+',
-  //     paymentIntentClientSecret: clientSecret,
-  //     returnURL: 'https://google.com/',
-  //   });
+  const checkout = async () => {
+    try {
+      setIsLoading(true);
+      const clientSecret: string = await getClientSecret(
+        'samarthmistry311@gmail.com',
+        membership.priceId,
+      );
 
-  //   if (error) {
-  //     console.log('Error initializing payment sheet:', error.message);
-  //   }
-  // };
+      const {error} = await initPaymentSheet({
+        paymentIntentClientSecret: clientSecret,
+        merchantDisplayName: 'MoviePlus, Inc.',
+      });
 
-  // useEffect(() => {
-  //   (async () => {
-  //     await fetchPaymentIntent();
-  //   })();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (clientSecret) {
-  //     initializePaymentSheet();
-  //   }
-  // }, [clientSecret]);
-
-  // const checkout = async () => {
-  //   const {error} = await presentPaymentSheet();
-
-  //   if (error) {
-  //     Alert.alert('Payment failed', error.message);
-  //   } else {
-  //     Alert.alert('Success', 'Your payment is confirmed!');
-  //   }
-  // };
-
+      if (!error) {
+        openPaymentSheet();
+      }
+    } catch (error) {
+      console.log('error subscribe', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return index % 2 === 0 ? (
     <View style={[styles.membershipContainer, styles.darkThemeCard]}>
       <View style={styles.contentWrapper}>
@@ -90,7 +72,10 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
         </View>
         <View style={styles.membershipDetails}>
           {membership.content.map((detail: string, i: number) => (
-            <View key={i} style={styles.detailContainer} testID="detail-container">
+            <View
+              key={i}
+              style={styles.detailContainer}
+              testID="detail-container">
               <Image
                 source={require('../assets/checkmark.png')}
                 style={[styles.icon, styles.darkThemeIcon]}
@@ -100,11 +85,20 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
           ))}
         </View>
         <TouchableOpacity
-          style={[styles.purchaseButton, styles.darkThemeButton]}
-          >
-          <Text style={[styles.purchaseButtonText, styles.darkThemeButtonText]}>
-            Choose Plan
-          </Text>
+          disabled={isLoading}
+          onPress={checkout}
+          style={[styles.purchaseButton, styles.darkThemeButton]}>
+          {isLoading ? (
+            <ActivityIndicator
+              size="small"
+              color="#FFFFFF"
+            />
+          ) : (
+            <Text
+              style={[styles.purchaseButtonText, styles.darkThemeButtonText]}>
+              Choose Plan
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>
@@ -122,7 +116,10 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
         </View>
         <View style={styles.membershipDetails}>
           {membership.content.map((detail: string, i: number) => (
-            <View key={i} style={styles.detailContainer} testID="detail-container">
+            <View
+              key={i}
+              style={styles.detailContainer}
+              testID="detail-container">
               <Image
                 source={require('../assets/checkmark.png')}
                 style={[styles.icon, styles.redWhiteIcon]}
@@ -131,7 +128,7 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
             </View>
           ))}
         </View>
-        <TouchableOpacity
+        <TouchableOpacity onPress={checkout}
           style={[styles.purchaseButton, styles.redWhiteButton]}>
           <Text style={[styles.purchaseButtonText, styles.redWhiteButtonText]}>
             Choose Plan
@@ -214,7 +211,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   detailText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
     color: '#FFF',
   },
