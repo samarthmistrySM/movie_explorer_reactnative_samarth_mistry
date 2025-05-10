@@ -77,3 +77,4 @@ yarn-error.log
 
 # Secrets
 ./src/secrets
+.env
