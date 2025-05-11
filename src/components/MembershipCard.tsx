@@ -89,10 +89,7 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
           onPress={checkout}
           style={[styles.purchaseButton, styles.darkThemeButton]}>
           {isLoading ? (
-            <ActivityIndicator
-              size="small"
-              color="#FFFFFF"
-            />
+            <ActivityIndicator size="small" color="#FFFFFF" />
           ) : (
             <Text
               style={[styles.purchaseButtonText, styles.darkThemeButtonText]}>
@@ -128,11 +125,17 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
             </View>
           ))}
         </View>
-        <TouchableOpacity onPress={checkout}
+        <TouchableOpacity
+          onPress={checkout}
           style={[styles.purchaseButton, styles.redWhiteButton]}>
-          <Text style={[styles.purchaseButtonText, styles.redWhiteButtonText]}>
-            Choose Plan
-          </Text>
+          {isLoading ? (
+             <ActivityIndicator size="small" color="#FF3B30" />
+          ) : (
+            <Text
+              style={[styles.purchaseButtonText, styles.redWhiteButtonText]}>
+              Choose Plan
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>

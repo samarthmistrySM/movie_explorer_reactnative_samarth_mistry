@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Profile from '../screens/Profile.tsx';
 import Subscription from '../screens/Subscription.tsx';
-import WatchList from '../screens/WatchList.tsx';
+import Explore from '../screens/Explore.tsx';
 import Home from '../screens/Home.tsx';
 import Search from '../screens/Search.tsx';
 
@@ -62,7 +62,7 @@ const Navigator = () => {
         options={{title: 'Search'}}
       />
       <MainTab.Screen name="Subscription" component={Subscription} />
-      <MainTab.Screen name="Explore" component={WatchList} />
+      <MainTab.Screen name="Explore" component={Explore} />
       <MainTab.Screen name="Profile" component={Profile} />
     </MainTab.Navigator>
   );

@@ -24,7 +24,7 @@ const MovieCard: FC<Props> = ({movie}) => {
     >();
   return (
     <TouchableOpacity
-      testID={'movie-card-btn'}
+      testID='movie-card-btn'
       onPress={() => navigation.navigate('MovieDetails', {movie: movie})}>
       <View style={styles.card}>
         <Image source={{uri: movie.poster_url}} style={styles.thumbnail} />

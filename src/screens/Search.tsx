@@ -24,10 +24,6 @@ const Search = () => {
       bg: 'https://wallpapers.com/images/hd/action-background-fh6fxnnqkgq3pn7l.jpg',
     },
     {
-      name: 'Crime',
-      bg: 'https://media.istockphoto.com/id/1347647998/vector/blood-splattered-background-for-halloween.jpg?s=612x612&w=0&k=20&c=f6OzLWNdihf13_CJtjgRuI1ZBuYYSpxASAHJzpEy2Vo=',
-    },
-    {
       name: 'Romance',
       bg: 'https://img.freepik.com/premium-photo/blurred-valentine39s-day-background-romantic-blur-stock-photography-blurred-valentine39s-day-background-romantic-blur-stock-photography_936686-16171.jpg?semt=ais_hybrid&w=740',
     },
@@ -46,6 +42,10 @@ const Search = () => {
     {
       name: 'Mystery',
       bg: 'https://t4.ftcdn.net/jpg/00/55/78/75/360_F_55787565_5cngbxfLXqjyLIzWIbDmRMehPhAiqowm.jpg',
+    },
+    {
+      name: 'Crime',
+      bg: 'https://media.istockphoto.com/id/1347647998/vector/blood-splattered-background-for-halloween.jpg?s=612x612&w=0&k=20&c=f6OzLWNdihf13_CJtjgRuI1ZBuYYSpxASAHJzpEy2Vo=',
     },
     {
       name: 'Comedy',

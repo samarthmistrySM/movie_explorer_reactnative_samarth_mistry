@@ -57,7 +57,7 @@ const App = () => {
       urlScheme="your-url-scheme">
       <GestureHandlerRootView>
         <AuthProvider>
-            <Navigator />
+            <Navigator fcmToken={fcmToken} />
         </AuthProvider>
       </GestureHandlerRootView>
     </StripeProvider>

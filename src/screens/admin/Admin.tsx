@@ -27,6 +27,8 @@ const Admin = () => {
   const [isAddModalVisible, setIsAddModalVisible] = useState<boolean>(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [reload, setReload] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
+  
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -34,6 +36,7 @@ const Admin = () => {
         setLoading(true);
         const res = await getMovies(page, 5);
         setMovies(res.movies as Movie[]);
+        setTotalPages(res.pagination.total_pages);
       } catch (error) {
         Toast.show('Error fetching movie', Toast.LONG);
       } finally {
@@ -48,7 +51,7 @@ const Admin = () => {
   }
 
   const incrementPage = () => {
-    if (page < 9) {
+    if (page < totalPages) {
       setPage(page + 1);
     } else {
       Toast.show('No more pages available!', Toast.LONG);
@@ -136,7 +139,7 @@ const Admin = () => {
                 source={require('../../assets/chevron.left.png')}
               />
             </TouchableOpacity>
-            <Text style={styles.paginationText}>Page {page} / 9</Text>
+            <Text style={styles.paginationText}>Page {page} / {totalPages}</Text>
             <TouchableOpacity onPress={incrementPage} disabled={page === 9}>
               <Image
                 style={styles.icon}
