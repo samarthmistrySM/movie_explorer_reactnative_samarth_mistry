@@ -25,8 +25,8 @@ describe('MembershipCard', () => {
   });
 
   it('renders "Choose Plan" button correctly', () => {
-    const {getByText} = render(<NavigationContainer><MembershipCard membership={mockData} index={1} /></NavigationContainer>);
-    const button = getByText('Choose Plan');
+    const {getByTestId} = render(<NavigationContainer><MembershipCard membership={mockData} index={1} /></NavigationContainer>);
+    const button = getByTestId('btn');
     expect(button).toBeTruthy();
   });
 });

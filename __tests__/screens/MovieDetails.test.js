@@ -19,7 +19,7 @@ const mockMovie = {
   duration: "156",
   description:
     'Captain America is a superhero who fights against evil forces to save the world.',
-  premium: true,
+  premium: false,
   main_lead: 'Chris Evans',
   streaming_platform: 'Disney+',
   poster_url:

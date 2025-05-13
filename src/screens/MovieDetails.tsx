@@ -31,11 +31,6 @@ const MovieDetails = () => {
   const {subscription,loggedUser} = useContext(AuthContext);
 
   useEffect(() => {
-    console.log(movie.premium);
-    console.log(subscription);
-    console.log(loggedUser.role);
-    console.log(movie.premium && (subscription === 'premium') && (loggedUser.role !== 'supervisor'));
-    
     const fetchMovies = async () => {
       try {
         const res = await filterMovies(movie.genre);

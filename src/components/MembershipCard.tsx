@@ -75,6 +75,7 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
         <TouchableOpacity
           disabled={isLoading || subscription === 'premium' || subscription === 'supervisor' }
           onPress={checkout}
+          testID='btn'
           style={[styles.purchaseButton, styles.darkThemeButton]}>
           {isLoading ? (
             <ActivityIndicator size="small" color="#FFFFFF" />
@@ -114,6 +115,7 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
           ))}
         </View>
         <TouchableOpacity
+        testID='btn'
         disabled={isLoading || subscription === 'premium' || subscription === 'supervisor' }
           onPress={checkout}
           style={[styles.purchaseButton, styles.redWhiteButton]}>
