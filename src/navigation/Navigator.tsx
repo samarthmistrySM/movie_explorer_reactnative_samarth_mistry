@@ -28,7 +28,7 @@ const Navigator: FC<Props> = ({fcmToken}) => {
       const updateToken = async () => {
         try {
           await updateDeviceToken(fcmToken);
-          Toast.show('Device token updated!',Toast.LONG)
+          console.log('Device token updated!')
         } catch (error: any) {
           console.log('Error updating device token', error.message);
         }

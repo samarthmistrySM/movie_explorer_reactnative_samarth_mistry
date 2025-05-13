@@ -13,7 +13,6 @@ export const getMovies = async (page=1, per_page = 10) => {
 export const searchMovies = async query => {
   try {
     const response = await api.get(`/api/v1/movies?title=${query}`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log('Error searching movies:', error.response);

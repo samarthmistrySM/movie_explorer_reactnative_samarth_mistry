@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useContext, useEffect, useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -10,65 +10,53 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {getClientSecret} from '../api/paymentApi';
-import {useStripe} from '@stripe/stripe-react-native';
+import {getStripeSessionUrl} from '../api/paymentApi';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {MainStackParams} from '../navigation/Types';
+import AuthContext from '../context/AuthContext';
 
 const {width} = Dimensions.get('window');
 interface Props {
   membership: {
     name: string;
     price: number;
-    durationInDays: number;
+    planType: string;
     content: string[];
-    priceId: string;
   };
   index: number;
 }
 
 const MembershipCard: FC<Props> = ({membership, index}) => {
-  const {initPaymentSheet, presentPaymentSheet} = useStripe();
-
   const [isLoading, setIsLoading] = useState(false);
+  const {subscription} = useContext(AuthContext);
 
-  const openPaymentSheet = async () => {
-    const {error} = await presentPaymentSheet();
-
-    if (error) {
-      Alert.alert(`Error code: ${error.code}`, error.message);
-    } else {
-      Alert.alert('Success', 'Your subscription is confirmed!');
-    }
-  };
+   const navigation =
+        useNavigation<NativeStackNavigationProp<MainStackParams>>();
 
   const checkout = async () => {
     try {
       setIsLoading(true);
-      const clientSecret: string = await getClientSecret(
-        'samarthmistry311@gmail.com',
-        membership.priceId,
-      );
+      const res = await getStripeSessionUrl(membership.planType);
 
-      const {error} = await initPaymentSheet({
-        paymentIntentClientSecret: clientSecret,
-        merchantDisplayName: 'MoviePlus, Inc.',
-      });
-
-      if (!error) {
-        openPaymentSheet();
+      if(res.data.session_id && res.data.url){
+        navigation.navigate('Payment', {session_id: res.data.session_id, url: res.data.url})
       }
-    } catch (error) {
-      console.log('error subscribe', error);
+
+    } catch (error: any) {
+      console.log("error purchasing membership",error);
     } finally {
       setIsLoading(false);
     }
   };
+
   return index % 2 === 0 ? (
     <View style={[styles.membershipContainer, styles.darkThemeCard]}>
       <View style={styles.contentWrapper}>
         <Text style={styles.membershipName}>{membership.name}</Text>
         <View style={styles.priceContainer}>
-          <Text style={styles.membershipPrice}>₹{membership.price}</Text>
-          <Text style={styles.membershipTime}>/month</Text>
+          <Text style={styles.membershipPrice}>£{membership.price}</Text>
+          <Text style={styles.membershipTime}>/{membership.planType}</Text>
         </View>
         <View style={styles.membershipDetails}>
           {membership.content.map((detail: string, i: number) => (
@@ -85,7 +73,7 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
           ))}
         </View>
         <TouchableOpacity
-          disabled={isLoading}
+          disabled={isLoading || subscription === 'premium' || subscription === 'supervisor' }
           onPress={checkout}
           style={[styles.purchaseButton, styles.darkThemeButton]}>
           {isLoading ? (
@@ -93,7 +81,7 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
           ) : (
             <Text
               style={[styles.purchaseButtonText, styles.darkThemeButtonText]}>
-              Choose Plan
+               {subscription === 'premium' ? 'Subscribed' : subscription === 'supervisor' ? 'Supervisor Account' : 'Choose plan'} 
             </Text>
           )}
         </TouchableOpacity>
@@ -108,8 +96,8 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
       <View style={styles.contentWrapper}>
         <Text style={styles.membershipName}>{membership.name}</Text>
         <View style={styles.priceContainer}>
-          <Text style={styles.membershipPrice}>₹{membership.price}</Text>
-          <Text style={styles.membershipTime}>/month</Text>
+          <Text style={styles.membershipPrice}>£{membership.price}</Text>
+          <Text style={styles.membershipTime}>/{membership.planType}</Text>
         </View>
         <View style={styles.membershipDetails}>
           {membership.content.map((detail: string, i: number) => (
@@ -126,14 +114,15 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
           ))}
         </View>
         <TouchableOpacity
+        disabled={isLoading || subscription === 'premium' || subscription === 'supervisor' }
           onPress={checkout}
           style={[styles.purchaseButton, styles.redWhiteButton]}>
           {isLoading ? (
-             <ActivityIndicator size="small" color="#FF3B30" />
+            <ActivityIndicator size="small" color="#FF3B30" />
           ) : (
             <Text
               style={[styles.purchaseButtonText, styles.redWhiteButtonText]}>
-              Choose Plan
+              {subscription === 'premium' ? 'Subscribed' : subscription === 'supervisor' ? 'Supervisor Account' : 'Choose plan'} 
             </Text>
           )}
         </TouchableOpacity>

@@ -14,22 +14,20 @@ const Subscription = () => {
   const memberships = [
     {
       name: 'Silver',
-      price: 200,
-      durationInDays: 30,
+      price: 1,
+      planType: '1_day',
       content: ['2 devices', 'HD streaming', 'Limited Contents'],
-      priceId: 'price_1RMOEOP1geU3F9JqTri17iy0'
     },
     {
       name: 'Gold',
-      price: 400,
-      durationInDays: 30,
+      price: 30,
+      planType: '1_month',
       content: ['4 devices', '4K streaming', 'All Contents', 'No Ads'],
-      priceId: 'price_1RMOExP1geU3F9Jqv5grNP7H'
     },
     {
       name: 'Platinum',
-      price: 800,
-      durationInDays: 30,
+      price: 85,
+      planType: '3_months',
       content: [
         '6 devices',
         'Watch with Friends',
@@ -37,7 +35,6 @@ const Subscription = () => {
         'Offline downloads',
         'Priority support',
       ],
-      priceId: 'price_1RMOFSP1geU3F9Jqvs4fHcIV',
     },
   ];
 

@@ -18,6 +18,7 @@ import {Movie} from '../Types.ts';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-simple-toast';
 import {filterMovies, getMovies} from '../api/movieApi.js';
+import AuthContext from '../context/AuthContext.tsx';
 
 const {width, height} = Dimensions.get('window');
 
@@ -27,12 +28,19 @@ const MovieDetails = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
   const [movies, setMovies] = useState<Movie[]>([]);
+  const {subscription,loggedUser} = useContext(AuthContext);
 
   useEffect(() => {
+    console.log(movie.premium);
+    console.log(subscription);
+    console.log(loggedUser.role);
+    console.log(movie.premium && (subscription === 'premium') && (loggedUser.role !== 'supervisor'));
+    
     const fetchMovies = async () => {
       try {
         const res = await filterMovies(movie.genre);
         setMovies(res.movies as Movie[]);
+        
       } catch (error) {
         Toast.show('Error fetching movie', Toast.LONG);
       } finally {
@@ -40,6 +48,28 @@ const MovieDetails = () => {
     };
     fetchMovies();
   }, []);
+
+  if (movie.premium && subscription !== 'premium' && loggedUser.role !== 'supervisor') {    
+    return (
+      <SafeAreaView style={styles.lockedContainer}>
+        <View style={styles.lockedContent}>
+          <Image
+            source={require('../assets/lock.fill.png')}
+            style={styles.lockIcon}
+          />
+          <Text style={styles.lockedTitle}>Premium Content</Text>
+          <Text style={styles.lockedText}>
+            This movie is available only for premium users.
+          </Text>
+          <TouchableOpacity
+            style={styles.goBackButton}
+            onPress={() => navigation.goBack()}>
+            <Text style={styles.goBackText}>Go Back</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -242,6 +272,46 @@ const styles = StyleSheet.create({
   cardsContainer: {
     paddingHorizontal: 10,
     gap: 10,
+  },
+  lockedContainer: {
+    flex: 1,
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  lockedContent: {
+    alignItems: 'center',
+  },
+  lockIcon: {
+    width: 80,
+    height: 80,
+    tintColor: '#FF3B30',
+    marginBottom: 20,
+    resizeMode: 'contain'
+  },
+  lockedTitle: {
+    fontSize: 22,
+    color: '#FFF',
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  lockedText: {
+    fontSize: 16,
+    color: '#AAA',
+    textAlign: 'center',
+    marginBottom: 30,
+  },
+  goBackButton: {
+    backgroundColor: '#FF3B30',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+  },
+  goBackText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

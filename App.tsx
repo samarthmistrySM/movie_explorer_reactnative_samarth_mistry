@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react';
 import AuthProvider from './src/context/AuthProvider';
 import Navigator from './src/navigation/Navigator';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {StripeProvider} from '@stripe/stripe-react-native';
-import Secret from './src/secrets/Secret';
 import {PermissionsAndroid} from 'react-native';
 import {
   getMessaging,
@@ -34,7 +32,9 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribe = onMessage(messagingInstance, async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      const {notification} = remoteMessage;
+      
+      Alert.alert(notification?.title || 'No Title', notification?.body || 'No Message');
     });
 
     return unsubscribe;
@@ -43,7 +43,7 @@ const App = () => {
   const getFCMToken = async () => {
     try {
       const token = await getToken(messagingInstance);
-      console.log('FCM Token:', token);
+      // console.log('FCM Token:', token);
       setFcmToken(token);
     } catch (error) {
       console.error('Error retrieving FCM token:', error);
@@ -51,16 +51,12 @@ const App = () => {
   };
 
   return (
-    <StripeProvider
-      publishableKey={Secret.stripePublishableKey}
-      merchantIdentifier="merchant.identifier"
-      urlScheme="your-url-scheme">
+    
       <GestureHandlerRootView>
         <AuthProvider>
             <Navigator fcmToken={fcmToken} />
         </AuthProvider>
       </GestureHandlerRootView>
-    </StripeProvider>
   );
 };
 

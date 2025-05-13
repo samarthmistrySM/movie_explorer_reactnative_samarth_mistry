@@ -4,7 +4,7 @@ import AuthContext from '../context/AuthContext.tsx';
 
 const {width, height} = Dimensions.get('window');
 const UserDetails = () => {
-  const {loggedUser} = useContext(AuthContext);
+  const {loggedUser,subscription} = useContext(AuthContext);
   return (
     <View style={styles.userDetailsContainer}>
       <View style={styles.userDetailsLeft}>
@@ -16,10 +16,10 @@ const UserDetails = () => {
         />
         <View>
           <Text style={styles.username}>
-            Hello, {loggedUser.name || 'Samarth'}
+            Hello, {loggedUser.name}
           </Text>
           <Text testID={'membershipType'} style={styles.membershipType}>
-            Platinum Member
+            {subscription?.toUpperCase() || 'free plan'}
           </Text>
         </View>
       </View>
