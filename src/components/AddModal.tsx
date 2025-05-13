@@ -16,13 +16,15 @@ import {
 } from 'react-native';
 import {addMovie} from '../api/adminApi';
 import Toast from 'react-native-simple-toast';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 interface Props {
   isModalOpen: boolean;
   handleModalClose: () => void;
+  update:()=>void;
 }
 
-const AddModal: FC<Props> = ({isModalOpen, handleModalClose}) => {
+const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
   const [title, setTitle] = useState('');
   const [genre, setGenre] = useState('');
   const [releaseYear, setReleaseYear] = useState('');
@@ -31,25 +33,57 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose}) => {
   const [duration, setDuration] = useState('');
   const [description, setDescription] = useState('');
   const [mainLead, setMainLead] = useState('');
-  const [streamingPlatform, setStreamingPlatform] = useState('');
+  const [posterImage, setPosterImage] = useState<any>(null);
+  const [bannerImage, setBannerImage] = useState<any>(null);
 
+  const handlePickPoster = () => {
+    launchImageLibrary({mediaType: 'photo'}, response => {
+      if (response.assets && response.assets.length > 0) {
+        setPosterImage(response.assets[0]);
+      }
+    });
+  };
+
+  const handlePickBanner = () => {
+    launchImageLibrary({mediaType: 'photo'}, response => {
+      if (response.assets && response.assets.length > 0) {
+        setBannerImage(response.assets[0]);
+      }
+    });
+  };
 
   const handleSubmit = async () => {
-    const movie = {
-      title,
-      genre,
-      release_year: releaseYear,
-      rating,
-      director,
-      duration,
-      description,
-      main_lead: mainLead,
-      streaming_platform: streamingPlatform,
-    }
-  
-    try {
-      await addMovie(movie); 
+    const formData = new FormData();
 
+    formData.append('movie[title]', title);
+    formData.append('movie[genre]', genre);
+    formData.append('movie[release_year]', releaseYear);
+    formData.append('movie[rating]', rating);
+    formData.append('movie[director]', director);
+    formData.append('movie[duration]', parseInt(duration,10));
+    formData.append('movie[description]', description);
+    formData.append('movie[main_lead]', mainLead);
+
+    if (posterImage) {
+      formData.append('movie[poster]', {
+        uri: posterImage.uri,
+        name: posterImage.fileName || 'poster.jpg',
+        type: posterImage.type,
+      });
+    }
+
+    if (bannerImage) {
+      formData.append('movie[banner]', {
+        uri: bannerImage.uri,
+        type: bannerImage.type,
+        name: bannerImage.fileName || 'banner.jpg',
+      });
+    }
+
+    try {
+      const res = await addMovie(formData);
+      update();
+      
       Toast.show('Movie Added!', Toast.LONG);
       setTitle('');
       setGenre('');
@@ -59,22 +93,26 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose}) => {
       setDuration('');
       setDescription('');
       setMainLead('');
-      setStreamingPlatform('');
+      setPosterImage(null);
+      setBannerImage(null);
       handleModalClose();
-    } catch (error: any) {
-      console.log('Error adding movie:', error.response);
-      Toast.show('Failed to add movie!', Toast.LONG, {
-        tapToDismissEnabled: true,
-        textColor: '#000000',
-        backgroundColor: '#FF3B30',
-      });
+    } catch (error:any) {
+      console.log('Caught Error:', error?.response ?? error);
+      Toast.show('Failed to add movie!', Toast.LONG);
+      update();
     }
   };
 
   return (
-    <Modal visible={isModalOpen} animationType="slide" transparent onRequestClose={handleModalClose}>
+    <Modal
+      visible={isModalOpen}
+      animationType="slide"
+      transparent
+      onRequestClose={handleModalClose}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalContainer}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <View style={styles.headerContainer}>
               <Text style={styles.header}>Add New Movie</Text>
@@ -86,42 +124,82 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose}) => {
             <ScrollView showsVerticalScrollIndicator={false}>
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Title</Text>
-                <TextInput style={styles.input} value={title} onChangeText={setTitle} placeholder="Enter movie title" placeholderTextColor="#999" />
+                <TextInput
+                  style={styles.input}
+                  value={title}
+                  onChangeText={setTitle}
+                  placeholder="Enter movie title"
+                  placeholderTextColor="#999"
+                />
               </View>
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Genre</Text>
-                <TextInput style={styles.input} value={genre} onChangeText={setGenre} placeholder="Genre (e.g. Action, Drama)" placeholderTextColor="#999" />
+                <TextInput
+                  style={styles.input}
+                  value={genre}
+                  onChangeText={setGenre}
+                  placeholder="Genre (e.g. Action, Drama)"
+                  placeholderTextColor="#999"
+                />
               </View>
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Release Year</Text>
-                <TextInput style={styles.input} value={releaseYear} onChangeText={setReleaseYear} placeholder="Enter release year" placeholderTextColor="#999" keyboardType="numeric" />
+                <TextInput
+                  style={styles.input}
+                  value={releaseYear}
+                  onChangeText={setReleaseYear}
+                  placeholder="Enter release year"
+                  placeholderTextColor="#999"
+                  keyboardType="numeric"
+                />
               </View>
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Rating</Text>
-                <TextInput style={styles.input} value={rating} onChangeText={setRating} placeholder="Enter rating (1-10)" placeholderTextColor="#999" keyboardType="numeric" />
+                <TextInput
+                  style={styles.input}
+                  value={rating}
+                  onChangeText={setRating}
+                  placeholder="Enter rating (1-10)"
+                  placeholderTextColor="#999"
+                  keyboardType="numeric"
+                />
               </View>
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Director</Text>
-                <TextInput style={styles.input} value={director} onChangeText={setDirector} placeholder="Enter director name" placeholderTextColor="#999" />
+                <TextInput
+                  style={styles.input}
+                  value={director}
+                  onChangeText={setDirector}
+                  placeholder="Enter director name"
+                  placeholderTextColor="#999"
+                />
               </View>
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Duration</Text>
-                <TextInput style={styles.input} value={duration} onChangeText={setDuration} placeholder="Duration in minutes" placeholderTextColor="#999" keyboardType="numeric" />
+                <TextInput
+                  style={styles.input}
+                  value={duration}
+                  onChangeText={setDuration}
+                  placeholder="Duration in minutes"
+                  placeholderTextColor="#999"
+                  keyboardType="numeric"
+                />
               </View>
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Main Lead</Text>
-                <TextInput style={styles.input} value={mainLead} onChangeText={setMainLead} placeholder="Enter main actor/actress" placeholderTextColor="#999" />
-              </View>
-
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>Streaming Platform</Text>
-                <TextInput style={styles.input} value={streamingPlatform} onChangeText={setStreamingPlatform} placeholder="Where to watch" placeholderTextColor="#999" />
+                <TextInput
+                  style={styles.input}
+                  value={mainLead}
+                  onChangeText={setMainLead}
+                  placeholder="Enter main actor/actress"
+                  placeholderTextColor="#999"
+                />
               </View>
 
               <View style={styles.inputContainer}>
@@ -136,11 +214,55 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose}) => {
                 />
               </View>
 
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Poster</Text>
+                <TouchableOpacity
+                  style={styles.imagePickerButton}
+                  onPress={handlePickPoster}>
+                  {posterImage ? (
+                    <Image
+                      source={{uri: posterImage.uri}}
+                      style={styles.previewImage}
+                    />
+                  ) : (
+                    <View style={styles.placeholderContainer}>
+                      <Text style={styles.placeholderText}>
+                        Pick Poster Image
+                      </Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Banner</Text>
+                <TouchableOpacity
+                  style={styles.imagePickerButton}
+                  onPress={handlePickBanner}>
+                  {bannerImage ? (
+                    <Image
+                      source={{uri: bannerImage.uri}}
+                      style={styles.previewImage}
+                    />
+                  ) : (
+                    <View style={styles.placeholderContainer}>
+                      <Text style={styles.placeholderText}>
+                        Pick Banner Image
+                      </Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
+              </View>
+
               <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.cancelButton} onPress={handleModalClose}>
+                <TouchableOpacity
+                  style={styles.cancelButton}
+                  onPress={handleModalClose}>
                   <Text style={styles.cancelButtonText}>Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+                <TouchableOpacity
+                  style={styles.submitButton}
+                  onPress={handleSubmit}>
                   <Text style={styles.submitButtonText}>Add Movie</Text>
                 </TouchableOpacity>
               </View>

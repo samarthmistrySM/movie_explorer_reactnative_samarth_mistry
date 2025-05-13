@@ -1,16 +1,50 @@
-import axios from 'axios';
-const baseUrl = 'https://teststripeapi.vercel.app';
+import api from './apiConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const getClientSecret = async (email, priceId) => {
+export const getStripeSessionUrl = async (planType) => {
   try {
-    const response = await axios.post(`${baseUrl}/create-subscription`, {
-        email,
-        priceId,
-      });
+    const token = await AsyncStorage.getItem('token');
+    const response = await api.post(
+      `/api/v1/subscriptions?plan_type=${encodeURIComponent(planType)}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-      return response.data.clientSecret;
+    return response;
   } catch (error) {
-    console.log('Error fetching client secret', error.response);
-    throw new Error('Error fetching client secret: ', error.response);
+    console.log('Error getting stripe checkout url', error);
+    throw error;
   }
 };
+
+export const handleSuccessfulPayment = async (sessionId) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const response = await api.get(`/api/v1/subscriptions/success?session_id=${sessionId}`,{},{
+      headers: {
+          Authorization: `Bearer ${token}`,
+        },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const fetchUserSubscription = async() => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const response = await api.get(`/api/v1/subscriptions/status`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

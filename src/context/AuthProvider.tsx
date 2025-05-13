@@ -1,11 +1,11 @@
 import React, {useState, useEffect, FC} from 'react';
 import AuthContext from './AuthContext';
-import {Alert} from 'react-native';
 import {User} from '../Types';
 import {getUser} from '../api/usersApi';
 import {loginUser, registerUser, logoutUser} from '../api/authApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
+import { fetchUserSubscription } from '../api/paymentApi';
 
 interface Props {
   children: React.ReactNode;
@@ -16,6 +16,7 @@ const AuthProvider: FC<Props> = ({children}) => {
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
   const [reload, setReload] = useState<boolean>(false);
   const [userRole, setUserRole] = useState<'user'|'supervisor'>('user');
+  const [subscription , setSubscription] = useState('free plan');
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -25,7 +26,13 @@ const AuthProvider: FC<Props> = ({children}) => {
       setUserRole(role as 'user'|'supervisor');
     };
     checkAuth();
+    getUserSubscription();
+    if(loggedUser && loggedUser.role === 'supervisor'){
+      setSubscription('supervisor');
+    }
   }, [isLoggedIn, reload]);
+
+  
 
   const isAuthenticated = async () => {
     const user = await getUser();
@@ -78,6 +85,18 @@ const AuthProvider: FC<Props> = ({children}) => {
     }
   };
 
+  const getUserSubscription = async() => {
+    try {
+      if(isLoggedIn && userRole === 'user'){
+      const res = await fetchUserSubscription();
+      setSubscription(res.plan_type)
+    }
+    } catch (error:any) {
+      console.log(error.response);
+      setSubscription(error.response.status === 404 ? 'supervisor' : 'free plan')
+    }
+  }
+
   const handleLogout = async () => {
     await logoutUser();
     setIsLoggedIn(false);
@@ -96,6 +115,7 @@ const AuthProvider: FC<Props> = ({children}) => {
         loggedUser,
         isLoggedIn,
         userRole,
+        subscription,
         update,
         handleLogout,
         handelLogin,

@@ -152,6 +152,7 @@ const Admin = () => {
       <AddModal
         isModalOpen={isAddModalVisible}
         handleModalClose={handleModalClose}
+        update={update}
       />
       <EditModal
         isModalOpen={isEditModalVisible}

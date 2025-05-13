@@ -41,6 +41,8 @@ const Explore = () => {
 
   useEffect(() => {
     fetchMovies(page);
+    console.log(movies);
+    
   }, [page]);
 
   const loadMore = () => {
@@ -122,7 +124,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   loadMoreButton: {
-    backgroundColor: '#FF3B30',
+    // backgroundColor: '#FF3B30',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
@@ -130,7 +132,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   loadMoreText: {
-    color: '#FFF',
+    color: '#FF3B30',
     fontWeight: '600',
     fontSize: 16,
   },

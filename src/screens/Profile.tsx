@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,8 @@ import {
 import AuthContext from '../context/AuthContext';
 
 const Profile = () => {
-  const {loggedUser, handleLogout} = useContext(AuthContext);
+  const {loggedUser, handleLogout,subscription} = useContext(AuthContext);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -80,7 +81,7 @@ const Profile = () => {
       <View style={styles.detailsContainer}>
         <View>
           <Text style={styles.detailsTitle}>Membership</Text>
-          <Text style={styles.detailsText}>Platinum</Text>
+          <Text style={styles.detailsText}>{subscription?.toUpperCase() || 'free plan'}</Text>
         </View>
         {/* <Image
           style={styles.icon}

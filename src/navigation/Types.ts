@@ -15,4 +15,6 @@ export interface MainStackParams extends ParamListBase {
     };
   };
   MovieDetails: {movie: Movie};
+  Payment: {url: string; session_id: string};
+  Success: undefined
 }

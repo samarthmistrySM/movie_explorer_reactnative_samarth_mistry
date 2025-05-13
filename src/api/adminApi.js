@@ -4,13 +4,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const addMovie = async movie => {
   try {
     const token = await AsyncStorage.getItem('token');
+    
+    
     const response = await api.post(
-      `/api/v1/movies`,
-      {
-        movie: movie,
-      },
+      `/api/v1/movies`,movie,
       {
         headers: {
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       },
@@ -25,7 +25,6 @@ export const addMovie = async movie => {
 export const updateMovie = async movie => {
   try {
     const token = await AsyncStorage.getItem('token');
-    console.log('movie to update:', movie);
     const response = await api.patch(
       `/api/v1/movies/${movie.id}`,
       {

@@ -2,6 +2,7 @@ export interface User {
   email: string;
   password: string;
   phone: string;
+  role : 'user'|'supervisor';
 }
 export interface Movie {
   id: number;

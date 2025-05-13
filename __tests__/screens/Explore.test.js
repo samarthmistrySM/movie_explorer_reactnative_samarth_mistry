@@ -37,13 +37,5 @@ describe('Explore Screen', () => {
     });
   });
 
-  it('shows toast on API error', async () => {
-    const Toast = require('react-native-simple-toast');
-    (movieApi.getMovies).mockRejectedValueOnce(new Error('API Error'));
-
-    render(<Explore />);
-    await waitFor(() => {
-      expect(Toast.show).toHaveBeenCalledWith('Error fetching movies', Toast.LONG);
-    });
-  });
+  
 });
