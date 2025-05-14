@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -7,14 +7,14 @@ import {
   Dimensions,
   ActivityIndicator,
   Image,
-  ScrollView,
+  FlatList,
   TouchableOpacity,
 } from 'react-native';
 import MovieCard from '../components/MovieCard';
-import {Movie} from '../Types';
-import {getMovies} from '../api/movieApi';
+import { Movie } from '../Types';
+import { getMovies } from '../api/movieApi';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const Explore = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -27,8 +27,12 @@ const Explore = () => {
       setLoading(true);
       const res = await getMovies(pageNum, 10);
       const newMovies = res.movies as Movie[];
-      if (newMovies.length === 0) {
+      
+      if (newMovies.length < 10) {
         setHasMore(false);
+        setMovies(prev => [...prev, ...newMovies]);
+        return;
+
       } else {
         setMovies(prev => [...prev, ...newMovies]);
       }
@@ -41,8 +45,6 @@ const Explore = () => {
 
   useEffect(() => {
     fetchMovies(page);
-    console.log(movies);
-    
   }, [page]);
 
   const loadMore = () => {
@@ -51,37 +53,48 @@ const Explore = () => {
     }
   };
 
+  const renderMovie = ({ item, index }: { item: Movie; index: number }) => (
+    <View style={styles.movieItem}>
+      <MovieCard key={index} movie={item} />
+    </View>
+  );
+
+  const renderLoadMoreButton = () => {
+    if (loading) {
+      return <ActivityIndicator size="large" color="#FF3B30" style={styles.loader} />;
+    }
+    if (hasMore) {
+      return (
+        <TouchableOpacity style={styles.loadMoreButton} onPress={loadMore}>
+          <Text style={styles.loadMoreText}>Load More</Text>
+        </TouchableOpacity>
+      );
+    }
+    return null;
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.heading}>Explore</Text>
-
-        {movies.length === 0 && !loading ? (
-          <View style={styles.alertContainer}>
-            <Image
-              source={require('../assets/magnifyingglass.png')}
-              style={styles.alertIcon}
-            />
-            <Text style={styles.heading}>No result found</Text>
-          </View>
-        ) : (
-          <View style={styles.moviesGrid}>
-            {movies.map((movie, index) => (
-              <MovieCard key={index} movie={movie} />
-            ))}
-          </View>
-        )}
-
-        {loading && (
-          <ActivityIndicator size="large" color="#FF3B30" style={styles.loader} />
-        )}
-
-        {hasMore && !loading && (
-          <TouchableOpacity style={styles.loadMoreButton} onPress={loadMore}>
-            <Text style={styles.loadMoreText}>Load More</Text>
-          </TouchableOpacity>
-        )}
-      </ScrollView>
+      <Text style={styles.heading}>Explore</Text>
+      {movies.length === 0 && !loading ? (
+        <View style={styles.alertContainer}>
+          <Image
+            source={require('../assets/magnifyingglass.png')}
+            style={styles.alertIcon}
+          />
+          <Text style={styles.heading}>No result found</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={movies}
+          renderItem={renderMovie}
+          keyExtractor={(item, index) => `${item.id}-${index}`}
+          numColumns={2}
+          contentContainerStyle={styles.moviesContainer}
+          columnWrapperStyle={styles.columnWrapper}
+          ListFooterComponent={renderLoadMoreButton}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -90,28 +103,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+    paddingTop: 20,
   },
-  scrollContent: {
+  moviesContainer: {
     paddingHorizontal: 15,
     paddingBottom: 20,
-    paddingTop: 20,
+  },
+  columnWrapper: {
+    justifyContent: 'space-between',
+    gap: 10,
+  },
+  movieItem: {
+    width: (width - 40) / 2,
+    marginBottom:15,
   },
   heading: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#FFF',
     marginBottom: 16,
-  },
-  moviesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: 10,
+    paddingHorizontal: 15,
   },
   alertContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 50,
   },
   alertIcon: {
     height: width * 0.2,
@@ -121,15 +137,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   loader: {
-    marginTop: 20,
+    marginVertical: 20,
   },
   loadMoreButton: {
-    // backgroundColor: '#FF3B30',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
     alignSelf: 'center',
-    marginTop: 20,
+    marginVertical: 20,
   },
   loadMoreText: {
     color: '#FF3B30',

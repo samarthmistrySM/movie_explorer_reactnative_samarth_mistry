@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Text,
@@ -6,90 +6,66 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import AuthContext from '../context/AuthContext';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const Profile = () => {
-  const {loggedUser, handleLogout,subscription} = useContext(AuthContext);
+  const {loggedUser, handleLogout, subscription} = useContext(AuthContext);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-        <Text style={styles.heading}>Profile</Text>
-      </View>
-      <View style={styles.dpContainer}>
-        <View style={styles.dpBorder}>
-          <Image
-            style={styles.profileImage}
-            source={{
-              uri: 'https://static.vecteezy.com/system/resources/previews/036/594/092/non_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg',
-            }}
-          />
-          {/* <View style={styles.editIcon}> */}
-            {/* <Image
-              style={styles.editIconImage}
-              source={require('../assets/pencil.png')}
-            /> */}
-          {/* </View> */}
+          <Text style={styles.heading}>Profile</Text>
         </View>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.welcomeText}>
-          Hello {loggedUser.name}
-        </Text>
-        <TouchableOpacity
-          style={styles.logOutBtn}
-          onPress={() => handleLogout()}>
-          <Text style={styles.logOutBtnText}>Logout</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.detailsContainer}>
-        <View>
-          <Text style={styles.detailsTitle}>NAME</Text>
-          <Text style={styles.detailsText}>{loggedUser.name}</Text>
+        <View style={styles.dpContainer}>
+          <View style={styles.dpBorder}>
+            <Image
+              style={styles.profileImage}
+              source={{
+                uri: 'https://static.vecteezy.com/system/resources/previews/036/594/092/non_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg',
+              }}
+            />
+          </View>
         </View>
-        {/* <Image
-          style={styles.icon}
-          source={require('../assets/chevron.right.png')}
-        /> */}
-      </View>
-      <View style={styles.divider}/>
-      <View style={styles.detailsContainer}>
-        <View>
-          <Text style={styles.detailsTitle}>EMAIL</Text>
-          <Text style={styles.detailsText}>{loggedUser.email}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.welcomeText}>Hello {loggedUser.name}</Text>
+          <TouchableOpacity
+            style={styles.logOutBtn}
+            onPress={() => handleLogout()}>
+            <Text style={styles.logOutBtnText}>Logout</Text>
+          </TouchableOpacity>
         </View>
-        {/* <Image
-          style={styles.icon}
-          source={require('../assets/chevron.right.png')}
-        /> */}
-      </View>
-      <View style={styles.divider}/>
-      <View style={styles.detailsContainer}>
-        <View>
-          <Text style={styles.detailsTitle}>Phone Number</Text>
-          <Text style={styles.detailsText}>
-            {loggedUser.mobile_number}
-          </Text>
+        <View style={styles.detailsContainer}>
+          <View>
+            <Text style={styles.detailsTitle}>NAME</Text>
+            <Text style={styles.detailsText}>{loggedUser.name}</Text>
+          </View>
         </View>
-        {/* <Image
-          style={styles.icon}
-          source={require('../assets/chevron.right.png')}
-        /> */}
-      </View>
-      <View style={styles.divider}/>
-      <View style={styles.detailsContainer}>
-        <View>
-          <Text style={styles.detailsTitle}>Membership</Text>
-          <Text style={styles.detailsText}>{subscription?.toUpperCase() || 'free plan'}</Text>
+        <View style={styles.divider} />
+        <View style={styles.detailsContainer}>
+          <View>
+            <Text style={styles.detailsTitle}>EMAIL</Text>
+            <Text style={styles.detailsText}>{loggedUser.email}</Text>
+          </View>
         </View>
-        {/* <Image
-          style={styles.icon}
-          source={require('../assets/chevron.right.png')}
-        /> */}
-      </View>
+        <View style={styles.divider} />
+        <View style={styles.detailsContainer}>
+          <View>
+            <Text style={styles.detailsTitle}>Phone Number</Text>
+            <Text style={styles.detailsText}>{loggedUser.mobile_number}</Text>
+          </View>
+        </View>
+        <View style={styles.divider} />
+        <View style={styles.detailsContainer}>
+          <View>
+            <Text style={styles.detailsTitle}>Membership</Text>
+            <Text style={styles.detailsText}>
+              {subscription?.toUpperCase() || 'free plan'}
+            </Text>
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -100,7 +76,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     paddingHorizontal: 16,
-    justifyContent: 'space-between',
     paddingTop: 20,
   },
   header: {
@@ -178,7 +153,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // backgroundColor: '#1C1C1E',
   },
-  divider:{
+  divider: {
     width: '100%',
     height: 1,
     backgroundColor: '#ddd',
@@ -203,9 +178,10 @@ const styles = StyleSheet.create({
     tintColor: '#FF3B30',
   },
   scrollContent: {
-  paddingBottom: 30,
-},
-
+    paddingBottom: 30,
+    flexGrow: 1, 
+    justifyContent: 'space-between',
+  },
 });
 
 export default Profile;

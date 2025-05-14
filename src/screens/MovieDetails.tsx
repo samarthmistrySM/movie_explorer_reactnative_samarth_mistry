@@ -17,7 +17,7 @@ import MovieCard from '../components/MovieCard.tsx';
 import {Movie} from '../Types.ts';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-simple-toast';
-import {filterMovies, getMovies} from '../api/movieApi.js';
+import {filterMovies} from '../api/movieApi.js';
 import AuthContext from '../context/AuthContext.tsx';
 
 const {width, height} = Dimensions.get('window');

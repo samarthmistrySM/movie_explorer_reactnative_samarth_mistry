@@ -20,10 +20,10 @@ const SignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [name, setName] = useState<string>('');
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackPrams>>();
-  const {handelRegister} = useContext(AuthContext);
+  const {handleRegister} = useContext(AuthContext);
 
   const onSignUp = async () => {
-    const isSignedUp = await handelRegister(name, email, phoneNumber, password);
+    const isSignedUp = await handleRegister(name, email, phoneNumber, password);
 
     if (isSignedUp) {
       navigation.navigate('Login');

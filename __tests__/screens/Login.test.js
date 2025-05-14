@@ -25,7 +25,7 @@ describe('Login', () => {
 
   const renderComponent = () =>
     render(
-      <AuthContext.Provider value={{handelLogin: mockLogin}}>
+      <AuthContext.Provider value={{handleLogin: mockLogin}}>
         <NavigationContainer>
           <Login />
         </NavigationContainer>

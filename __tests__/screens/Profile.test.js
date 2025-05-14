@@ -10,9 +10,18 @@ describe('Profile', () => {
     mobile_number: '1234567890',
   };
 
+  const mockLogout = jest.fn();
+
   it('renders user name and membership type correctly', () => {
-    const {getByText, getByTestId} = render(
-      <AuthContext.Provider value={{loggedUser: mockUser}}>
+    console.log('profile ',Profile);
+    
+    const {getByText} = render(
+      <AuthContext.Provider
+        value={{
+          loggedUser: mockUser,
+          handleLogout: mockLogout,
+          subscription: 'premium',
+        }}>
         <Profile />
       </AuthContext.Provider>,
     );
@@ -20,6 +29,6 @@ describe('Profile', () => {
     expect(getByText(`Hello ${mockUser.name}`)).toBeTruthy();
     expect(getByText(mockUser.email)).toBeTruthy();
     expect(getByText(mockUser.mobile_number)).toBeTruthy();
+    expect(getByText('PREMIUM')).toBeTruthy();
   });
-
 });

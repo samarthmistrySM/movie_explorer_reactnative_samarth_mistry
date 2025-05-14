@@ -5,7 +5,7 @@ export const getMovies = async (page=1, per_page = 10) => {
     const response = await api.get(`/api/v1/movies?page=${page}&per_page=${per_page}`);
     return response.data;
   } catch (error) {
-    console.log('Error fetching user:', error.response);
+    console.log('Error fetching movies:', error.response);
     throw error;
   }
 };
