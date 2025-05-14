@@ -23,7 +23,7 @@ const AuthProvider: FC<Props> = ({children}) => {
       const isLogged = await isAuthenticated();
       const role = await AsyncStorage.getItem('role');
       setIsLoggedIn(isLogged);
-      setUserRole(role as 'user'|'supervisor');
+      setUserRole(role as 'user' | 'supervisor');
     };
     checkAuth();
     getUserSubscription();
@@ -80,7 +80,7 @@ const AuthProvider: FC<Props> = ({children}) => {
         return false;
       }
     } catch (e) {
-      Toast.show('Register Failed, Please try again!', Toast.LONG);
+      Toast.show('Email or Phone Number is not valid!', Toast.LONG);
       return false;
     }
   };

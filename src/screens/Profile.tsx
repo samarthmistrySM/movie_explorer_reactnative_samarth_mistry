@@ -8,13 +8,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import AuthContext from '../context/AuthContext';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Profile = () => {
   const {loggedUser, handleLogout,subscription} = useContext(AuthContext);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.header}>
         <Text style={styles.heading}>Profile</Text>
       </View>
       <View style={styles.dpContainer}>
@@ -88,6 +90,7 @@ const Profile = () => {
           source={require('../assets/chevron.right.png')}
         /> */}
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -199,6 +202,10 @@ const styles = StyleSheet.create({
     objectFit: 'contain',
     tintColor: '#FF3B30',
   },
+  scrollContent: {
+  paddingBottom: 30,
+},
+
 });
 
 export default Profile;
