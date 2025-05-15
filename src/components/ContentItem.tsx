@@ -26,16 +26,31 @@ const ContentItem: FC<Props> = ({
   setSelectedMovie,
   update,
 }) => {
-  const handleDelete = async () => {
-    try {
-      await deleteMovie(movie.id);
-      Toast.show('Movie deleted successfully!', Toast.LONG);
-      update();
-    } catch (error: any) {
-      console.log('Error deleting movie:', error.response);
-      Toast.show('error deleting movie!', Toast.LONG);
-    }
-  };
+  const handleDelete = () => {
+  Alert.alert(
+    'Confirm Delete',
+    'Are you sure you want to delete this movie?',
+    [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await deleteMovie(movie.id);
+            Toast.show('Movie deleted successfully!', Toast.LONG);
+            update();
+          } catch (error: any) {
+            console.log('Error deleting movie:', error.response);
+            Toast.show('Error deleting movie!', Toast.LONG);
+          }
+        },
+      },
+    ],
+    { cancelable: true }
+  );
+};
+
   return (
     <View style={styles.contentItem}>
       <Image
@@ -62,9 +77,7 @@ const ContentItem: FC<Props> = ({
         <TouchableOpacity
           accessibilityRole="button"
           style={styles.actionButton}
-          onPress={() => {
-            handleDelete();
-          }}>
+          onPress={handleDelete}>
           <Image
             source={require('../assets/trash.fill.png')}
             style={styles.binIcon}

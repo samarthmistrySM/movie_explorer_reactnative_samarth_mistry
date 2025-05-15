@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import AuthContext from '../../context/AuthContext';
 import {
   View,
@@ -15,6 +15,7 @@ import {Dropdown} from 'react-native-element-dropdown';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackPrams} from '../../navigation/Types.ts';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {height, width} = Dimensions.get('window');
 
@@ -22,7 +23,7 @@ const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [role, setRole] = useState<'user' | 'supervisor'>('user');
-  const {handelLogin} = useContext(AuthContext);
+  const {handleLogin,isLoggedIn} = useContext(AuthContext);
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackPrams>>();
 
   const roles = [
@@ -31,8 +32,21 @@ const Login = () => {
   ];
 
   const onLogin = () => {
-    handelLogin(email, password, role);
+    handleLogin(email, password, role);
   };
+
+  useEffect(()=>{
+    const fetchRole = async()=>{
+      const fetchedRole: string | null = await AsyncStorage.getItem('role')
+
+      if(fetchedRole === 'supervisor'){
+        setRole('supervisor')
+      } else{
+        setRole('user')
+      }
+    }
+    fetchRole();
+  },[isLoggedIn])
 
   return (
     <SafeAreaView style={styles.container}>

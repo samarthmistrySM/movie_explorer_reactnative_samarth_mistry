@@ -21,10 +21,10 @@ import {launchImageLibrary} from 'react-native-image-picker';
 interface Props {
   isModalOpen: boolean;
   handleModalClose: () => void;
-  update:()=>void;
+  update: () => void;
 }
 
-const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
+const AddModal: FC<Props> = ({isModalOpen, handleModalClose, update}) => {
   const [title, setTitle] = useState('');
   const [genre, setGenre] = useState('');
   const [releaseYear, setReleaseYear] = useState('');
@@ -53,6 +53,34 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
   };
 
   const handleSubmit = async () => {
+    if (
+      !title.trim() ||
+      !genre.trim() ||
+      !releaseYear.trim() ||
+      !rating.trim() ||
+      !director.trim() ||
+      !duration.trim() ||
+      !description.trim()
+    ) {
+      Alert.alert(
+        'Information Missing!',
+        'Please fill in all the required fields.',
+      );
+      return;
+    }
+
+    if (
+      isNaN(Number(releaseYear)) ||
+      isNaN(Number(rating)) ||
+      isNaN(Number(duration))
+    ) {
+      Alert.alert(
+        'Validation Error',
+        'Release Year, Rating, and Duration must be numbers.',
+      );
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append('movie[title]', title);
@@ -60,7 +88,7 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
     formData.append('movie[release_year]', releaseYear);
     formData.append('movie[rating]', rating);
     formData.append('movie[director]', director);
-    formData.append('movie[duration]', parseInt(duration,10));
+    formData.append('movie[duration]', parseInt(duration, 10));
     formData.append('movie[description]', description);
     formData.append('movie[main_lead]', mainLead);
 
@@ -81,9 +109,9 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
     }
 
     try {
-      const res = await addMovie(formData);
+      await addMovie(formData);
       update();
-      
+
       Toast.show('Movie Added!', Toast.LONG);
       setTitle('');
       setGenre('');
@@ -96,7 +124,7 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
       setPosterImage(null);
       setBannerImage(null);
       handleModalClose();
-    } catch (error:any) {
+    } catch (error: any) {
       console.log('Caught Error:', error?.response ?? error);
       Toast.show('Failed to add movie!', Toast.LONG);
       update();
@@ -123,7 +151,9 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
 
             <ScrollView showsVerticalScrollIndicator={false}>
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Title</Text>
+                <Text style={styles.label}>
+                  Title <Text style={styles.require}> * require</Text>
+                </Text>
                 <TextInput
                   style={styles.input}
                   value={title}
@@ -134,7 +164,9 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Genre</Text>
+                <Text style={styles.label}>
+                  Genre <Text style={styles.require}> *</Text>
+                </Text>
                 <TextInput
                   style={styles.input}
                   value={genre}
@@ -145,7 +177,9 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Release Year</Text>
+                <Text style={styles.label}>
+                  Release Year <Text style={styles.require}> *</Text>
+                </Text>
                 <TextInput
                   style={styles.input}
                   value={releaseYear}
@@ -157,7 +191,9 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Rating</Text>
+                <Text style={styles.label}>
+                  Rating <Text style={styles.require}> *</Text>
+                </Text>
                 <TextInput
                   style={styles.input}
                   value={rating}
@@ -169,7 +205,9 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Director</Text>
+                <Text style={styles.label}>
+                  Director <Text style={styles.require}> *</Text>
+                </Text>
                 <TextInput
                   style={styles.input}
                   value={director}
@@ -180,7 +218,9 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Duration</Text>
+                <Text style={styles.label}>
+                  Duration <Text style={styles.require}> *</Text>
+                </Text>
                 <TextInput
                   style={styles.input}
                   value={duration}
@@ -192,7 +232,9 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Main Lead</Text>
+                <Text style={styles.label}>
+                  Main Lead <Text style={styles.require}> *</Text>
+                </Text>
                 <TextInput
                   style={styles.input}
                   value={mainLead}
@@ -203,7 +245,9 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Description</Text>
+                <Text style={styles.label}>
+                  Description <Text style={styles.require}> *</Text>
+                </Text>
                 <TextInput
                   style={[styles.input, styles.multilineInput]}
                   value={description}
@@ -215,7 +259,7 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose,update}) => {
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Poster</Text>
+                <Text style={styles.label}>Poster </Text>
                 <TouchableOpacity
                   style={styles.imagePickerButton}
                   onPress={handlePickPoster}>
@@ -383,5 +427,10 @@ export const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  require: {
+    color: '#FF0000',
+    marginHorizontal: 20,
+    fontSize: 15,
   },
 });

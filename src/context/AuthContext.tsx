@@ -6,8 +6,8 @@ export interface AuthContextType {
     subscription: string,
     userRole: 'user'| 'supervisor',
     update: any,
-    handelLogin: any,
-    handelRegister: any,
+    handleLogin: any,
+    handleRegister: any,
     handleLogout: any,
     isAuthenticated: any,
 }
@@ -18,8 +18,8 @@ const defaultValue: AuthContextType = {
     subscription: '',
     loggedUser: {},
     update: () => {},
-    handelLogin: () => {},
-    handelRegister: () => {},
+    handleLogin: () => {},
+    handleRegister: () => {},
     handleLogout: () => {},
     isAuthenticated: () => {},
 };

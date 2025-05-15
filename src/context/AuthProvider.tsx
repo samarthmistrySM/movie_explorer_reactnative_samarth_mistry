@@ -44,7 +44,7 @@ const AuthProvider: FC<Props> = ({children}) => {
     return true;
   };
 
-  const handelLogin = async (email: string, password: string, role: 'user' | 'supervisor') => {
+  const handleLogin = async (email: string, password: string, role: 'user' | 'supervisor') => {
     try {
       const logInRes = await loginUser(email, password);
       AsyncStorage.setItem('token', logInRes.token);
@@ -56,11 +56,11 @@ const AuthProvider: FC<Props> = ({children}) => {
       }
       setReload(!reload);
     } catch (e: any) {
-      Toast.show('Login Failed, Please try again!', Toast.LONG);
+      Toast.show('Invalid email or password!', Toast.LONG);
     }
   };
 
-  const handelRegister = async (
+  const handleRegister = async (
     name: string,
     email: string,
     phoneNumber: string,
@@ -80,14 +80,14 @@ const AuthProvider: FC<Props> = ({children}) => {
         return false;
       }
     } catch (e) {
-      Toast.show('Email or Phone Number is not valid!', Toast.LONG);
+      Toast.show('Invalid email or phone number!', Toast.LONG);
       return false;
     }
   };
 
   const getUserSubscription = async() => {
     try {
-      if(isLoggedIn && userRole === 'user'){
+      if(isLoggedIn){
       const res = await fetchUserSubscription();
       setSubscription(res.plan_type)
     }
@@ -118,8 +118,8 @@ const AuthProvider: FC<Props> = ({children}) => {
         subscription,
         update,
         handleLogout,
-        handelLogin,
-        handelRegister,
+        handleLogin,
+        handleRegister,
         isAuthenticated,
       }}>
       {children}

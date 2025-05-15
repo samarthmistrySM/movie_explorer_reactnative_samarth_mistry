@@ -70,7 +70,7 @@ const Search = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
 
-  const handelSearch = () => {
+  const handleSearch = () => {
     if (searchText.length > 0) {
       if (!searchHistory.includes(searchText)) {
         setSearchHistory([...searchHistory, searchText]);
@@ -114,7 +114,7 @@ const Search = () => {
             style={styles.input}
             onChangeText={setSearchText}
             value={searchText}
-            onSubmitEditing={() => handelSearch()}
+            onSubmitEditing={handleSearch}
           />
         </View>
       </View>

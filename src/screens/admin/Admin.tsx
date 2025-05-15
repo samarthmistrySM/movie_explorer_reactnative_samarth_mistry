@@ -30,21 +30,30 @@ const Admin = () => {
   const [totalPages, setTotalPages] = useState(1);
   
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        setLoading(true);
-        const res = await getMovies(page, 5);
-        setMovies(res.movies as Movie[]);
-        setTotalPages(res.pagination.total_pages);
-      } catch (error) {
-        Toast.show('Error fetching movie', Toast.LONG);
-      } finally {
-        setLoading(false);
+useEffect(() => {
+  const fetchMovies = async () => {
+    try {
+      setLoading(true);
+      const res = await getMovies(page, 5);
+      const fetchedMovies = res.movies as Movie[];
+      const totalPagesFetched = res.pagination.total_pages;
+
+      if (fetchedMovies.length === 0 && page > 1) {
+        setPage(prev => prev - 1);
+      } else {
+        setMovies(fetchedMovies);
+        setTotalPages(totalPagesFetched);
       }
-    };
-    fetchMovies();
-  }, [page, reload]);
+    } catch (error) {
+      Toast.show('Error fetching movie', Toast.LONG);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchMovies();
+}, [page, reload]);
+
 
   const update = () => {
     setReload(!reload);

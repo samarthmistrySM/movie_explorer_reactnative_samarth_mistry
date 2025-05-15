@@ -23,7 +23,7 @@ describe('SignUp', () => {
 
   const renderComponent = () =>
     render(
-      <AuthContext.Provider value={{handelRegister: mockRegister}}>
+      <AuthContext.Provider value={{handleRegister: mockRegister}}>
         <NavigationContainer>
           <SignUp />
         </NavigationContainer>
