@@ -9,6 +9,7 @@ import {
   Dimensions,
   ImageBackground,
   ScrollView,
+  ActivityIndicator
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -25,26 +26,33 @@ const {width, height} = Dimensions.get('window');
 const MovieDetails = () => {
   const router = useRoute();
   const {movie}: {movie: Movie} | any = router.params;
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const {subscription, loggedUser} = useContext(AuthContext);
+
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const {subscription,loggedUser} = useContext(AuthContext);
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
+        setLoading(true);
         const res = await filterMovies(movie.genre);
         setMovies(res.movies as Movie[]);
-        
       } catch (error) {
         Toast.show('Error fetching movie', Toast.LONG);
       } finally {
+        setLoading(false);
       }
     };
     fetchMovies();
   }, []);
 
-  if (movie.premium && subscription !== 'premium' && loggedUser.role !== 'supervisor') {    
+  if (
+    movie.premium &&
+    subscription !== 'premium' &&
+    loggedUser.role !== 'supervisor'
+  ) {
     return (
       <SafeAreaView style={styles.lockedContainer}>
         <View style={styles.lockedContent}>
@@ -124,7 +132,7 @@ const MovieDetails = () => {
                 />
                 <Text style={styles.label}>Duration</Text>
               </View>
-              <Text style={styles.boldText}>{movie.duration}</Text>
+              <Text style={styles.boldText}>{movie.duration} min</Text>
             </View>
           </View>
         </View>
@@ -134,9 +142,13 @@ const MovieDetails = () => {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.cardsContainer}>
-            {movies.map(m => (
-              <MovieCard key={m.id} movie={m} />
-            ))}
+            {loading ? (
+              <View style={styles.alertContainer}>
+                <ActivityIndicator size="large" color="#FF3B30" />
+              </View>
+            ) : (
+              movies.map(m => <MovieCard key={m.id} movie={m} />)
+            )}
           </ScrollView>
         </View>
       </ScrollView>
@@ -148,6 +160,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+    paddingBottom:20,
   },
   linearGradient: {
     position: 'absolute',
@@ -283,7 +296,7 @@ const styles = StyleSheet.create({
     height: 80,
     tintColor: '#FF3B30',
     marginBottom: 20,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   lockedTitle: {
     fontSize: 22,
@@ -307,6 +320,13 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  alertContainer: {
+    width: width,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: width * 0.65,
+    // backgroundColor: 'red'
   },
 });
 

@@ -8,33 +8,38 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import UserDetails from '../components/UserDetails.tsx';
 import MovieCard from '../components/MovieCard';
 import {Movie} from '../Types.ts';
 import ContinueWatchingCard from '../components/ContinueWatchingCard.tsx';
-import { getMovies } from '../api/movieApi.js';
+import {getMovies} from '../api/movieApi.js';
 const {height} = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
+const {width} = Dimensions.get('window');
 
 const Home = () => {
   const labels = ['Top Rated', 'Latest by year'];
   const [selectedLabel, setSelectedLabel] = useState<string>('Top Rated');
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
-  const [movies, setMovies] = useState<Movie[]>([])
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchMovies = async () => {
       try {
+        setLoading(true);
         const res = await getMovies(1, 10);
         setMovies(res.movies as Movie[]);
       } catch (error) {
         Toast.show('Error fetching movie', Toast.LONG);
       } finally {
+        setLoading(false);
       }
     };
     fetchMovies();
-  },[])
+  }, []);
 
   useEffect(() => {
     const moviesCopy = [...movies];
@@ -91,9 +96,15 @@ const Home = () => {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.cardsContainer}>
-          {filteredMovies.map(movie => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
+          {loading ? (
+            <View style={styles.alertContainer}>
+              <ActivityIndicator size="large" color="#FF3B30" />
+            </View>
+          ) : (
+            filteredMovies.map(movie => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))
+          )}
         </ScrollView>
         <View>
           <Text style={styles.sectionHeading}>Continue Watching</Text>
@@ -101,11 +112,17 @@ const Home = () => {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.cardsContainer}>
-            {movies.map(
-              movie =>
-                movie.id % 2 === 0 && (
-                  <ContinueWatchingCard key={movie.id} movie={movie} />
-                ),
+            {loading ? (
+              <View style={styles.alertContainer}>
+                <ActivityIndicator size="large" color="#FF3B30" />
+              </View>
+            ) : (
+              movies.map(
+                movie =>
+                  movie.id % 2 === 0 && (
+                    <ContinueWatchingCard key={movie.id} movie={movie} />
+                  ),
+              )
             )}
           </ScrollView>
         </View>
@@ -194,6 +211,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     fontWeight: 'bold',
     marginBottom: 5,
+  },
+  alertContainer: {
+    width: width,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: width * 0.65,
+    // backgroundColor: 'red'
   },
 });
 

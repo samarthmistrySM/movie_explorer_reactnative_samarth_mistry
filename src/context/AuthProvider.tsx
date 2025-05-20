@@ -5,7 +5,8 @@ import {getUser} from '../api/usersApi';
 import {loginUser, registerUser, logoutUser} from '../api/authApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
-import { fetchUserSubscription } from '../api/paymentApi';
+import {fetchUserSubscription} from '../api/paymentApi';
+import {Alert} from 'react-native';
 
 interface Props {
   children: React.ReactNode;
@@ -15,8 +16,8 @@ const AuthProvider: FC<Props> = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
   const [reload, setReload] = useState<boolean>(false);
-  const [userRole, setUserRole] = useState<'user'|'supervisor'>('user');
-  const [subscription , setSubscription] = useState('free plan');
+  const [userRole, setUserRole] = useState<'user' | 'supervisor'>('user');
+  const [subscription, setSubscription] = useState('free plan');
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -27,12 +28,10 @@ const AuthProvider: FC<Props> = ({children}) => {
     };
     checkAuth();
     getUserSubscription();
-    if(loggedUser && loggedUser.role === 'supervisor'){
+    if (loggedUser && loggedUser.role === 'supervisor') {
       setSubscription('supervisor');
     }
   }, [isLoggedIn, reload]);
-
-  
 
   const isAuthenticated = async () => {
     const user = await getUser();
@@ -44,14 +43,21 @@ const AuthProvider: FC<Props> = ({children}) => {
     return true;
   };
 
-  const handleLogin = async (email: string, password: string, role: 'user' | 'supervisor') => {
+  const handleLogin = async (
+    email: string,
+    password: string,
+    role: 'user' | 'supervisor',
+  ) => {
     try {
       const logInRes = await loginUser(email, password);
       AsyncStorage.setItem('token', logInRes.token);
       AsyncStorage.setItem('role', role);
       if (userRole === 'supervisor' && logInRes.role === 'user') {
-        Toast.show('You are not authorized to login as a supervisor, navigating to user', Toast.LONG);
-      } else{
+        Toast.show(
+          'You are not authorized to login as a supervisor, navigating to user',
+          Toast.LONG,
+        );
+      } else {
         Toast.show('Login Successful, Welcome Back!', Toast.LONG);
       }
       setReload(!reload);
@@ -79,23 +85,40 @@ const AuthProvider: FC<Props> = ({children}) => {
       } else {
         return false;
       }
-    } catch (e) {
-      Toast.show('Invalid email or phone number!', Toast.LONG);
+    } catch (e: any) {
+      console.log('registration error: ', e.response.data.errors);
+      const errors = e?.response?.data?.errors;
+      const errorMessage = Array.isArray(errors)
+        ? errors.map((err: any) =>
+            typeof err === 'string' ? err : JSON.stringify(err),
+          )
+        : [JSON.stringify(errors || e?.message || 'Registration failed')];
+
+      const toastMessage = errorMessage.join('\n\n* ');
+
+      if (errorMessage.length > 1) {
+        Alert.alert('what went wrong' , `* ${toastMessage}`);
+      } else {
+        Toast.show(toastMessage, Toast.LONG);
+      }
+
       return false;
     }
   };
 
-  const getUserSubscription = async() => {
+  const getUserSubscription = async () => {
     try {
-      if(isLoggedIn){
-      const res = await fetchUserSubscription();
-      setSubscription(res.plan_type)
-    }
-    } catch (error:any) {
+      if (isLoggedIn) {
+        const res = await fetchUserSubscription();
+        setSubscription(res.plan_type);
+      }
+    } catch (error: any) {
       console.log(error.response);
-      setSubscription(error.response.status === 404 ? 'supervisor' : 'free plan')
+      setSubscription(
+        error.response.status === 404 ? 'supervisor' : 'free plan',
+      );
     }
-  }
+  };
 
   const handleLogout = async () => {
     await logoutUser();
@@ -103,11 +126,11 @@ const AuthProvider: FC<Props> = ({children}) => {
     setLoggedUser(null);
     await AsyncStorage.removeItem('token');
     Toast.show('Logout Successful!', Toast.TOP);
-  }
+  };
 
   const update = () => {
     setReload(!reload);
-  }
+  };
 
   return (
     <AuthContext.Provider

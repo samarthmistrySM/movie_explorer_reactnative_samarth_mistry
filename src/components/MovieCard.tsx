@@ -6,6 +6,7 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
 import {Movie} from '../Types.ts';
 import {useNavigation} from '@react-navigation/native';
@@ -27,7 +28,9 @@ const MovieCard: FC<Props> = ({movie}) => {
       testID='movie-card-btn'
       onPress={() => navigation.navigate('MovieDetails', {movie: movie})}>
       <View style={styles.card}>
-        <Image source={{uri: movie.poster_url}} style={styles.thumbnail} />
+        <ImageBackground source={{uri: movie.poster_url}} style={styles.thumbnail} >
+          {movie.premium && <Text style={styles.premiumBadge}>P</Text>}
+        </ImageBackground>
         <View style={styles.infoContainer}>
           <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
             {movie.title}
@@ -62,6 +65,8 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end'
   },
   infoContainer: {
     paddingHorizontal: 10,
@@ -98,6 +103,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 12,
   },
+  premiumBadge:{
+    paddingHorizontal:7,
+    paddingVertical:2,
+    color: '#FFF',
+    backgroundColor: '#FF3B30',
+    borderRadius: 20,
+  }
 });
 
 export default MovieCard;

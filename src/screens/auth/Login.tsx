@@ -23,7 +23,7 @@ const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [role, setRole] = useState<'user' | 'supervisor'>('user');
-  const {handleLogin,isLoggedIn} = useContext(AuthContext);
+  const {handleLogin, isLoggedIn} = useContext(AuthContext);
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackPrams>>();
 
   const roles = [
@@ -35,18 +35,18 @@ const Login = () => {
     handleLogin(email, password, role);
   };
 
-  useEffect(()=>{
-    const fetchRole = async()=>{
-      const fetchedRole: string | null = await AsyncStorage.getItem('role')
+  useEffect(() => {
+    const fetchRole = async () => {
+      const fetchedRole: string | null = await AsyncStorage.getItem('role');
 
-      if(fetchedRole === 'supervisor'){
-        setRole('supervisor')
-      } else{
-        setRole('user')
+      if (fetchedRole === 'supervisor') {
+        setRole('supervisor');
+      } else {
+        setRole('user');
       }
-    }
+    };
     fetchRole();
-  },[isLoggedIn])
+  }, [isLoggedIn]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -107,7 +107,7 @@ const Login = () => {
             onChange={item => setRole(item.value)}
             renderItem={item => (
               <View
-              testID='dropdownItem'
+                testID="dropdownItem"
                 style={[
                   styles.dropdownItem,
                   item.value === role && styles.dropdownSelectedItem,
@@ -131,7 +131,9 @@ const Login = () => {
 
         <View style={styles.signUpContainer}>
           <Text style={styles.signUpText}>Don't have an account? </Text>
-          <TouchableOpacity testID='signUpBtn' onPress={() => navigation.navigate('SignUp')}>
+          <TouchableOpacity
+            testID="signUpBtn"
+            onPress={() => navigation.navigate('SignUp')}>
             <Text style={styles.signUpLink}>Sign Up</Text>
           </TouchableOpacity>
         </View>

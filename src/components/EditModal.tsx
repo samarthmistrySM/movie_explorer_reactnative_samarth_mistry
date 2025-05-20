@@ -65,8 +65,23 @@ const EditModal: FC<Props> = ({
         return;
       }
 
-      if(isNaN(Number(releaseYear)) || isNaN(Number(rating)) || isNaN(Number(duration))){
-        Alert.alert('Validation Error', 'Release Year, Rating, and Duration must be numbers.');
+      if (
+        isNaN(Number(releaseYear)) ||
+        isNaN(Number(rating)) ||
+        isNaN(Number(duration))
+      ) {
+        Alert.alert(
+          'Validation Error',
+          'Release Year, Rating, and Duration must be numbers.',
+        );
+        return;
+      }
+
+      if (Number(rating) > 10) {
+        Alert.alert(
+          'Validation Error',
+          'Rating must be between 1 to 10.',
+        );
         return;
       }
 

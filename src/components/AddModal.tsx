@@ -81,6 +81,11 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose, update}) => {
       return;
     }
 
+    if (Number(rating) > 10) {
+      Alert.alert('Validation Error', 'Rating must be between 1 to 10.');
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append('movie[title]', title);

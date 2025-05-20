@@ -50,6 +50,6 @@ describe('MovieDetails', () => {
     expect(getAllByText(mockMovie.rating)).toBeTruthy();
 
     expect(getByText(mockMovie.release_year)).toBeTruthy();
-    expect(getByText(mockMovie.duration)).toBeTruthy();
+    expect(getByText(`${mockMovie.duration} min`)).toBeTruthy();
   });
 });
