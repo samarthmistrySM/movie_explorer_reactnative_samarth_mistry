@@ -17,7 +17,6 @@ export const addMovie = async movie => {
     );
     return response.data;
   } catch (error) {
-    console.log('Error adding movie:', error.response);
     throw error;
   }
 };
@@ -38,7 +37,6 @@ export const updateMovie = async movie => {
     );
     return response.data;
   } catch (error) {
-    console.log('Error updating movie:', error.response);
     throw error;
   }
 };
@@ -53,7 +51,6 @@ export const deleteMovie = async id => {
     });
     return response.data;
   } catch (error) {
-    console.log('Error deleting movie:', error.response);
     throw error;
   }
 };

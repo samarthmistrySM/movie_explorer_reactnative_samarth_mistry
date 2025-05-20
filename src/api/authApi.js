@@ -13,7 +13,6 @@ export const registerUser = async (name, email, phoneNumber, password) => {
     });
     return response.data;
   } catch (error) {
-    console.log('Error registering user:', error.response);
     throw error;
   }
 };
@@ -28,7 +27,6 @@ export const loginUser = async (email, password) => {
     });
     return response.data;
   } catch (error) {
-    console.log('Error logging in user:', error.response);
     throw error;
   }
 };
@@ -43,7 +41,6 @@ export const logoutUser = async () => {
     });
     return response.data;
   } catch (error) {
-    console.log('Error logging out user:', error.response);
     throw error;
   }
 };

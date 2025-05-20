@@ -1,4 +1,4 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
+import React, {FC, useContext, useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -6,7 +6,6 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';

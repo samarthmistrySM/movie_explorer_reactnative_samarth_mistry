@@ -1,19 +1,21 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AuthContext from '../context/AuthContext';
+import Splash from '../screens/Splash';
 import MainNavigator from './MainStack';
 import AuthNavigator from './AuthNavigator';
 import AdminNavigator from './AdminNavigator';
-import {NavigationContainer} from '@react-navigation/native';
-import AuthContext from '../context/AuthContext';
-import Splash from '../screens/Splash';
-import {updateDeviceToken} from '../api/notificationApi';
-import Toast from "react-native-simple-toast"
+import { updateDeviceToken } from '../api/notificationApi';
 
 interface Props {
   fcmToken: string;
 }
 
-const Navigator: FC<Props> = ({fcmToken}) => {
-  const {isLoggedIn, userRole, loggedUser} = useContext(AuthContext);
+const Stack = createNativeStackNavigator();
+
+const Navigator: FC<Props> = ({ fcmToken }) => {
+  const { isLoggedIn, userRole, loggedUser } = useContext(AuthContext);
   const [isSplash, setIsSplash] = useState(true);
 
   useEffect(() => {
@@ -28,7 +30,6 @@ const Navigator: FC<Props> = ({fcmToken}) => {
       const updateToken = async () => {
         try {
           await updateDeviceToken(fcmToken);
-          console.log('Device token updated!')
         } catch (error: any) {
           console.log('Error updating device token', error.message);
         }
@@ -37,21 +38,19 @@ const Navigator: FC<Props> = ({fcmToken}) => {
     }
   }, [fcmToken, isLoggedIn]);
 
-  if (isSplash) {
-    return <Splash />;
-  }
-
   return (
     <NavigationContainer>
-      {isLoggedIn ? (
-        userRole === 'supervisor' && loggedUser.role === 'supervisor' ? (
-          <AdminNavigator />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {isSplash ? (
+          <Stack.Screen name="Splash" component={Splash} />
+        ) : !isLoggedIn ? (
+          <Stack.Screen name="AuthNav" component={AuthNavigator} />
+        ) : userRole === 'supervisor' && loggedUser.role === 'supervisor' ? (
+          <Stack.Screen name="AdminNav" component={AdminNavigator} />
         ) : (
-          <MainNavigator />
-        )
-      ) : (
-        <AuthNavigator />
-      )}
+          <Stack.Screen name="MainNav" component={MainNavigator} />
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

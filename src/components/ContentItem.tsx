@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {Movie} from '../Types';
 import {deleteMovie} from '../api/adminApi';
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
 
 interface Props {

@@ -9,35 +9,9 @@ import {
 } from 'react-native';
 import MembershipCard from '../components/MembershipCard.tsx';
 const {height, width} = Dimensions.get('window');
+import memberships from "../mock/plans.json"
 
 const Subscription = () => {
-  const memberships = [
-    {
-      name: 'Silver',
-      price: 1,
-      planType: '1_day',
-      content: ['2 devices', 'HD streaming', 'Limited Contents'],
-    },
-    {
-      name: 'Gold',
-      price: 30,
-      planType: '1_month',
-      content: ['4 devices', '4K streaming', 'All Contents', 'No Ads'],
-    },
-    {
-      name: 'Platinum',
-      price: 85,
-      planType: '3_months',
-      content: [
-        '6 devices',
-        'Watch with Friends',
-        '4K UHD streaming',
-        'Offline downloads',
-        'Priority support',
-      ],
-    },
-  ];
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.membershipWrapper}>

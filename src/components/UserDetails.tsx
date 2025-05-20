@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {Text, StyleSheet, View, Image, Dimensions} from 'react-native';
 import AuthContext from '../context/AuthContext.tsx';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 const UserDetails = () => {
   const {loggedUser,subscription} = useContext(AuthContext);
   return (
@@ -35,7 +35,7 @@ const UserDetails = () => {
 
 const styles = StyleSheet.create({
   userDetailsContainer: {
-    marginTop: 20,
+    marginTop: 25,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

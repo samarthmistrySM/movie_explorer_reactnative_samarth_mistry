@@ -14,49 +14,11 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainStackParams} from '../navigation/Types.ts';
+import genreList from "../mock/genres.json"
 
 const {width, height} = Dimensions.get('window');
 
 const Search = () => {
-  const genreList = [
-    {
-      name: 'Action',
-      bg: 'https://wallpapers.com/images/hd/action-background-fh6fxnnqkgq3pn7l.jpg',
-    },
-    {
-      name: 'Romance',
-      bg: 'https://img.freepik.com/premium-photo/blurred-valentine39s-day-background-romantic-blur-stock-photography-blurred-valentine39s-day-background-romantic-blur-stock-photography_936686-16171.jpg?semt=ais_hybrid&w=740',
-    },
-    {
-      name: 'Thriller',
-      bg: 'https://img.freepik.com/free-photo/orange-grunge-texture_1048-3123.jpg',
-    },
-    {
-      name: 'Drama',
-      bg: 'https://static.vecteezy.com/system/resources/thumbnails/014/000/181/small/red-stage-curtain-illuminated-by-spotlights-illustration-vector.jpg',
-    },
-    {
-      name: 'Sci-Fi',
-      bg: 'https://static.vecteezy.com/system/resources/thumbnails/001/966/689/small/abstract-futuristic-background-technology-sci-fi-concept-vector.jpg',
-    },
-    {
-      name: 'Mystery',
-      bg: 'https://t4.ftcdn.net/jpg/00/55/78/75/360_F_55787565_5cngbxfLXqjyLIzWIbDmRMehPhAiqowm.jpg',
-    },
-    {
-      name: 'Crime',
-      bg: 'https://media.istockphoto.com/id/1347647998/vector/blood-splattered-background-for-halloween.jpg?s=612x612&w=0&k=20&c=f6OzLWNdihf13_CJtjgRuI1ZBuYYSpxASAHJzpEy2Vo=',
-    },
-    {
-      name: 'Comedy',
-      bg: 'https://media.istockphoto.com/id/1361889847/vector/american-comic-concentration-line.jpg?s=612x612&w=0&k=20&c=Wzz4YpSXmOWs-nQqm17_WVZenvK4uVAms-Ec5_3_Ajg=',
-    },
-    {
-      name: 'Horror',
-      bg: 'https://media.istockphoto.com/id/1492685467/vector/halloween-grave-background.jpg?s=612x612&w=0&k=20&c=ug0HfzbIn0K-07SBZObweUcf2TYxCf6LkMuXLwy4bhI=',
-    },
-  ];
-
   const recentSearches = [
     'Captain',
     'Action',

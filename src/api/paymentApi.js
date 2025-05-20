@@ -16,7 +16,6 @@ export const getStripeSessionUrl = async (planType) => {
 
     return response;
   } catch (error) {
-    console.log('Error getting stripe checkout url', error);
     throw error;
   }
 };

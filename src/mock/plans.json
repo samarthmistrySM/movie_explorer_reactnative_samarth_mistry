@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Silver",
+    "price": 1,
+    "planType": "1_day",
+    "content": ["2 devices", "HD streaming", "Limited Contents"]
+  },
+  {
+    "name": "Gold",
+    "price": 30,
+    "planType": "1_month",
+    "content": ["4 devices", "4K streaming", "All Contents", "No Ads"]
+  },
+  {
+    "name": "Platinum",
+    "price": 85,
+    "planType": "3_months",
+    "content": [
+      "6 devices",
+      "Watch with Friends",
+      "4K UHD streaming",
+      "Offline downloads",
+      "Priority support"
+    ]
+  }
+]

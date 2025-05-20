@@ -9,7 +9,7 @@ import {
   Dimensions,
   ImageBackground,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -20,6 +20,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-simple-toast';
 import {filterMovies} from '../api/movieApi.js';
 import AuthContext from '../context/AuthContext.tsx';
+import MovieCardLoading from '../components/MovieCardLoading.tsx';
 
 const {width, height} = Dimensions.get('window');
 
@@ -33,18 +34,19 @@ const MovieDetails = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
 
+  const fetchMovies = async () => {
+    try {
+      setLoading(true);
+      const res = await filterMovies(movie.genre);
+      setMovies(res.movies as Movie[]);
+    } catch (error) {
+      Toast.show('Error fetching movie', Toast.LONG);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        setLoading(true);
-        const res = await filterMovies(movie.genre);
-        setMovies(res.movies as Movie[]);
-      } catch (error) {
-        Toast.show('Error fetching movie', Toast.LONG);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchMovies();
   }, []);
 
@@ -142,13 +144,11 @@ const MovieDetails = () => {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.cardsContainer}>
-            {loading ? (
-              <View style={styles.alertContainer}>
-                <ActivityIndicator size="large" color="#FF3B30" />
-              </View>
-            ) : (
-              movies.map(m => <MovieCard key={m.id} movie={m} />)
-            )}
+            {loading
+              ? Array.from({length: 6}).map((_, index) => (
+                  <MovieCardLoading key={index} />
+                ))
+              : movies.map(m => <MovieCard key={m.id} movie={m} />)}
           </ScrollView>
         </View>
       </ScrollView>
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-    paddingBottom:20,
+    paddingBottom: 20,
   },
   linearGradient: {
     position: 'absolute',

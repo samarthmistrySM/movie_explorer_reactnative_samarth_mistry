@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   Text,
@@ -10,14 +10,15 @@ import {
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { filterMovies, searchMovies } from '../api/movieApi.js';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {filterMovies, searchMovies} from '../api/movieApi.js';
 import MovieCard from '../components/MovieCard';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { MainStackParams } from '../navigation/Types.ts';
-import { Movie } from '../Types';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {MainStackParams} from '../navigation/Types.ts';
+import {Movie} from '../Types';
+import MovieCardLoading from '../components/MovieCardLoading.tsx';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 type Filter = {
   type: 'title' | 'genre';
@@ -25,9 +26,10 @@ type Filter = {
 };
 
 const Result = () => {
-  const { params } = useRoute();
-  const { filter }: { filter: Filter } | any = params;
-  const navigation = useNavigation<NativeStackNavigationProp<MainStackParams>>();
+  const {params} = useRoute();
+  const {filter}: {filter: Filter} | any = params;
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParams>>();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -53,8 +55,7 @@ const Result = () => {
     fetchMovies();
   }, []);
 
-  // Render each movie item
-  const renderItem = ({ item, index }: { item: Movie; index: number }) => (
+  const renderItem = ({item, index}: {item: Movie; index: number}) => (
     <View style={styles.movieItem}>
       <MovieCard key={index} movie={item} />
     </View>
@@ -62,23 +63,25 @@ const Result = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          testID="goBackBtn"
-          onPress={() => navigation.goBack()}>
+      <TouchableOpacity testID="goBackBtn" style={styles.header} onPress={() => navigation.goBack()}>
+          
           <Image
             style={styles.icon}
             source={require('../assets/chevron.left.png')}
           />
-        </TouchableOpacity>
         <Text style={styles.heading}>
           Search results for {`"${filter.query}"`}
         </Text>
-      </View>
+      </TouchableOpacity>
       {loading ? (
-        <View style={styles.alertContainer}>
-          <ActivityIndicator size="large" color="#FF3B30" />
-        </View>
+        <FlatList
+          data={Array.from({length: 6})}
+          keyExtractor={(_, idx) => `loading-${idx}`}
+          renderItem={() => <MovieCardLoading />}
+          numColumns={2}
+          contentContainerStyle={styles.moviesContainer}
+          columnWrapperStyle={styles.columnWrapper}
+        />
       ) : movies?.length === 0 ? (
         <View style={styles.alertContainer}>
           <Image
@@ -105,7 +108,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-    paddingTop: 20,
+    paddingTop: 30,
   },
   moviesContainer: {
     paddingHorizontal: 15,
@@ -117,13 +120,14 @@ const styles = StyleSheet.create({
   },
   movieItem: {
     width: (width - 40) / 2,
-    marginBottom:15,
+    marginBottom: 15,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 15,
     marginBottom: 15,
+    paddingVertical:10,
   },
   icon: {
     height: width * 0.045,

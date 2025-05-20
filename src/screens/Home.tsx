@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -8,7 +8,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ActivityIndicator,
 } from 'react-native';
 import UserDetails from '../components/UserDetails.tsx';
 import MovieCard from '../components/MovieCard';
@@ -17,6 +16,7 @@ import ContinueWatchingCard from '../components/ContinueWatchingCard.tsx';
 import {getMovies} from '../api/movieApi.js';
 const {height} = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
+import MovieCardLoading from '../components/MovieCardLoading.tsx';
 const {width} = Dimensions.get('window');
 
 const Home = () => {
@@ -26,18 +26,19 @@ const Home = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const fetchMovies = async () => {
+    try {
+      setLoading(true);
+      const res = await getMovies(1, 10);
+      setMovies(res.movies as Movie[]);
+    } catch (error) {
+      Toast.show('Error fetching movie', Toast.LONG);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        setLoading(true);
-        const res = await getMovies(1, 10);
-        setMovies(res.movies as Movie[]);
-      } catch (error) {
-        Toast.show('Error fetching movie', Toast.LONG);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchMovies();
   }, []);
 
@@ -96,15 +97,13 @@ const Home = () => {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.cardsContainer}>
-          {loading ? (
-            <View style={styles.alertContainer}>
-              <ActivityIndicator size="large" color="#FF3B30" />
-            </View>
-          ) : (
-            filteredMovies.map(movie => (
-              <MovieCard key={movie.id} movie={movie} />
-            ))
-          )}
+          {loading
+            ? Array.from({length: 6}).map((_, idx) => (
+                <MovieCardLoading key={idx} />
+              ))
+            : filteredMovies.map(movie => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))}
         </ScrollView>
         <View>
           <Text style={styles.sectionHeading}>Continue Watching</Text>
@@ -112,18 +111,16 @@ const Home = () => {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.cardsContainer}>
-            {loading ? (
-              <View style={styles.alertContainer}>
-                <ActivityIndicator size="large" color="#FF3B30" />
-              </View>
-            ) : (
-              movies.map(
-                movie =>
-                  movie.id % 2 === 0 && (
-                    <ContinueWatchingCard key={movie.id} movie={movie} />
-                  ),
-              )
-            )}
+            {loading
+              ? Array.from({length: 6}).map((_, index) => (
+                  <MovieCardLoading key={index} />
+                ))
+              : movies.map(
+                  movie =>
+                    movie.id % 2 === 0 && (
+                      <ContinueWatchingCard key={movie.id} movie={movie} />
+                    ),
+                )}
           </ScrollView>
         </View>
       </ScrollView>
@@ -211,13 +208,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     fontWeight: 'bold',
     marginBottom: 5,
-  },
-  alertContainer: {
-    width: width,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: width * 0.65,
-    // backgroundColor: 'red'
   },
 });
 

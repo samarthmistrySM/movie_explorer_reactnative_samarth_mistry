@@ -17,7 +17,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackPrams} from '../../navigation/Types.ts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const {height, width} = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 
 const Login = () => {
   const [email, setEmail] = useState<string>('');

@@ -5,7 +5,6 @@ import {
   StyleSheet,
   View,
   Dimensions,
-  ActivityIndicator,
   Image,
   FlatList,
   TouchableOpacity,
@@ -13,6 +12,7 @@ import {
 import MovieCard from '../components/MovieCard';
 import { Movie } from '../Types';
 import { getMovies } from '../api/movieApi';
+import MovieCardLoading from '../components/MovieCardLoading';
 
 const { width } = Dimensions.get('window');
 
@@ -61,7 +61,14 @@ const Explore = () => {
 
   const renderLoadMoreButton = () => {
     if (loading) {
-      return <ActivityIndicator size="large" color="#FF3B30" style={styles.loader} />;
+      return <FlatList
+          data={Array.from({length: 6})}
+          keyExtractor={(_, idx) => `loading-${idx}`}
+          renderItem={() => <MovieCardLoading />}
+          numColumns={2}
+          contentContainerStyle={styles.moviesContainer}
+          columnWrapperStyle={styles.columnWrapper}
+        />;
     }
     if (hasMore) {
       return (
