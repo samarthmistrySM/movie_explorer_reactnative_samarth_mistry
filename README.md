@@ -79,7 +79,6 @@ Movie Explorer+ is a modern mobile application built with React Native, designed
 
 ## Screenshots
 
-> **Tip:** Add screenshots of your app’s key screens for visual impact.
 >
 > - Splash Screen
 > <table>
