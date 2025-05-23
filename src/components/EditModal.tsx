@@ -30,6 +30,7 @@ const EditModal: FC<Props> = ({
   movie,
   update,
 }) => {
+  const [id, setId]=useState(0);
   const [title, setTitle] = useState('');
   const [genre, setGenre] = useState('');
   const [releaseYear, setReleaseYear] = useState('');
@@ -40,6 +41,7 @@ const EditModal: FC<Props> = ({
 
   useEffect(() => {
     if (movie) {
+      setId(movie.id);
       setTitle(movie.title);
       setGenre(movie.genre);
       setReleaseYear(movie.release_year.toString());
@@ -78,35 +80,24 @@ const EditModal: FC<Props> = ({
       }
 
       if (Number(rating) > 10) {
-        Alert.alert(
-          'Validation Error',
-          'Rating must be between 1 to 10.',
-        );
+        Alert.alert('Validation Error', 'Rating must be between 1 to 10.');
         return;
       }
 
-      const updatedMovie = {
-        id: movie?.id,
-        title,
-        genre,
-        release_year: releaseYear,
-        rating,
-        director,
-        duration,
-        description,
-      };
+      const formData = new FormData();
 
-      await updateMovie(updatedMovie);
+      formData.append('movie[title]', title);
+      formData.append('movie[genre]', genre);
+      formData.append('movie[release_year]', releaseYear);
+      formData.append('movie[rating]', rating);
+      formData.append('movie[director]', director);
+      formData.append('movie[duration]', parseInt(duration, 10));
+      formData.append('movie[description]', description);
+
+      await updateMovie(id, formData);
 
       Toast.show('Movie updated successfully!', Toast.LONG);
       update();
-      setTitle('');
-      setGenre('');
-      setReleaseYear('');
-      setRating('');
-      setDirector('');
-      setDuration('');
-      setDescription('');
       handleModalClose();
     } catch (error: any) {
       console.log('Error editing movie:', error);

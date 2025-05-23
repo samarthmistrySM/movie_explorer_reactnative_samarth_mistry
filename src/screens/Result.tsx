@@ -8,10 +8,9 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
-  ActivityIndicator,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {filterMovies, searchMovies} from '../api/movieApi.js';
+import {filterMovies, searchMovies} from '../api/movieApi';
 import MovieCard from '../components/MovieCard';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainStackParams} from '../navigation/Types.ts';
@@ -33,25 +32,26 @@ const Result = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        let res;
-        setLoading(true);
-        if (filter.type === 'title') {
-          res = await searchMovies(filter.query);
-        } else if (filter.type === 'genre') {
-          res = await filterMovies(filter.query);
-        }
-        if (res) {
-          setMovies(res.movies);
-        }
-      } catch (error: any) {
-        console.log('Error fetching movies:', error.response);
-      } finally {
-        setLoading(false);
+  const fetchMovies = async () => {
+    try {
+      let res;
+      setLoading(true);
+      if (filter.type === 'title') {
+        res = await searchMovies(filter.query);
+      } else if (filter.type === 'genre') {
+        res = await filterMovies(filter.query);
       }
-    };
+      if (res) {
+        setMovies(res.movies);
+      }
+    } catch (error: any) {
+      // console.log('Error fetching movies:', error.response);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchMovies();
   }, []);
 
@@ -63,12 +63,14 @@ const Result = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity testID="goBackBtn" style={styles.header} onPress={() => navigation.goBack()}>
-          
-          <Image
-            style={styles.icon}
-            source={require('../assets/chevron.left.png')}
-          />
+      <TouchableOpacity
+        testID="goBackBtn"
+        style={styles.header}
+        onPress={() => navigation.goBack()}>
+        <Image
+          style={styles.icon}
+          source={require('../assets/chevron.left.png')}
+        />
         <Text style={styles.heading}>
           Search results for {`"${filter.query}"`}
         </Text>
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 15,
     marginBottom: 15,
-    paddingVertical:10,
+    paddingVertical: 10,
   },
   icon: {
     height: width * 0.045,

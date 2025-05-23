@@ -2,7 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Image} from 'react-native';
 
-import Admin from '../screens/admin/Admin';
+import Admin from '../screens/Admin';
 import Profile from '../screens/Profile';
 
 const person = require('../assets/person.fill.png');

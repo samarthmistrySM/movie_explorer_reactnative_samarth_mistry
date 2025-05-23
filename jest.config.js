@@ -16,8 +16,8 @@ module.exports = {
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/**/*.d.ts',
     '!src/context/**',
-    '!src/api/**',
-    "!src/navigation/**"
+    "!src/navigation/**",
+    "!src/Types.ts"
   ],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__tests__/__mocks__/fileMock.js',

@@ -41,7 +41,7 @@ const ContentItem: FC<Props> = ({
             Toast.show('Movie deleted successfully!', Toast.LONG);
             update();
           } catch (error: any) {
-            console.log('Error deleting movie:', error.response);
+            // console.log('Error deleting movie:', error.response);
             Toast.show('Error deleting movie!', Toast.LONG);
           }
         },

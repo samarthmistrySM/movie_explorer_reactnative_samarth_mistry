@@ -43,7 +43,7 @@ const MembershipCard: FC<Props> = ({membership, index}) => {
       }
 
     } catch (error: any) {
-      console.log("error purchasing membership",error);
+      // console.log("error purchasing membership",error);
     } finally {
       setIsLoading(false);
     }

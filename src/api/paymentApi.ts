@@ -1,7 +1,7 @@
 import api from './apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const getStripeSessionUrl = async (planType) => {
+export const getStripeSessionUrl = async (planType: string) => {
   try {
     const token = await AsyncStorage.getItem('token');
     const response = await api.post(
@@ -11,7 +11,7 @@ export const getStripeSessionUrl = async (planType) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     return response;
@@ -20,30 +20,33 @@ export const getStripeSessionUrl = async (planType) => {
   }
 };
 
-export const handleSuccessfulPayment = async (sessionId) => {
+export const handleSuccessfulPayment = async (sessionId: string) => {
   try {
     const token = await AsyncStorage.getItem('token');
-    const response = await api.get(`/api/v1/subscriptions/success?session_id=${sessionId}`,{},{
-      headers: {
+    const response = await api.get(
+      `/api/v1/subscriptions/success?session_id=${sessionId}`,
+      {
+        headers: {
           Authorization: `Bearer ${token}`,
         },
-    });
+      },
+    );
     return response;
   } catch (error) {
     throw error;
   }
-}
+};
 
-export const fetchUserSubscription = async() => {
+export const fetchUserSubscription = async () => {
   try {
     const token = await AsyncStorage.getItem('token');
-    const response = await api.get(`/api/v1/subscriptions/status`,{
+    const response = await api.get(`/api/v1/subscriptions/status`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};

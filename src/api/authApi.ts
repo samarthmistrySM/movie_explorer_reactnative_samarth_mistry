@@ -1,7 +1,12 @@
 import api from './apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const registerUser = async (name, email, phoneNumber, password) => {
+export const registerUser = async (
+  name: string,
+  email: string,
+  phoneNumber: string,
+  password: string,
+) => {
   try {
     const response = await api.post('/users', {
       user: {
@@ -17,7 +22,7 @@ export const registerUser = async (name, email, phoneNumber, password) => {
   }
 };
 
-export const loginUser = async (email, password) => {
+export const loginUser = async (email: string, password: string) => {
   try {
     const response = await api.post('/users/sign_in', {
       user: {

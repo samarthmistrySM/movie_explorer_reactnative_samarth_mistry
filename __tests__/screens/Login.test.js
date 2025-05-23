@@ -1,10 +1,15 @@
 import React from 'react';
-import {fireEvent, render} from '@testing-library/react-native';
+import {fireEvent, render, waitFor} from '@testing-library/react-native';
 import Login from '../../src/screens/auth/Login';
 import AuthContext from '../../src/context/AuthContext';
 import {NavigationContainer} from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const mockNavigate = jest.fn();
+
+jest.mock('@react-native-async-storage/async-storage', () => ({
+  getItem: jest.fn(),
+}));
+
 
 jest.mock('@react-navigation/native', () => {
   const navigation = jest.requireActual('@react-navigation/native');
@@ -78,5 +83,32 @@ describe('Login', () => {
     fireEvent.press(signUpButton);
 
     expect(mockNavigate).toHaveBeenCalledWith('SignUp');
+  });
+
+   it('sets role to supervisor if AsyncStorage returns supervisor', async () => {
+    (AsyncStorage.getItem).mockResolvedValue('supervisor');
+    const {getByText} = renderComponent();
+
+    await waitFor(() => {
+      expect(getByText('Supervisor')).toBeTruthy();
+    });
+  });
+
+   it('sets role to supervisor if AsyncStorage returns supervisor', async () => {
+    (AsyncStorage.getItem).mockResolvedValue('admin');
+    const {getByText} = renderComponent();
+
+    await waitFor(() => {
+      expect(getByText('User')).toBeTruthy();
+    });
+  });
+
+    it('sets role to supervisor if AsyncStorage returns supervisor', async () => {
+    (AsyncStorage.getItem).mockResolvedValue(null);
+    const {getByText} = renderComponent();
+
+    await waitFor(() => {
+      expect(getByText('User')).toBeTruthy();
+    });
   });
 });

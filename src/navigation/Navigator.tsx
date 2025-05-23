@@ -31,7 +31,7 @@ const Navigator: FC<Props> = ({ fcmToken }) => {
         try {
           await updateDeviceToken(fcmToken);
         } catch (error: any) {
-          console.log('Error updating device token', error.message);
+          // console.log('Error updating device token', error.message);
         }
       };
       updateToken();

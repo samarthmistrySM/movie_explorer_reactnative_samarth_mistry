@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,10 +9,40 @@ import {
   ScrollView,
 } from 'react-native';
 import AuthContext from '../context/AuthContext';
+import memberships from '../mock/plans.json';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { MainTabsParams } from '../navigation/Types';
+
+interface Membership {
+  name: string;
+  price: number;
+  planType: string;
+  content: string[];
+}
 
 const Profile = () => {
   const {loggedUser, handleLogout, subscription} = useContext(AuthContext);
+  const [activatedPlan, setActivatedPlan] = useState<Membership>(
+    memberships[0],
+  );
 
+  const navigation =
+      useNavigation<NavigationProp<MainTabsParams>>();
+
+  const profilePic =
+    'https://static.vecteezy.com/system/resources/previews/036/594/092/non_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg';
+
+  useEffect(() => {
+    if (subscription === 'premium') {
+      setActivatedPlan(memberships[1]);
+    } else if (subscription === 'supervisor') {
+      setActivatedPlan(memberships[2]);
+    } else if (subscription === 'basic') {
+      setActivatedPlan(memberships[0]);
+    }
+  }, [subscription]);
+
+  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -24,7 +54,7 @@ const Profile = () => {
             <Image
               style={styles.profileImage}
               source={{
-                uri: 'https://static.vecteezy.com/system/resources/previews/036/594/092/non_2x/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg',
+                uri: profilePic,
               }}
             />
           </View>
@@ -36,6 +66,23 @@ const Profile = () => {
             onPress={() => handleLogout()}>
             <Text style={styles.logOutBtnText}>Logout</Text>
           </TouchableOpacity>
+        </View>
+        <View style={styles.premiumContainer}>
+          <View style={styles.headerRow}>
+            <View>
+              <Text style={styles.planTitle}>{activatedPlan.name}</Text>
+              <Text style={styles.planValidity}>Valid until Dec 2025</Text>
+            </View>
+            <TouchableOpacity style={styles.manageBtn} onPress={()=>navigation.navigate("Subscription")}>
+              <Text style={styles.manageText}>Manage</Text>
+            </TouchableOpacity>
+          </View>
+          {activatedPlan.content.map((plan, i) => (
+            <View key={i} style={styles.bulletRow}>
+              <View style={styles.redBullet} />
+              <Text style={styles.bulletText}>{plan}</Text>
+            </View>
+          ))}
         </View>
         <View style={styles.detailsContainer}>
           <View>
@@ -179,8 +226,60 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingBottom: 30,
-    flexGrow: 1, 
+    flexGrow: 1,
     justifyContent: 'space-between',
+  },
+   premiumContainer: {
+    backgroundColor: '#1c1c1e',
+    borderRadius: 16,
+    padding: 20,
+    marginVertical: 16,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  planTitle: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  planValidity: {
+    color: '#ff3b30',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  manageBtn: {
+    backgroundColor: '#232324',
+    paddingVertical: 6,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    borderColor: '#ff3b30',
+    borderWidth: 1,
+  },
+  manageText: {
+    color: '#ff3b30',
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  bulletRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  redBullet: {
+    width: 9,
+    height: 9,
+    borderRadius: 5,
+    backgroundColor: '#ff3b30',
+    marginRight: 10,
+  },
+  bulletText: {
+    color: '#fff',
+    fontSize: 15,
   },
 });
 

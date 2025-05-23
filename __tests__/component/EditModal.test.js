@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import {render, fireEvent, waitFor} from '@testing-library/react-native';
 import EditModal from '../../src/components/EditModal';
-import { updateMovie } from '../../src/api/adminApi';
+import {updateMovie} from '../../src/api/adminApi';
 import Toast from 'react-native-simple-toast';
 
 jest.mock('../../src/api/adminApi', () => ({
@@ -30,47 +30,66 @@ describe('EditModal', () => {
   const update = jest.fn();
 
   it('renders the modal with movie data and updates it', async () => {
-    const { getByPlaceholderText, getByText } = render(
+    const {getByPlaceholderText, getByText} = render(
       <EditModal
         isModalOpen={true}
         handleModalClose={handleModalClose}
         movie={mockMovie}
         update={update}
-      />
+      />,
     );
 
-    expect(getByPlaceholderText('Enter movie title').props.value).toBe('Test Movie');
+    expect(getByPlaceholderText('Enter movie title').props.value).toBe(
+      'Test Movie',
+    );
 
-    fireEvent.changeText(getByPlaceholderText('Enter movie title'), 'Updated Movie Title');
+    fireEvent.changeText(
+      getByPlaceholderText('Enter movie title'),
+      'Updated Movie Title',
+    );
 
     fireEvent.press(getByText('Update Movie'));
 
     await waitFor(() => {
-      expect(updateMovie).toHaveBeenCalledWith(
-        expect.objectContaining({ title: 'Updated Movie Title' })
+      const [, obj] = updateMovie.mock.calls[0];
+      const arr = obj[Object.getOwnPropertySymbols(obj)[0]];
+
+      expect(arr).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            name: 'movie[title]',
+            value: 'Updated Movie Title',
+          }),
+        ]),
       );
-      expect(Toast.show).toHaveBeenCalledWith('Movie updated successfully!', Toast.LONG);
+      expect(Toast.show).toHaveBeenCalledWith(
+        'Movie updated successfully!',
+        Toast.LONG,
+      );
       expect(update).toHaveBeenCalled();
       expect(handleModalClose).toHaveBeenCalled();
     });
   });
 
   it('handles updateMovie error', async () => {
-    (updateMovie).mockRejectedValueOnce(new Error('Update failed'));
+    updateMovie.mockRejectedValueOnce(new Error('Update failed'));
 
-    const { getByText } = render(
+    const {getByText} = render(
       <EditModal
         isModalOpen={true}
         handleModalClose={handleModalClose}
         movie={mockMovie}
         update={update}
-      />
+      />,
     );
 
     fireEvent.press(getByText('Update Movie'));
 
     await waitFor(() => {
-      expect(Toast.show).toHaveBeenCalledWith('Error updating movie!', Toast.LONG);
+      expect(Toast.show).toHaveBeenCalledWith(
+        'Error updating movie!',
+        Toast.LONG,
+      );
     });
   });
 });

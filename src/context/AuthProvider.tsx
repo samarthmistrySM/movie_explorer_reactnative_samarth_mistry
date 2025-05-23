@@ -79,25 +79,32 @@ const AuthProvider: FC<Props> = ({children}) => {
         phoneNumber,
         password,
       );
+
       if (registerRes.token) {
         Toast.show('Registration Successful, Welcome!', Toast.LONG);
         return true;
-      } else {
-        return false;
       }
+      return false;
     } catch (e: any) {
-      console.log('registration error: ', e.response.data.errors);
+      // console.log('registration error:', e?.response?.data?.errors);
+
       const errors = e?.response?.data?.errors;
-      const errorMessage = Array.isArray(errors)
-        ? errors.map((err: any) =>
-            typeof err === 'string' ? err : JSON.stringify(err),
-          )
-        : [JSON.stringify(errors || e?.message || 'Registration failed')];
+      let errorMessages: string[];
 
-      const toastMessage = errorMessage.join('\n\n* ');
+      if (Array.isArray(errors)) {
+        errorMessages = errors.map((err: any) =>
+          typeof err === 'string' ? err : JSON.stringify(err),
+        );
+      } else {
+        errorMessages = [
+          JSON.stringify(errors || e?.message || 'Registration failed'),
+        ];
+      }
 
-      if (errorMessage.length > 1) {
-        Alert.alert('what went wrong' , `* ${toastMessage}`);
+      const toastMessage = errorMessages.join('\n\n* ');
+
+      if (errorMessages.length > 1) {
+        Alert.alert('What went wrong', `* ${toastMessage}`);
       } else {
         Toast.show(toastMessage, Toast.LONG);
       }
@@ -113,7 +120,7 @@ const AuthProvider: FC<Props> = ({children}) => {
         setSubscription(res.plan_type);
       }
     } catch (error: any) {
-      console.log(error.response);
+      // console.log(error.response);
       setSubscription(
         error.response.status === 404 ? 'supervisor' : 'free plan',
       );

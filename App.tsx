@@ -43,7 +43,6 @@ const App = () => {
   const getFCMToken = async () => {
     try {
       const token = await getToken(messagingInstance);
-      // console.log('FCM Token:', token);
       setFcmToken(token);
     } catch (error) {
       console.error('Error retrieving FCM token:', error);
@@ -51,7 +50,6 @@ const App = () => {
   };
 
   return (
-    
       <GestureHandlerRootView>
         <AuthProvider>
             <Navigator fcmToken={fcmToken} />

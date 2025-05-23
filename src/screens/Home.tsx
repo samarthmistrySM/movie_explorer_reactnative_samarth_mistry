@@ -13,7 +13,7 @@ import UserDetails from '../components/UserDetails.tsx';
 import MovieCard from '../components/MovieCard';
 import {Movie} from '../Types.ts';
 import ContinueWatchingCard from '../components/ContinueWatchingCard.tsx';
-import {getMovies} from '../api/movieApi.js';
+import {getMovies} from '../api/movieApi';
 const {height} = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
 import MovieCardLoading from '../components/MovieCardLoading.tsx';
@@ -102,7 +102,7 @@ const Home = () => {
                 <MovieCardLoading key={idx} />
               ))
             : filteredMovies.map(movie => (
-                <MovieCard key={movie.id} movie={movie} />
+                <MovieCard key={movie.id} movie={movie}/>
               ))}
         </ScrollView>
         <View>

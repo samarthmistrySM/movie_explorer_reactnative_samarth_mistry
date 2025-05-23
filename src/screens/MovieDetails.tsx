@@ -18,7 +18,7 @@ import MovieCard from '../components/MovieCard.tsx';
 import {Movie} from '../Types.ts';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-simple-toast';
-import {filterMovies} from '../api/movieApi.js';
+import {filterMovies} from '../api/movieApi';
 import AuthContext from '../context/AuthContext.tsx';
 import MovieCardLoading from '../components/MovieCardLoading.tsx';
 

@@ -1,47 +1,38 @@
-import api from './apiConfig.js';
+import api from './apiConfig.ts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const addMovie = async movie => {
+export const addMovie = async (movie: FormData) => {
   try {
     const token = await AsyncStorage.getItem('token');
-    
-    
-    const response = await api.post(
-      `/api/v1/movies`,movie,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
+
+    const response = await api.post(`/api/v1/movies`, movie, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
       },
-    );
+    });
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const updateMovie = async movie => {
+export const updateMovie = async (id: number, movie: FormData) => {
   try {
     const token = await AsyncStorage.getItem('token');
-    const response = await api.patch(
-      `/api/v1/movies/${movie.id}`,
-      {
-        movie: movie,
+    const response = await api.patch(`/api/v1/movies/${id}`, movie, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
+    });
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const deleteMovie = async id => {
+export const deleteMovie = async (id: number) => {
   try {
     const token = await AsyncStorage.getItem('token');
     const response = await api.delete(`/api/v1/movies/${id}`, {

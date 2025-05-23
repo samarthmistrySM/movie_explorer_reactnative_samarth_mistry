@@ -10,11 +10,11 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import ContentItem from '../../components/ContentItem';
-import {Movie} from '../../Types';
-import {getMovies} from '../../api/movieApi';
-import AddModal from '../../components/AddModal';
-import EditModal from '../../components/EditModal';
+import ContentItem from '../components/ContentItem';
+import {Movie} from '../Types';
+import {getMovies} from '../api/movieApi';
+import AddModal from '../components/AddModal';
+import EditModal from '../components/EditModal';
 const {width, height} = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
 
@@ -141,17 +141,17 @@ useEffect(() => {
           </View>
 
           <View style={styles.pagination}>
-            <TouchableOpacity onPress={decrementPage} disabled={page === 1}>
+            <TouchableOpacity testID='leftButton' onPress={decrementPage} disabled={page === 1}>
               <Image
                 style={styles.icon}
-                source={require('../../assets/chevron.left.png')}
+                source={require('../assets/chevron.left.png')}
               />
             </TouchableOpacity>
             <Text style={styles.paginationText}>Page {page} / {totalPages}</Text>
-            <TouchableOpacity onPress={incrementPage} disabled={page === 9}>
+            <TouchableOpacity testID='rightButton' onPress={incrementPage} disabled={page === 9}>
               <Image
                 style={styles.icon}
-                source={require('../../assets/chevron.right.png')}
+                source={require('../assets/chevron.right.png')}
               />
             </TouchableOpacity>
           </View>

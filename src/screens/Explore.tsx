@@ -37,7 +37,8 @@ const Explore = () => {
         setMovies(prev => [...prev, ...newMovies]);
       }
     } catch (error: any) {
-      console.log(error.message);
+      setHasMore(false);
+      // console.log(error.message);
     } finally {
       setLoading(false);
     }

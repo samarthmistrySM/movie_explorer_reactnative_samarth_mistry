@@ -28,14 +28,11 @@ describe('Success Screen', () => {
       </AuthContext.Provider>
     );
 
-    // Check text presence
     expect(getByText('Subscription Successful!')).toBeTruthy();
     expect(getByText('Thank you for subscribing to MoviePlus')).toBeTruthy();
 
-    // Tap the "Continue" button
     fireEvent.press(getByText('Continue'));
 
-    // Expect navigation and update to be called
     expect(mockUpdate).toHaveBeenCalled();
     expect(mockNavigate).toHaveBeenCalledWith('Main');
   });

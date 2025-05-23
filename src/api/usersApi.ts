@@ -1,4 +1,4 @@
-import api from './apiConfig.js';
+import api from './apiConfig.ts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getUser = async () => {

@@ -18,3 +18,11 @@ export interface MainStackParams extends ParamListBase {
   Payment: {url: string; session_id: string};
   Success: undefined
 }
+
+export interface MainTabsParams extends ParamListBase {
+  Home: undefined;
+  Search: undefined;
+  Subscription :undefined;
+  Explore: undefined;
+  Profile: undefined;
+}

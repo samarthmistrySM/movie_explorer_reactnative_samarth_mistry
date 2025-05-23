@@ -115,6 +115,7 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose, update}) => {
 
     try {
       await addMovie(formData);
+      
       update();
 
       Toast.show('Movie Added!', Toast.LONG);
@@ -130,7 +131,7 @@ const AddModal: FC<Props> = ({isModalOpen, handleModalClose, update}) => {
       setBannerImage(null);
       handleModalClose();
     } catch (error: any) {
-      console.log('Caught Error:', error?.response ?? error);
+      // console.log('Caught Error:', error?.response ?? error);
       Toast.show('Failed to add movie!', Toast.LONG);
       update();
     }

@@ -12,8 +12,8 @@ const Success = () => {
   const {update} = useContext(AuthContext);
 
   const handleClick = () => {
-    navigation.navigate('Main');
     update();
+    navigation.navigate('Main');
   };
   
   return (

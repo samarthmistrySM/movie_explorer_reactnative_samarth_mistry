@@ -1,18 +1,18 @@
 [
   {
-    "name": "Silver",
+    "name": "Basic",
     "price": 1,
     "planType": "1_day",
     "content": ["2 devices", "HD streaming", "Limited Contents"]
   },
   {
-    "name": "Gold",
+    "name": "Premium Plus",
     "price": 30,
     "planType": "1_month",
     "content": ["4 devices", "4K streaming", "All Contents", "No Ads"]
   },
   {
-    "name": "Platinum",
+    "name": "Premium Platinum",
     "price": 85,
     "planType": "3_months",
     "content": [

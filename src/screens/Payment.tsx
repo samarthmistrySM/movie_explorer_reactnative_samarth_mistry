@@ -24,7 +24,7 @@ const Payment = () => {
         }
       }
     } catch (error:any) {
-      console.log("Error getting success", error.response); 
+      // console.log("Error getting success", error.response); 
     }
   };
 

@@ -35,16 +35,17 @@ const Login = () => {
     handleLogin(email, password, role);
   };
 
-  useEffect(() => {
-    const fetchRole = async () => {
-      const fetchedRole: string | null = await AsyncStorage.getItem('role');
+  const fetchRole = async () => {
+    const fetchedRole: string | null = await AsyncStorage.getItem('role');
 
-      if (fetchedRole === 'supervisor') {
-        setRole('supervisor');
-      } else {
-        setRole('user');
-      }
-    };
+    if (fetchedRole === 'supervisor') {
+      setRole('supervisor');
+    } else {
+      setRole('user');
+    }
+  };
+
+  useEffect(() => {
     fetchRole();
   }, [isLoggedIn]);
 

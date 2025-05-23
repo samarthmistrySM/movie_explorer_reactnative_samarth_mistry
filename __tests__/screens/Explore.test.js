@@ -35,7 +35,5 @@ describe('Explore Screen', () => {
     await waitFor(() => {
       expect(getByText('No result found')).toBeTruthy();
     });
-  });
-
-  
+  });  
 });
