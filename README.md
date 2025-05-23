@@ -1,97 +1,169 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Movie Explorer+
 
-# Getting Started
+Movie Explorer+ is a modern mobile application built with React Native, designed for exploring, searching, and managing a movie database. The app features a beautiful black and red theme, delivering a sleek user experience for both regular users and `supervisors/admins`.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Table of Contents
 
-## Step 1: Start Metro
+- [Features](#features)
+- [App Theme](#app-theme)
+- [Tech Stack](#tech-stack)
+- [Screens & Functionality](#screens--functionality)
+- [Screenshots](#screenshots)
+- [Getting Started](#getting-started)
+- [Contribution Guidelines](#contribution-guidelines)
+- [Acknowledgments](#acknowledgments)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+---
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## Features
 
-```sh
-# Using npm
-npm start
+- Splash screen with `data loading` and `authentication` check
+- `Role-based` authentication (User, Supervisor/Admin)
+- Secure session management using `AsyncStorage`
+- `Bottom tab navigation` for users and supervisors
+- Movie search by `title` or `genre`, with detailed results
+- Movie subscription `plans`, integrated with `Stripe`
+- Explore and browse movies with `pagination`
+- Admin dashboard for `managing movie content` (add, edit, delete)
+- Profile management for users and supervisors
 
-# OR using Yarn
-yarn start
-```
+---
 
-## Step 2: Build and run your app
+## App Theme
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+- **Primary Colors:** Black (background), Red (accents, highlights)
+- **Text:** White or light gray for visibility
+- **Design:** Modern, clean, and cinematic
 
-### Android
+---
 
-```sh
-# Using npm
-npm run android
+## Tech Stack
 
-# OR using Yarn
-yarn android
-```
+- **Framework:** React Native
+- **Navigation:** React Navigation (Stack & Bottom Tabs)
+- **State Management:** React Context / useState
+- **Storage:** AsyncStorage (for tokens and sessions)
+- **Payments:** Stripe Integration
+- **Backend:** (Assumed REST API for movies/auth, please specify if needed)
+- **Other:** Custom MovieCard component, role-based access logic
 
-### iOS
+---
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## Screens & Functionality
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+### 1. Splash Screen
 
-```sh
-bundle install
-```
+- Displays while fetching user data, token, and preparing authentication state.
 
-Then, and every time you update your native dependencies, run:
+### 2. Authentication
 
-```sh
-bundle exec pod install
-```
+- **Sign In / Sign Up / Sign Out**
+- Role-based login (User, Supervisor/Admin)
+- Restricts supervisors to their own role; users cannot log in as supervisors/admins
+- Token storage in AsyncStorage for session management
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+### 3. User Experience (Bottom Tabs)
 
-```sh
-# Using npm
-npm run ios
+- **Home:** View top-rated, latest movies, and a "Continue Watching" section (not a streaming platform).
+- **Search:** Search movies by title or genre. Search type and query passed to Result screen, with results displayed using MovieCard component.
+- **Subscription:** View and purchase subscription plans, integrated with Stripe.
+- **Explore:** Browse all movies with pagination.
+- **Profile:** View personal info (name, email, phone, active membership).
 
-# OR using Yarn
-yarn ios
-```
+### 4. Supervisor/Admin Experience (Bottom Tabs)
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+- **Admin:** Manage movies (add, edit, delete), dashboard (currently hardcoded), with pagination for large lists.
+- **Profile:** View supervisor/admin information.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+---
 
-## Step 3: Modify your app
+## Screenshots
 
-Now that you have successfully run the app, let's make changes!
+> **Tip:** Add screenshots of your app’s key screens for visual impact.
+>
+> - Splash Screen
+> <table>
+> <tr>
+>    <td><img src="screenshots/splash.jpg" width=200></td>
+> </tr>
+> </table>
+> - Authentication (Sign In/Sign Up)
+> <table>
+> <tr>
+>    <td><img src="screenshots/login.jpg" width=200></td>
+>    <td><img src="screenshots/signup.jpg" width=200></td>
+> </tr>
+> </table>
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+> - Home, Search, Explore, Subscription, Profile
+> <table>
+> <tr>
+>    <td><img src="screenshots/landing.jpg" width=200></td>
+>    <td><img src="screenshots/search.jpg" width=200></td>
+>    <td><img src="screenshots/subscription.jpg" width=200></td>
+>    <td><img src="screenshots/explore.jpg" width=200></td>
+>    <td><img src="screenshots/profile.jpg" width=200></td>
+> </tr>
+> </table>
+> - Admin Dashboard (for supervisors)
+> <table>
+> <tr>
+>    <td><img src="screenshots/supervisor.jpg" width=200></td>
+> </table>
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+---
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## Getting Started
 
-## Congratulations! :tada:
+1. **Clone the repository:**
 
-You've successfully run and modified your React Native App. :partying_face:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/movie-explorer-plus.git
+   cd movie-explorer-plus
+   ```
 
-### Now what?
+2. **Install dependencies:**
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-# Troubleshooting
+3. **Set up environment variables:**
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+   - Add your API endpoints, Stripe keys, etc. to an `.env` file.
 
-# Learn More
+4. **Run the app:**
 
-To learn more about React Native, take a look at the following resources:
+   ```bash
+   npx react-native run-android
+   # or
+   npx react-native run-ios
+   ```
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+5. **Backend:**
+   - Make sure your backend API for movies/auth is running and accessible.
+
+---
+
+## Contribution Guidelines
+
+- Fork the repo and create your own feature branch.
+- Commit your changes and push to your fork.
+- Submit a pull request with a detailed description.
+- For major changes, please open an issue first to discuss what you’d like to change.
+
+---
+
+## Acknowledgments
+
+- [React Native](https://reactnative.dev/)
+- [Stripe](https://stripe.com/)
+- [React Navigation](https://reactnavigation.org/)
+- Movie poster/icon resources as per your usage rights.
+- Special thanks to contributors and testers.
+
+---
+
+> _Movie Explorer+ — Explore your next favorite film, anywhere!_

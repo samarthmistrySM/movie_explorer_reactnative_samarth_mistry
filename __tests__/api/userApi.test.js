@@ -26,5 +26,18 @@ describe('usersApi', () => {
       });
       expect(result).toEqual(mockResponse.data);
     });
+
+    it('should throw an error when api.get fails', async () => {
+      const error = new Error('API error');
+      AsyncStorage.getItem.mockResolvedValue('test-token');
+      api.get.mockRejectedValue(error);
+
+      try {
+        await usersApi.getUser();
+        fail('getUser did not throw');
+      } catch (err) {
+        expect(err).toBe(error);
+      }
+    });
   });
 });

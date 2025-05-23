@@ -30,5 +30,17 @@ describe('notificationApi', () => {
       );
       expect(result).toEqual(mockResponse.data);
     });
+
+    it('should throw an error when api.post fails', async () => {
+      const error = new Error('API error');
+      api.post.mockRejectedValue(error);
+
+      try {
+        await notificationApi.updateDeviceToken();
+        fail('updateDeviceToken did not throw');
+      } catch (err) {
+        expect(err).toBe(error);
+      }
+    });
   });
 });

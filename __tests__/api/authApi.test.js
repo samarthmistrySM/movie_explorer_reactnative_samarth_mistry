@@ -12,10 +12,15 @@ describe('authApi', () => {
 
   describe('registerUser', () => {
     it('should register a user and return response data', async () => {
-      const mockResponse = { data: { id: 1, name: 'Test User' } };
+      const mockResponse = {data: {id: 1, name: 'Test User'}};
       api.post.mockResolvedValue(mockResponse);
 
-      const result = await authApi.registerUser('Test User', 'test@example.com', '1234567890', 'password123');
+      const result = await authApi.registerUser(
+        'Test User',
+        'test@example.com',
+        '1234567890',
+        'password123',
+      );
 
       expect(api.post).toHaveBeenCalledWith('/users', {
         user: {
@@ -27,11 +32,25 @@ describe('authApi', () => {
       });
       expect(result).toEqual(mockResponse.data);
     });
+
+    it('should throw an error when api.post fails', async () => {
+      const fakeMovie = new FormData();
+      const error = new Error('API error');
+      AsyncStorage.getItem.mockResolvedValue('test-token');
+      api.post.mockRejectedValue(error);
+
+      try {
+        await authApi.registerUser(fakeMovie);
+        fail('registerUser did not throw');
+      } catch (err) {
+        expect(err).toBe(error);
+      }
+    });
   });
 
   describe('loginUser', () => {
     it('should login a user and return response data', async () => {
-      const mockResponse = { data: { token: 'mock-token' } };
+      const mockResponse = {data: {token: 'mock-token'}};
       api.post.mockResolvedValue(mockResponse);
 
       const result = await authApi.loginUser('test@example.com', 'password123');
@@ -44,12 +63,26 @@ describe('authApi', () => {
       });
       expect(result).toEqual(mockResponse.data);
     });
+
+    it('should throw an error when api.post fails', async () => {
+      const fakeUser = {};
+      const error = new Error('API error');
+      AsyncStorage.getItem.mockResolvedValue('test-token');
+      api.post.mockRejectedValue(error);
+
+      try {
+        await authApi.loginUser(fakeUser);
+        fail('loginUser did not throw');
+      } catch (err) {
+        expect(err).toBe(error);
+      }
+    });
   });
 
   describe('logoutUser', () => {
     it('should logout a user and return response data', async () => {
       AsyncStorage.getItem.mockResolvedValue('mock-token');
-      const mockResponse = { data: { success: true } };
+      const mockResponse = {data: {success: true}};
       api.delete.mockResolvedValue(mockResponse);
 
       const result = await authApi.logoutUser();
@@ -61,6 +94,19 @@ describe('authApi', () => {
         },
       });
       expect(result).toEqual(mockResponse.data);
+    });
+
+     it('should throw an error when api.delete fails', async () => {
+      const error = new Error('API error');
+      AsyncStorage.getItem.mockResolvedValue('test-token');
+      api.delete.mockRejectedValue(error);
+
+      try {
+        await authApi.logoutUser();
+        fail('logoutUser did not throw');
+      } catch (err) {
+        expect(err).toBe(error);
+      }
     });
   });
 });

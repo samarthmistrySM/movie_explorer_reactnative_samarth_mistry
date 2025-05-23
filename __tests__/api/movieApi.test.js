@@ -28,6 +28,18 @@ describe('movieApi', () => {
       expect(api.get).toHaveBeenCalledWith('/api/v1/movies?page=2&per_page=5');
       expect(result).toEqual(mockResponse.data);
     });
+
+    it('should throw an error when api.get fails', async () => {
+      const error = new Error('API error');
+      api.get.mockRejectedValue(error);
+
+      try {
+        await movieApi.getMovies();
+        fail('getMovies did not throw');
+      } catch (err) {
+        expect(err).toBe(error);
+      }
+    });
   });
 
   describe('searchMovies', () => {
@@ -40,6 +52,18 @@ describe('movieApi', () => {
       expect(api.get).toHaveBeenCalledWith('/api/v1/movies?title=Test');
       expect(result).toEqual(mockResponse.data);
     });
+
+    it('should throw an error when api.get fails', async () => {
+      const error = new Error('API error');
+      api.get.mockRejectedValue(error);
+
+      try {
+        await movieApi.searchMovies();
+        fail('searchMovies did not throw');
+      } catch (err) {
+        expect(err).toBe(error);
+      }
+    });
   });
 
   describe('filterMovies', () => {
@@ -51,6 +75,18 @@ describe('movieApi', () => {
 
       expect(api.get).toHaveBeenCalledWith('/api/v1/movies?genre=Action');
       expect(result).toEqual(mockResponse.data);
+    });
+
+    it('should throw an error when api.get fails', async () => {
+      const error = new Error('API error');
+      api.get.mockRejectedValue(error);
+
+      try {
+        await movieApi.filterMovies();
+        fail('filterMovies did not throw');
+      } catch (err) {
+        expect(err).toBe(error);
+      }
     });
   });
 });
