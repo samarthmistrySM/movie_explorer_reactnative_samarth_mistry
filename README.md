@@ -117,8 +117,8 @@ Movie Explorer+ is a modern mobile application built with React Native, designed
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/YOUR_USERNAME/movie-explorer-plus.git
-   cd movie-explorer-plus
+   git clone https://github.com/samarthmistrySM/movie_explorer_reactnative_samarth_mistry.git
+   cd movie_explorer_reactnative_samarth_mistry
    ```
 
 2. **Install dependencies:**
