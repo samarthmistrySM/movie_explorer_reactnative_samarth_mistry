@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   SafeAreaView,
   Text,
@@ -14,7 +14,10 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainStackParams} from '../navigation/Types.ts';
-import genreList from "../mock/genres.json"
+import genreList from '../mock/genres.json';
+import {Movie} from '../Types.ts';
+import SearchSuggestionBox from '../components/SearchSuggestionBox.tsx';
+import {searchMovies} from '../api/movieApi.ts';
 
 const {width, height} = Dimensions.get('window');
 
@@ -25,10 +28,14 @@ const Search = () => {
     'Best Action Movie',
     'Oscar Winners 2024',
   ];
+  const inputRef = useRef<TextInput>(null);
 
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const [searchText, setSearchText] = useState<string>('');
   const [searchHistory, setSearchHistory] = useState<string[]>(recentSearches);
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
 
@@ -45,6 +52,49 @@ const Search = () => {
 
   const handleDeleteSearchHistory = (index: number) => {
     setSearchHistory(prevHistory => prevHistory.filter((_, i) => i !== index));
+  };
+
+  const handleSelect = (movie: Movie) => {
+    setShowSuggestions(false);
+    if (!searchHistory.includes(movie.title)) {
+      setSearchHistory([...searchHistory, movie.title]);
+    }
+    navigation.navigate('MovieDetails', {
+      movie,
+    });
+    setSearchText('');
+  };
+
+  const fetchMovies = async (query:string) => {
+    try {
+      const res = await searchMovies(query);
+      if (res) {
+        setShowSuggestions(true);
+        setSuggestions(res.movies);
+      }
+    } catch (error) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!searchText) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+    const timeout = setTimeout(() => {
+      fetchMovies(searchText);
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, [searchText]);
+
+  const handlePressClear = () => {
+    setSearchText('');
+    setSuggestions([]);
+    inputRef.current?.blur();
   };
 
   return (
@@ -77,9 +127,24 @@ const Search = () => {
             onChangeText={setSearchText}
             value={searchText}
             onSubmitEditing={handleSearch}
+            ref={inputRef}
           />
+          {showSuggestions && (
+            <TouchableOpacity
+              style={styles.clearBtn}
+              onPress={handlePressClear}>
+              <Image
+                source={require('../assets/multiply.png')}
+                style={styles.crossIcon}
+              />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
+      <SearchSuggestionBox
+        suggestions={showSuggestions ? suggestions : []}
+        onSelect={handleSelect}
+      />
       <ScrollView>
         <View style={styles.genreContainer}>
           {(isCollapsed ? genreList.slice(0, 5) : genreList).map(
@@ -164,7 +229,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-    paddingTop: 20,
+    paddingTop: 30,
   },
   header: {
     flexDirection: 'row',
@@ -198,6 +263,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   inputContainer: {
+    position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#1C1C1E',
@@ -292,6 +358,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#E5E7EB',
+  },
+  clearBtn: {
+    position: 'absolute',
+    right: 5,
+  },
+  crossIcon: {
+    height: width * 0.035,
+    width: width * 0.035,
+    tintColor: '#FF3B30',
+    resizeMode: 'contain',
+    marginRight: 10,
   },
 });
 

@@ -12,12 +12,10 @@ import {
 import UserDetails from '../components/UserDetails.tsx';
 import MovieCard from '../components/MovieCard';
 import {Movie} from '../Types.ts';
-import ContinueWatchingCard from '../components/ContinueWatchingCard.tsx';
 import {getMovies} from '../api/movieApi';
 const {height} = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
 import MovieCardLoading from '../components/MovieCardLoading.tsx';
-const {width} = Dimensions.get('window');
 
 const Home = () => {
   const labels = ['Top Rated', 'Latest by year'];
@@ -106,7 +104,7 @@ const Home = () => {
               ))}
         </ScrollView>
         <View>
-          <Text style={styles.sectionHeading}>Continue Watching</Text>
+          <Text style={styles.sectionHeading}>Trending Now</Text>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -118,7 +116,7 @@ const Home = () => {
               : movies.map(
                   movie =>
                     movie.id % 2 === 0 && (
-                      <ContinueWatchingCard key={movie.id} movie={movie} />
+                      <MovieCard key={movie.id} movie={movie} />
                     ),
                 )}
           </ScrollView>

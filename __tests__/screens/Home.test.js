@@ -7,7 +7,6 @@ import * as movieApi from '../../src/api/movieApi';
 
 jest.mock('../../src/components/UserDetails.tsx', () => 'UserDetails');
 jest.mock('../../src/components/MovieCard', () => 'MovieCard');
-jest.mock('../../src/components/ContinueWatchingCard.tsx', () => 'ContinueWatchingCard');
 jest.mock('../../src/components/MovieCardLoading.tsx', () => 'MovieCardLoading');
 jest.mock('react-native-simple-toast', () => ({
   show: jest.fn(),
@@ -39,7 +38,7 @@ describe('Home Screen', () => {
     await waitFor(() => {
       expect(getByText('Top Rated')).toBeTruthy();
       expect(getByText('Latest by year')).toBeTruthy();
-      expect(getByText('Continue Watching')).toBeTruthy();
+      expect(getByText('Trending Now')).toBeTruthy();
       expect(getByText('Dune: Part Two')).toBeTruthy();
     });
   });

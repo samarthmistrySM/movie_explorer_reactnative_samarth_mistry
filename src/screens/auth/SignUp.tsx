@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../../context/AuthContext';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackPrams} from '../../navigation/Types.ts';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>('');
@@ -41,6 +42,9 @@ const SignUp = () => {
           </Text>
         </View>
       </ImageBackground>
+      <KeyboardAwareScrollView
+              enableOnAndroid={true}
+              keyboardShouldPersistTaps="handled">
 
       <View style={styles.formContainer}>
         <Text style={styles.welcomeText}>Create Your Account</Text>
@@ -50,21 +54,21 @@ const SignUp = () => {
             <Image
               source={require('../../assets/person.fill.png')}
               style={styles.inputIcon}
-            />
+              />
             <TextInput
               style={styles.input}
               placeholder="Name"
               placeholderTextColor="#888"
               value={name}
               onChangeText={setName}
-            />
+              />
           </View>
 
           <View style={styles.inputContainer}>
             <Image
               source={require('../../assets/mail.fill.png')}
               style={styles.inputIcon}
-            />
+              />
             <TextInput
               style={styles.input}
               placeholder="Email"
@@ -73,14 +77,14 @@ const SignUp = () => {
               onChangeText={setEmail}
               keyboardType="email-address"
               autoCapitalize="none"
-            />
+              />
           </View>
 
           <View style={styles.inputContainer}>
             <Image
               source={require('../../assets/phone.fill.png')}
               style={styles.inputIcon}
-            />
+              />
             <TextInput
               style={styles.input}
               placeholder="Phone Number"
@@ -88,14 +92,14 @@ const SignUp = () => {
               value={phoneNumber}
               onChangeText={setPhoneNumber}
               keyboardType={'numeric'}
-            />
+              />
           </View>
 
           <View style={styles.inputContainer}>
             <Image
               source={require('../../assets/lock.fill.png')}
               style={styles.inputIcon}
-            />
+              />
             <TextInput
               style={styles.input}
               placeholder="Password"
@@ -103,7 +107,7 @@ const SignUp = () => {
               value={password}
               onChangeText={setPassword}
               secureTextEntry
-            />
+              />
           </View>
         </View>
 
@@ -127,6 +131,7 @@ const SignUp = () => {
           </TouchableOpacity>
         </View>
       </View>
+              </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };

@@ -1,5 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
 import AuthContext from '../../context/AuthContext';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   View,
   Text,
@@ -61,84 +62,87 @@ const Login = () => {
           </Text>
         </View>
       </ImageBackground>
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        keyboardShouldPersistTaps="handled">
+        <View style={styles.formContainer}>
+          <Text style={styles.welcomeText}>Welcome Back</Text>
 
-      <View style={styles.formContainer}>
-        <Text style={styles.welcomeText}>Welcome Back</Text>
+          <View>
+            <View style={styles.inputContainer}>
+              <Image
+                source={require('../../assets/mail.fill.png')}
+                style={styles.inputIcon}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                placeholderTextColor="#888"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
 
-        <View>
-          <View style={styles.inputContainer}>
-            <Image
-              source={require('../../assets/mail.fill.png')}
-              style={styles.inputIcon}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              placeholderTextColor="#888"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
+            <View style={styles.inputContainer}>
+              <Image
+                source={require('../../assets/lock.fill.png')}
+                style={styles.inputIcon}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                placeholderTextColor="#888"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+              />
+            </View>
+
+            <Dropdown
+              style={styles.dropdown}
+              selectedTextStyle={styles.selectedTextStyle}
+              data={roles}
+              labelField="label"
+              valueField="value"
+              placeholder="Select role"
+              value={role}
+              onChange={item => setRole(item.value)}
+              renderItem={item => (
+                <View
+                  testID="dropdownItem"
+                  style={[
+                    styles.dropdownItem,
+                    item.value === role && styles.dropdownSelectedItem,
+                  ]}>
+                  <Text style={styles.dropdownItemText}>{item.label}</Text>
+                </View>
+              )}
             />
           </View>
 
-          <View style={styles.inputContainer}>
-            <Image
-              source={require('../../assets/lock.fill.png')}
-              style={styles.inputIcon}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              placeholderTextColor="#888"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
-          </View>
-
-          <Dropdown
-            style={styles.dropdown}
-            selectedTextStyle={styles.selectedTextStyle}
-            data={roles}
-            labelField="label"
-            valueField="value"
-            placeholder="Select role"
-            value={role}
-            onChange={item => setRole(item.value)}
-            renderItem={item => (
-              <View
-                testID="dropdownItem"
-                style={[
-                  styles.dropdownItem,
-                  item.value === role && styles.dropdownSelectedItem,
-                ]}>
-                <Text style={styles.dropdownItemText}>{item.label}</Text>
-              </View>
-            )}
-          />
-        </View>
-
-        <TouchableOpacity
-          style={styles.signInButton}
-          activeOpacity={0.8}
-          onPress={() => onLogin()}>
-          <Text style={styles.signInButtonText}>Sign In</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.forgotPasswordContainer}>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-        </TouchableOpacity>
-
-        <View style={styles.signUpContainer}>
-          <Text style={styles.signUpText}>Don't have an account? </Text>
           <TouchableOpacity
-            testID="signUpBtn"
-            onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.signUpLink}>Sign Up</Text>
+            style={styles.signInButton}
+            activeOpacity={0.8}
+            onPress={() => onLogin()}>
+            <Text style={styles.signInButtonText}>Sign In</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity style={styles.forgotPasswordContainer}>
+            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+          </TouchableOpacity>
+
+          <View style={styles.signUpContainer}>
+            <Text style={styles.signUpText}>Don't have an account? </Text>
+            <TouchableOpacity
+              testID="signUpBtn"
+              onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.signUpLink}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };
