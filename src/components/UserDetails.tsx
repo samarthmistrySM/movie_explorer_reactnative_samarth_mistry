@@ -1,10 +1,15 @@
 import React, {useContext} from 'react';
-import {Text, StyleSheet, View, Image, Dimensions} from 'react-native';
+import {Text, StyleSheet, View, Image, Dimensions, TouchableOpacity} from 'react-native';
 import AuthContext from '../context/AuthContext.tsx';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MainStackParams } from '../navigation/Types.ts';
 
 const {width} = Dimensions.get('window');
 const UserDetails = () => {
   const {loggedUser,subscription} = useContext(AuthContext);
+  const navigation =
+      useNavigation<NativeStackNavigationProp<MainStackParams>>();
   return (
     <View style={styles.userDetailsContainer}>
       <View style={styles.userDetailsLeft}>
@@ -23,12 +28,14 @@ const UserDetails = () => {
           </Text>
         </View>
       </View>
-      <Image
+      <TouchableOpacity onPress={()=>navigation.navigate('WatchList')}>
+        <Image
         testID="bell-icon"
         accessibilityRole="image"
-        source={require('../assets/bell.fill.png')}
+        source={require('../assets/bookmark.fill.png')}
         style={styles.icon}
       />
+      </TouchableOpacity>
     </View>
   );
 };

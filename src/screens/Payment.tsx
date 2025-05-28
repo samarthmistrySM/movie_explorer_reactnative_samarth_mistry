@@ -17,6 +17,11 @@ const Payment = () => {
 
   const handleNavigationChange = async (navState:any) => {
     try {
+      if(navState.url.includes('cancel')){
+        navigation.replace("Failure")
+        return;
+      }
+
       if(navState.url.includes('success')){
         const res = await handleSuccessfulPayment(session_id);
         if(res.status === 200){
@@ -45,5 +50,6 @@ export default Payment;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop:5,
   },
 });

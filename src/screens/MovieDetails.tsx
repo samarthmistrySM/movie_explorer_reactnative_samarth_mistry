@@ -9,7 +9,6 @@ import {
   Dimensions,
   ImageBackground,
   ScrollView,
-  ActivityIndicator,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -21,6 +20,7 @@ import Toast from 'react-native-simple-toast';
 import {filterMovies} from '../api/movieApi';
 import AuthContext from '../context/AuthContext.tsx';
 import MovieCardLoading from '../components/MovieCardLoading.tsx';
+import {useWatchList} from '../context/WatchListContext.tsx';
 
 const {width, height} = Dimensions.get('window');
 
@@ -30,6 +30,8 @@ const MovieDetails = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const {subscription, loggedUser} = useContext(AuthContext);
+  const {watchlist, addMovieToWatchList, removeMovieFromWatchList} =
+    useWatchList();
 
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParams>>();
@@ -49,6 +51,22 @@ const MovieDetails = () => {
   useEffect(() => {
     fetchMovies();
   }, []);
+
+  const isInWatchlist = watchlist.some((m: Movie) => m.title === movie.title);
+
+  const handleToggleWatchList = async () => {
+    try {
+      const action = isInWatchlist
+        ? removeMovieFromWatchList
+        : addMovieToWatchList;
+      const verb = isInWatchlist ? 'removed from' : 'added to';
+      const success = await action(movie.id);
+      if (!success) throw new Error();
+      Toast.show(`${movie.title} ${verb} watchlist`, Toast.LONG);
+    } catch {
+      Toast.show(`Error ${isInWatchlist ? 'removing' : 'adding'}`, Toast.LONG);
+    }
+  };
 
   if (
     movie.premium &&
@@ -137,6 +155,18 @@ const MovieDetails = () => {
               <Text style={styles.boldText}>{movie.duration} min</Text>
             </View>
           </View>
+          <TouchableOpacity
+            style={styles.watchListBtn}
+            disabled={loggedUser.role === 'supervisor'}
+            onPress={handleToggleWatchList}>
+            <Text style={styles.watchListBtnText}>
+              {loggedUser.role !== 'supervisor'
+                ? isInWatchlist
+                  ? 'Remove from watchlist'
+                  : 'Add to Watchlist'
+                : 'Supervisor Account'}
+            </Text>
+          </TouchableOpacity>
         </View>
         <View>
           <Text style={styles.secondaryTitle}>More like this</Text>
@@ -188,6 +218,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.42)',
     borderRadius: 30,
     margin: 10,
+  },
+  watchListBtn: {
+    backgroundColor: '#FF3B30',
+    paddingVertical: 15,
+    marginTop: 20,
+    borderRadius: 11,
+  },
+  watchListBtnText: {
+    color: '#FFF',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 500,
   },
   badgesContainer: {
     flexDirection: 'row',

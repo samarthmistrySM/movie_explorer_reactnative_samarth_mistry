@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, fireEvent} from '@testing-library/react-native';
-import Success from '../../src/screens/Success';
+import Failure from '../../src/screens/Failure';
 import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../../src/context/AuthContext';
 
@@ -12,9 +12,8 @@ jest.mock('@react-navigation/native', () => {
   };
 });
 
-describe('Success Screen', () => {
+describe('Failure Screen', () => {
   const mockNavigate = jest.fn();
-  const mockUpdate = jest.fn();
 
   beforeEach(() => {
     (useNavigation).mockReturnValue({replace: mockNavigate});
@@ -22,18 +21,17 @@ describe('Success Screen', () => {
   });
 
   it('renders success message and image, and triggers navigation and update on button press', () => {
-    const {getByText, getByRole} = render(
-      <AuthContext.Provider value={{update: mockUpdate}}>
-        <Success />
-      </AuthContext.Provider>
+    const {getByText} = render(
+        <Failure />
     );
 
-    expect(getByText('Subscription Successful!')).toBeTruthy();
-    expect(getByText('Thank you for subscribing to MoviePlus. Enjoy unlimited movies and exclusive content!')).toBeTruthy();
+    expect(getByText('Subscription Canceled')).toBeTruthy();
+    expect(getByText('Your subscription could not be completed. Please try again or contact support if the issue persists.')).toBeTruthy();
 
-    fireEvent.press(getByText('Continue'));
+    fireEvent.press(getByText('Try Again'));
 
-    expect(mockUpdate).toHaveBeenCalled();
-    expect(mockNavigate).toHaveBeenCalledWith('Main');
+    expect(mockNavigate).toHaveBeenCalledWith('Main',{
+        screen: 'Subscription'
+    });
   });
 });

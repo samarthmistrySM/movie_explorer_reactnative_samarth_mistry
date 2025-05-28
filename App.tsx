@@ -9,9 +9,10 @@ import {
   onMessage,
 } from '@react-native-firebase/messaging';
 import {Alert} from 'react-native';
+import {WatchListProvider} from './src/context/WatchListContext';
 
 const App = () => {
-  const [fcmToken,setFcmToken] = useState<string>('');
+  const [fcmToken, setFcmToken] = useState<string>('');
   const messagingInstance = getMessaging();
 
   useEffect(() => {
@@ -33,8 +34,11 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = onMessage(messagingInstance, async remoteMessage => {
       const {notification} = remoteMessage;
-      
-      Alert.alert(notification?.title || 'No Title', notification?.body || 'No Message');
+
+      Alert.alert(
+        notification?.title || 'No Title',
+        notification?.body || 'No Message',
+      );
     });
 
     return unsubscribe;
@@ -50,11 +54,13 @@ const App = () => {
   };
 
   return (
-      <GestureHandlerRootView>
-        <AuthProvider>
-            <Navigator fcmToken={fcmToken} />
-        </AuthProvider>
-      </GestureHandlerRootView>
+    <GestureHandlerRootView>
+      <AuthProvider>
+        <WatchListProvider>
+          <Navigator fcmToken={fcmToken} />
+        </WatchListProvider>
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 };
 

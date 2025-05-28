@@ -1,6 +1,6 @@
 import React, {useState, useEffect, FC} from 'react';
 import AuthContext from './AuthContext';
-import {User} from '../Types';
+import {Movie, User} from '../Types';
 import {getUser} from '../api/usersApi';
 import {loginUser, registerUser, logoutUser} from '../api/authApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';

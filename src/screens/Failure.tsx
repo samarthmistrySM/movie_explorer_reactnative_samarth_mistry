@@ -1,19 +1,17 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import React, {useContext} from 'react';
+import React from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {MainStackParams} from '../navigation/Types';
+import { MainTabsParams} from '../navigation/Types';
 import {useNavigation} from '@react-navigation/native';
-import AuthContext from '../context/AuthContext';
 
-const Success = () => {
+const Failure = () => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<MainStackParams>>();
-
-  const {update} = useContext(AuthContext);
+    useNavigation<NativeStackNavigationProp<MainTabsParams>>();
 
   const handleClick = () => {
-    update();
-    navigation.replace('Main');
+    navigation.replace('Main',{
+        screen: 'Subscription'
+    });
   };
 
   return (
@@ -21,24 +19,24 @@ const Success = () => {
       <View style={styles.upperContainer}>
         <Image
           source={{
-            uri: 'https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/254000/83-512.png',
+            uri: 'https://static-00.iconduck.com/assets.00/failure-icon-256x256-2uiej3rj.png',
           }}
           style={styles.icon}
         />
-        <Text style={styles.title}>Subscription Successful!</Text>
-        <Text style={styles.subtitle}>Welcome to MoviePlus Premium</Text>
+        <Text style={styles.title}>Subscription Canceled</Text>
+        <Text style={styles.subtitle}>Oops! Something went wrong.</Text>
         <Text style={styles.message}>
-          Thank you for subscribing to MoviePlus. Enjoy unlimited movies and exclusive content!
+          Your subscription could not be completed. Please try again or contact support if the issue persists.
         </Text>
       </View>
       <TouchableOpacity style={styles.button} onPress={handleClick}>
-        <Text style={styles.buttonText}>Continue</Text>
+        <Text style={styles.buttonText}>Try Again</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default Success;
+export default Failure;
 
 const styles = StyleSheet.create({
   container: {
@@ -53,22 +51,16 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     width: '100%',
   },
-  celebrate: {
-    fontSize: 40,
-    marginBottom: 10,
-  },
   icon: {
-    width: 110,
-    height: 110,
-    marginBottom: 18,
-    borderRadius: 55,
-    backgroundColor: '#232323',
+    width: 120,
+    height: 120,
+    marginBottom: 24,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#2ecc40',
-    marginBottom: 6,
+    color: '#FF3B30',
+    marginBottom: 8,
     textAlign: 'center',
     letterSpacing: 1,
   },
@@ -77,7 +69,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginBottom: 12,
     textAlign: 'center',
-    opacity: 0.85,
+    opacity: 0.8,
   },
   message: {
     fontSize: 16,
@@ -88,12 +80,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: '#2ecc40',
+    backgroundColor: '#FF3B30',
     paddingVertical: 14,
     paddingHorizontal: 48,
     borderRadius: 30,
     width: '90%',
-    marginTop: 10,
   },
   buttonText: {
     fontSize: 18,
